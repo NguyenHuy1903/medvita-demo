@@ -6,10 +6,12 @@ Output: thư mục audio/
 """
 
 import wave, time, os
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-API_KEY   = "AIzaSyAM1S0_RP994SoPYwVnAg21YSas-yWKwM8"
+load_dotenv()
+API_KEY   = os.environ["GEMINI_API_KEY"]
 OUT_DIR   = "audio"
 BS_VOICE  = "Charon"   # Informative – bác sĩ nam
 BN_VOICE  = "Aoede"    # Breezy – bệnh nhân nữ
