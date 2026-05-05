@@ -1,7 +1,7 @@
 // ===== SPEED MODE =====
 var devMode = false;
 
-function speed(ms) { return devMode ? ms : ms * 5; }
+function speed(ms) { return devMode ? Math.round(ms / 5) : ms; }
 
 function toggleMode() {
   devMode = !devMode;

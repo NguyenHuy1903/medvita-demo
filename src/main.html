@@ -88,7 +88,7 @@
     <div class="hdr-logo">MedVita</div><div class="hdr-sep"></div>
     <div><div class="hdr-title" id="hdrTitle">Đang ghi nhận buổi khám</div><div class="hdr-sub" id="hdrSub">Bác sĩ kiểm soát buổi khám · MedVita chỉ ghi chép và đề xuất</div></div>
     <div class="rec-badge" id="recBadge"><div class="rec-dot"></div>Đang ghi âm</div>
-    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode: tốc độ nhanh">⚡</button><button class="ctrl-btn" id="btnPause">⏸ Tạm dừng</button><button class="ctrl-btn" id="btnReplay">↺ Phát lại</button></div>
+    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode: tốc độ nhanh">⚡</button><button class="ctrl-btn" id="btnPause">⏸ Tạm dừng</button></div>
   </div>
   <div class="form-panel">
     <div class="form-toolbar">
@@ -110,33 +110,54 @@
       </div>
     </div>
   </div>
-  <div class="focus-panel" id="focusPanel">
-    <div class="fp-hdr">
-      <div class="fp-mascot-wrap"><img src="../images/mascot.png" alt="MedVita"></div>
-      <span class="fp-hdr-title">MedVita đang ghi nhận</span>
-    </div>
-    <div class="fp-feed" id="fpFeed"></div>
+  <div class="side-col">
+  <div class="fp-hdr" id="sideHdr">
+    <div class="fp-mascot-wrap"><img src="../images/mascot.png" alt="MedVita"></div>
+    <span class="fp-hdr-title" id="sideHdrTitle">MedVita đang ghi nhận</span>
+    <span class="fp-hdr-sub" id="sideHdrSub"></span>
   </div>
-  <div class="chat-panel" id="chatPanel">
-    <div style="padding:8px 16px;border-bottom:1px solid var(--border);background:#fff;font-size:11.5px;font-weight:500;color:var(--ink3);flex-shrink:0;display:flex;align-items:center;gap:8px;">
-      <span>TRỢ LÝ MEDVITA</span><span style="margin-left:auto;font-size:11px;color:var(--ink4);">Bác sĩ ra lệnh · MedVita tạo nháp</span>
+  <div class="chat-summary" id="chatSummary" style="display:none">
+    <div class="chat-sum-lbl">📌 Tóm tắt lâm sàng</div>
+    <div class="chat-sum-txt">BN nữ 48t, vào viện vì nuốt vướng tái phát nhiều lần trong năm. Amidan quá phát độ III, VA tồn dư. Nhân tuyến giáp TIRADS 3 trái (phát hiện tại BV Đồng Hỷ). Chẩn đoán: J35.0 Viêm amydan mãn tính. Hướng xử lý: ngoại khoa.</div>
+    <div class="chat-sum-btns">
+      <button class="chat-sum-btn" id="sumDuyet">✓ Duyệt</button>
+      <button class="chat-sum-btn" id="sumSua">✎ Sửa</button>
     </div>
-    <div class="chat-summary" id="chatSummary">
-      <div class="chat-sum-lbl">Tóm tắt lâm sàng</div>
-      <div class="chat-sum-txt">BN nữ 48t, vào viện vì nuốt vướng tái phát nhiều lần trong năm. Amidan quá phát độ III, VA tồn dư. Nhân tuyến giáp TIRADS 3 trái (phát hiện tại BV Đồng Hỷ). Chẩn đoán: J35.0 Viêm amydan mãn tính. Hướng xử lý: ngoại khoa.</div>
-      <div class="chat-sum-btns">
-        <button class="chat-sum-btn" id="sumDuyet">✓ Duyệt</button>
-        <button class="chat-sum-btn" id="sumSua">✎ Sửa</button>
-      </div>
-    </div>
-    <div class="chat-history" id="chatHistory"></div>
-    <div class="chat-input-area" id="chatInputArea">
-      <input class="chat-input" id="chatInput" type="text" readonly>
-      <button class="chat-send-btn" id="chatSendBtn" title="Gửi">➤</button>
-    </div>
+  </div>
+  <div class="fp-feed" id="fpFeed">
+  <div class="chat-input-area" id="chatInputArea" style="display:none">
+    <input class="chat-input" id="chatInput" type="text" readonly>
+    <button class="chat-send-btn" id="chatSendBtn" title="Gửi">➤</button>
+  </div>
   </div>
 </div>
 <div class="toast" id="toast">✓ Đã xuất benh_an_14107353.pdf &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
+
+<!-- REVIEW MODAL -->
+<div class="rv-overlay" id="reviewModal">
+  <div class="rv-card">
+    <div class="rv-hdr">
+      <div class="rv-hdr-icon">⚠️</div>
+      <div>
+        <div class="rv-title">MedVita phát hiện 1 lưu ý</div>
+        <div class="rv-sub">Trước khi lưu, bác sĩ vui lòng xem qua:</div>
+      </div>
+    </div>
+    <div class="rv-items">
+      <div class="rv-item">
+        <div class="rv-item-ico">⚠️</div>
+        <div class="rv-item-body">
+          <div class="rv-item-title">Nhân tuyến giáp TIRADS 3 trái — chưa có lịch theo dõi</div>
+          <div class="rv-item-text">Tôi nhận thấy trong hồ sơ, BN có đề cập nhân tuyến giáp TIRADS 3 trái phát hiện tại BV Đồng Hỷ nhưng chưa có ghi chú theo dõi. Theo hướng dẫn ACR TI-RADS, khuyến nghị siêu âm kiểm tra lại sau 12 tháng.</div>
+        </div>
+      </div>
+    </div>
+    <div class="rv-actions">
+      <button class="rv-btn-sec" id="reviewBtnBack">← Xem lại bệnh án</button>
+      <button class="rv-btn-pri" id="reviewBtnSave">✓ Xác nhận &amp; Lưu</button>
+    </div>
+  </div>
+</div>
 
 <!-- Scripts: config -> data -> render -> engine -> steps -> phase1 -> phase2 -> controls -->
 <script src="js/config.js"></script>

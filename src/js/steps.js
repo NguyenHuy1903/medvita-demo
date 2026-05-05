@@ -74,16 +74,6 @@ const steps = [
   {t:'feedStatus', icon:'✅', label:'Hoàn tất điền bệnh án', text:'Tất cả các trường đã được điền. Bác sĩ vui lòng kiểm tra và duyệt.'},
   {t:'delay', ms:800},
 
-  // AI follow-up question
-  {t:'feedQuestion', text:'Tôi nhận thấy trong hồ sơ, BN có đề cập "nhân tuyến giáp TIRADS 3 trái" phát hiện tại BV Đồng Hỷ nhưng chưa có ghi chú theo dõi. Bác sĩ bổ sung giúp ạ.'},
-  {t:'delay', ms:1000},
-
-  // Doctor voice command
-  {t:'feedVoice', text:'Thêm ghi chú: nhân tuyến giáp TIRADS 3 trái, siêu âm theo dõi sau 6–12 tháng theo ACR.'},
-  {t:'delay', ms:600},
-  {t:'feedUpdate', summary:'Đã cập nhật trường "Tiền sử bản thân"', detail:'Thêm dòng: Nhân tuyến giáp TIRADS 3 trái, cần siêu âm theo dõi sau 6–12 tháng (hướng dẫn ACR).'},
-  {t:'delay', ms:600},
-
   // Additional clinical note via voice
   {t:'feedVoice', text:'thêm vào khám toàn thân — vẻ mặt mệt mỏi, có quầng thâm mắt, gợi ý thiếu ngủ kéo dài do ngủ ngáy'},
   {t:'delay', ms:600},

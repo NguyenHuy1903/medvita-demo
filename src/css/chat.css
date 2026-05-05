@@ -1,7 +1,7 @@
 /* ===== CHAT PANEL ===== */
 .chat-panel{display:none;flex-direction:column;min-height:0;overflow:hidden;background:var(--surface2);}
-.chat-panel.active{display:flex;}
-.chat-summary{margin:10px;padding:12px 14px;background:#fff;border:1px solid var(--border);border-radius:8px;flex-shrink:0;}
+.chat-panel.active{display:flex;flex:1;}
+.chat-summary{flex-shrink:0;padding:10px 12px;background:#EFF6FF;border-bottom:1px solid #BFDBFE;}
 .chat-sum-lbl{font-size:9.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
 .chat-sum-txt{font-size:12px;color:var(--ink2);line-height:1.5;margin-bottom:9px;font-style:italic;}
 .chat-sum-btns{display:flex;gap:5px;flex-wrap:wrap;}
@@ -40,7 +40,9 @@
 .chat-checklist{padding:8px 11px;background:#fff;border:1px solid var(--border);border-radius:6px;margin-top:7px;}
 .chat-cl-item{display:flex;align-items:flex-start;gap:7px;padding:4px 0;font-size:11px;color:var(--ink2);border-bottom:1px solid var(--border);}
 .chat-cl-item:last-child{border-bottom:none;}
-.chat-cl-icon{color:var(--ink4);font-size:12px;flex-shrink:0;margin-top:1px;}
+.chat-cl-icon{color:var(--ink4);font-size:12px;flex-shrink:0;margin-top:1px;transition:transform .2s;}
+@keyframes tickPop{0%{transform:scale(1)}40%{transform:scale(1.6)}70%{transform:scale(.9)}100%{transform:scale(1)}}
+.chat-cl-icon.tick-pop{animation:tickPop .4s ease;}
 
 /* Typing indicator */
 .chat-typing{display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--note-bg);border-radius:8px;font-size:11px;color:var(--ink4);margin:4px 0;animation:fadeIn .2s;}

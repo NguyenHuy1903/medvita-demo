@@ -8,12 +8,24 @@ document.getElementById('btnPause').onclick = function () {
     if (resumeResolve) { resumeResolve(); resumeResolve = null; }
   }
 };
-document.getElementById('btnReplay').onclick = function () { location.reload(); };
 document.getElementById('exportBtn').onclick = function () {
+  showReviewModal();
+};
+
+function showReviewModal() {
+  document.getElementById('reviewModal').classList.add('show');
+}
+function hideReviewModal() {
+  document.getElementById('reviewModal').classList.remove('show');
+}
+function confirmSave() {
+  hideReviewModal();
   const t = document.getElementById('toast');
   t.classList.add('show');
   setTimeout(function () { t.classList.remove('show'); }, 3000);
-};
+}
+document.getElementById('reviewBtnBack').onclick = hideReviewModal;
+document.getElementById('reviewBtnSave').onclick = confirmSave;
 document.getElementById('btnMode').onclick = toggleMode;
 
 // ===== EDIT MODE (field drag/resize) =====

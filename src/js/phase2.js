@@ -2,7 +2,7 @@
 const chatTurns = [
   {
     doctor: 'điền chỉ định xét nghiệm tiền phẫu',
-    mvText: 'Chọn xét nghiệm cần chỉ định:',
+    mvText: 'Dưới đây là các xét nghiệm tiền phẫu thường dùng cho bệnh nhân chuẩn bị phẫu thuật tai mũi họng. Bác sĩ vui lòng chọn những xét nghiệm cần thiết để tôi lưu vào bệnh án nhé.',
     card: true,
     cardSelectable: true,
     cardAllTags: ['PT','APTT','Fibrinogen','Nhóm máu','Glucose','Creatinin','Ure','AST','ALT','HIV','HBsAg','HCV','Tổng phân tích máu','Nước tiểu','Điện tim','X-quang ngực','Thính lực','Nhĩ lượng'],
@@ -33,14 +33,30 @@ const chatTurns = [
     mvText: "Field 'Chẩn đoán sơ bộ' đang ở chế độ chỉnh sửa. Nhấn Tab để xác nhận.",
     autoClickAction: 'tabApprove',
   },
+  {
+    doctor: 'điền hướng điều trị',
+    mvText: 'Dựa trên chẩn đoán J35.0, tôi đề xuất phác đồ ngoại khoa. Bác sĩ duyệt?',
+    fieldAction: {type:'agentDraft', id:'huongdt', page:4, value:'Phẫu thuật: Cắt amidan (phương pháp lạnh) + Nạo VA.\nTheo dõi: Nhân tuyến giáp TIRADS 3 trái — siêu âm kiểm tra lại sau 12 tháng (ACR TI-RADS).'},
+    autoApproveField: 'huongdt',
+    tickChecklistIdx: 3,
+  },
 ];
 
-let chatTurnIndex = 0, chatRunning = false;
+let chatTurnIndex = 0, chatRunning = false, checklistEl = null;
+
+function tickChecklist(idx) {
+  if (!checklistEl) return;
+  const icons = checklistEl.querySelectorAll('.chat-cl-icon');
+  if (!icons[idx]) return;
+  icons[idx].classList.add('tick-pop');
+  setTimeout(function () { icons[idx].textContent = '✅'; }, 150);
+}
 
 function startPhase2() {
-  document.getElementById('clOverlay').classList.remove('show');
-  document.getElementById('focusPanel').style.display = 'none';
-  document.getElementById('chatPanel').classList.add('active');
+  document.getElementById('sideHdrTitle').textContent = 'Trợ lý MedVita';
+  document.getElementById('sideHdrSub').textContent = 'Bác sĩ ra lệnh · MedVita tạo nháp';
+  document.getElementById('chatSummary').style.display = '';
+  document.getElementById('chatInputArea').style.display = '';
   document.getElementById('hdrTitle').textContent = 'Đang hỗ trợ hoàn thiện bệnh án';
   document.getElementById('hdrSub').textContent = 'Bác sĩ ra lệnh · MedVita tạo nháp · Bác sĩ duyệt trước khi lưu';
   document.getElementById('recBadge').style.display = 'none';
@@ -71,24 +87,25 @@ async function autoRunChat() {
   updateChatInput();
 
   // Auto-click export when all done
-  await delay(800);
+  await delay(speed(800));
   const exp = document.getElementById('exportBtn');
-  if (!exp.disabled) {
-    simClick(exp, 'sim-click-green');
-    setTimeout(function () {
-      const t = document.getElementById('toast');
-      t.classList.add('show');
-      setTimeout(function () { t.classList.remove('show'); }, 3000);
-    }, 350);
-  }
+  simClick(exp, 'sim-click-green');
+  await delay(speed(500));
+  // Auto confirm in review modal
+  showReviewModal();
+  await delay(speed(1400));
+  const saveBtn = document.getElementById('reviewBtnSave');
+  simClick(saveBtn, 'sim-click-green');
+  setTimeout(confirmSave, speed(400));
 }
 
 function updateChatInput() {
   const input = document.getElementById('chatInput');
   const sendBtn = document.getElementById('chatSendBtn');
   if (chatTurnIndex >= chatTurns.length) {
-    input.value = ''; input.disabled = true; sendBtn.disabled = true;
-    const hist = document.getElementById('chatHistory');
+    input.value = ''; input.disabled = false; sendBtn.disabled = false;
+    input.placeholder = 'Nhập yêu cầu cho MedVita...';
+    const hist = document.getElementById('fpFeed');
     const d = document.createElement('div');
     d.className = 'chat-done-msg';
     d.textContent = '✓ Bệnh án sẵn sàng xuất';
@@ -106,7 +123,7 @@ function updateChatInput() {
 
 async function autoRunChatTurn(index) {
   const turn = chatTurns[index];
-  const hist = document.getElementById('chatHistory');
+  const hist = document.getElementById('fpFeed');
 
   if (turn.isDirect) {
     await triggerDirectEdit();
@@ -116,7 +133,10 @@ async function autoRunChatTurn(index) {
       if (el) {
         const chip = el.querySelector('.chip-ok');
         if (chip) simClick(chip, 'sim-chip-click');
-        setTimeout(function () { approveField('chandoan'); }, 250);
+        setTimeout(function () {
+          approveField('chandoan');
+          setTimeout(function () { tickChecklist(2); }, 400);
+        }, 250);
       }
     }
     return;
@@ -145,7 +165,7 @@ async function autoRunChatTurn(index) {
 
   // Field action (agent draft) — skipped for cardSelectable (handled after chip animation)
   if (turn.fieldAction && turn.fieldAction.type === 'agentDraft' && !turn.cardSelectable) {
-    scrollFormToPage(2);
+    scrollFormToPage(turn.fieldAction.page || 2);
     await setFieldAgentDraft(turn.fieldAction.id, turn.fieldAction.value);
   }
 
@@ -180,6 +200,7 @@ async function autoRunChatTurn(index) {
   mvResp.innerHTML = inner;
   hist.appendChild(mvResp);
   hist.scrollTop = hist.scrollHeight;
+  if (turn.checklist) { checklistEl = mvResp.querySelector('.chat-checklist'); }
 
   // Selectable chip animation
   if (turn.cardSelectable) {
@@ -201,11 +222,17 @@ async function autoRunChatTurn(index) {
     }
     await delay(300);
     const txtEl = mvResp.querySelector('.chat-mv-txt');
-    if (txtEl) txtEl.textContent = 'Đã chọn ' + selected.length + ' chỉ định. Bác sĩ duyệt trước khi lưu.';
+    if (txtEl) txtEl.textContent = 'Đã chọn ' + selected.length + ' xét nghiệm. Bác sĩ có thể chỉnh sửa lại trong phần chỉ định XN nếu cần nhé.';
   }
 
   // Auto-approve field if specified
   if (turn.autoApproveField) { await delay(500); autoApprove(turn.autoApproveField); await delay(400); }
+
+  // Tick checklist item after approval
+  if (turn.tickChecklistIdx !== undefined) {
+    await delay(300);
+    tickChecklist(turn.tickChecklistIdx);
+  }
 
   // Auto-click action buttons
   if (turn.autoClickAction === 'confirm') {
@@ -229,7 +256,7 @@ async function autoRunChatTurn(index) {
 }
 
 async function triggerDirectEdit() {
-  const hist = document.getElementById('chatHistory');
+  const hist = document.getElementById('fpFeed');
   const el = fieldEls['chandoan']; if (!el) return;
   scrollFormToPage(4);
   await delay(400);

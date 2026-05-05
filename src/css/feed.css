@@ -1,5 +1,5 @@
 /* ===== FEED (FOCUS) PANEL ===== */
-.focus-panel{display:flex;flex-direction:column;min-height:0;overflow:hidden;background:var(--surface2);}
+.focus-panel{display:flex;flex-direction:column;min-height:0;overflow:hidden;background:var(--surface2);flex:1;}
 .fp-hdr{padding:10px 16px;border-bottom:1px solid var(--border);background:#fff;flex-shrink:0;display:flex;align-items:center;gap:8px;}
 .fp-hdr img{width:240%;height:240%;object-fit:cover;margin:-24% 0 0 -70%;display:block;flex-shrink:0;}
 .fp-mascot-wrap{width:32px;height:32px;overflow:hidden;flex-shrink:0;border-radius:3px;}

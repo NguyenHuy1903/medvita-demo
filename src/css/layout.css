@@ -1,5 +1,6 @@
 /* ===== APP GRID ===== */
 .app{display:grid;grid-template-rows:48px 1fr;grid-template-columns:65% 35%;height:100vh;}
+.side-col{display:flex;flex-direction:column;min-height:0;overflow:hidden;}
 
 /* ===== HEADER ===== */
 .hdr{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:0 20px;border-bottom:1px solid var(--border);background:#fff;}

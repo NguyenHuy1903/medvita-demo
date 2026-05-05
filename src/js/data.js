@@ -26,7 +26,7 @@ const FIELDS = [
   {id:'sdt',       g:'A', page:1, top:26.12, left:66.96, width:22, height:2.0},
   {id:'lydo',      g:'B', page:2, top:5.30,  left:24.48, width:42.19, height:0.83},
   {id:'qtbl',      g:'B', page:2, top:11.66, left:6.19,  width:86.55, height:13.23},
-  {id:'tiensu',    g:'B', page:2, top:30.19, left:6.18,  width:98.31, height:5.28},
+  {id:'tiensu',    g:'B', page:2, top:30.19, left:6.18,  width:92.57, height:5.28},
   {id:'tiensuGD',  g:'B', page:2, top:48.38, left:6.78,  width:89.79, height:4.79},
   {id:'mach',      g:'A', page:2, top:57.77, left:83.91, width:12,  height:1.8},
   {id:'nhietdo',   g:'A', page:2, top:59.35, left:85.52, width:12,  height:1.8},
