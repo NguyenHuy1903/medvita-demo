@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>MedVita — Demo TMH · Trivita AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/opening.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/fields.css">
+<link rel="stylesheet" href="css/feed.css">
+<link rel="stylesheet" href="css/chat.css">
+<link rel="stylesheet" href="css/context.css">
+</head>
+<body>
+<div class="edit-banner">✎ Edit mode — kéo field để di chuyển · Kéo góc để resize · <kbd style="background:#fff;color:var(--blue);border-radius:3px;padding:1px 5px;font-family:inherit;">S</kbd> lưu JSON · <kbd style="background:#fff;color:var(--blue);border-radius:3px;padding:1px 5px;font-family:inherit;">E</kbd> thoát</div>
+
+<!-- OPENING SCREEN -->
+<div class="opening" id="opening">
+  <div class="oc-orb o1"></div><div class="oc-orb o2"></div><div class="oc-orb o3"></div><div class="oc-grid"></div>
+  <div class="oc">
+    <div class="oc-pill"><span class="oc-pill-dot"></span>MedVita &nbsp;·&nbsp; by Trivita AI</div>
+    <div class="oc-quote-wrap"><span class="oc-q-mark">"</span><div class="oc-quote">Bác sĩ khám như thường lệ.<br><em>MedVita lo phần còn lại.</em></div></div>
+    <div class="oc-sub">Kịch bản: Tai Mũi Họng · BN nữ, 48 tuổi · Viêm amydan mãn tính<br>Bác sĩ toàn quyền kiểm soát, không thêm bước nào.</div>
+    <div class="oc-metrics">
+      <div class="oc-metric"><span class="oc-metric-icon">⏱</span><span>Tiết kiệm <strong>15 phút</strong>/bệnh nhân</span></div>
+      <div class="oc-metric"><span class="oc-metric-icon">✍️</span><span><strong>Không sai sót</strong> do ghi tay</span></div>
+      <div class="oc-metric"><span class="oc-metric-icon">🔒</span><span>Bác sĩ <strong>kiểm soát</strong> hoàn toàn</span></div>
+    </div>
+    <div class="oc-cta-wrap"><button class="oc-cta" id="startBtn">Xem demo buổi khám TMH <span class="oc-cta-arrow">→</span></button></div>
+  </div>
+</div>
+
+<!-- CONTEXT SCREEN -->
+<div class="ctx-screen" id="ctxScreen">
+  <div class="ctx-inner">
+    <div class="ctx-eyebrow">📋 Kịch bản demo · Tai Mũi Họng</div>
+    <div class="ctx-heading">Buổi khám <em>vừa kết thúc.</em><br>MedVita đã ghi nhận tất cả.</div>
+    <div class="ctx-lead">Bây giờ, xem MedVita tự động điền bệnh án — bác sĩ toàn quyền kiểm soát từng mục.</div>
+    <div class="ctx-timeline">
+      <div class="ctx-step step-done" id="ctxS1">
+        <div class="ctx-icon">✓</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">Bác sĩ thăm khám bệnh nhân</div>
+          <div class="ctx-step-meta"><span>11:30 · Phòng khám Tai Mũi Họng</span><span class="ctx-tag">Xong</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-done" id="ctxS2">
+        <div class="ctx-icon">🎙</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">MedVita ghi âm toàn bộ buổi khám</div>
+          <div class="ctx-step-meta"><span>14 phút 23 giây · 847 từ nhận dạng</span><span class="ctx-tag">Xong</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-done" id="ctxS3">
+        <div class="ctx-icon">🧠</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">AI phân tích & hiểu nội dung lâm sàng</div>
+          <div class="ctx-step-meta"><span>Trích xuất triệu chứng, tiền sử, sinh hiệu</span><span class="ctx-tag">Xong</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-active" id="ctxS4">
+        <div class="ctx-icon" style="color:#fff;font-size:12px;">▶</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">Điền bệnh án tự động</div>
+          <div class="ctx-step-meta"><span>MedVita điền · Bác sĩ duyệt từng mục</span><span class="ctx-tag">Sắp diễn ra</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ctx-patient" id="ctxPatient">
+      <div class="ctx-avatar">👩</div>
+      <div>
+        <div class="ctx-patient-name">Nguyễn Thị Hồng</div>
+        <div class="ctx-patient-sub">Nữ · 48 tuổi · Tai Mũi Họng</div>
+      </div>
+      <div class="ctx-badges">
+        <div class="ctx-badge">benh_an_14107353</div>
+        <div class="ctx-badge amber">Viêm amydan mãn tính</div>
+      </div>
+    </div>
+    <button class="ctx-cta-btn" id="ctxCta">Xem MedVita điền bệnh án <span class="ctx-cta-arrow">→</span></button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <div class="hdr" id="hdr">
+    <div class="hdr-logo">MedVita</div><div class="hdr-sep"></div>
+    <div><div class="hdr-title" id="hdrTitle">Đang ghi nhận buổi khám</div><div class="hdr-sub" id="hdrSub">Bác sĩ kiểm soát buổi khám · MedVita chỉ ghi chép và đề xuất</div></div>
+    <div class="rec-badge" id="recBadge"><div class="rec-dot"></div>Đang ghi âm</div>
+    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode: tốc độ nhanh">⚡</button><button class="ctrl-btn" id="btnPause">⏸ Tạm dừng</button><button class="ctrl-btn" id="btnReplay">↺ Phát lại</button></div>
+  </div>
+  <div class="form-panel">
+    <div class="form-toolbar">
+      <span class="form-file">📄 benh_an_TMH_14107353.pdf</span>
+      <span id="pageInfo" style="font-size:11px;">Trang 1/4</span>
+      <span class="pending-badge" id="pendingBadge">0 mục chờ duyệt</span>
+      <button class="export-btn" id="exportBtn" disabled>Xuất bệnh án</button>
+    </div>
+    <div class="prog"><div class="prog-fill" id="progFill"></div></div>
+    <div class="pdf-scroll" id="pdfScroll"></div>
+    <div class="cl-overlay" id="clOverlay">
+      <div class="cl-card">
+        <div class="cl-badge">✓ MedVita đã xử lý xong audio</div>
+        <div class="cl-title">Bệnh án đã được điền tự động</div>
+        <div class="cl-sub">Sẵn sàng chuyển sang giai đoạn hoàn thiện</div>
+        <div class="cl-items" id="clItems"></div>
+        <div class="cl-note">Chẩn đoán, CLS, hướng điều trị — chờ bác sĩ xác nhận</div>
+        <button class="cl-cta" id="clCta">Chuyển sang hoàn thiện bệnh án →</button>
+      </div>
+    </div>
+  </div>
+  <div class="focus-panel" id="focusPanel">
+    <div class="fp-hdr">
+      <div class="fp-mascot-wrap"><img src="../images/mascot.png" alt="MedVita"></div>
+      <span class="fp-hdr-title">MedVita đang ghi nhận</span>
+    </div>
+    <div class="fp-feed" id="fpFeed"></div>
+  </div>
+  <div class="chat-panel" id="chatPanel">
+    <div style="padding:8px 16px;border-bottom:1px solid var(--border);background:#fff;font-size:11.5px;font-weight:500;color:var(--ink3);flex-shrink:0;display:flex;align-items:center;gap:8px;">
+      <span>TRỢ LÝ MEDVITA</span><span style="margin-left:auto;font-size:11px;color:var(--ink4);">Bác sĩ ra lệnh · MedVita tạo nháp</span>
+    </div>
+    <div class="chat-summary" id="chatSummary">
+      <div class="chat-sum-lbl">Tóm tắt lâm sàng</div>
+      <div class="chat-sum-txt">BN nữ 48t, vào viện vì nuốt vướng tái phát nhiều lần trong năm. Amidan quá phát độ III, VA tồn dư. Nhân tuyến giáp TIRADS 3 trái (phát hiện tại BV Đồng Hỷ). Chẩn đoán: J35.0 Viêm amydan mãn tính. Hướng xử lý: ngoại khoa.</div>
+      <div class="chat-sum-btns">
+        <button class="chat-sum-btn" id="sumDuyet">✓ Duyệt</button>
+        <button class="chat-sum-btn" id="sumSua">✎ Sửa</button>
+      </div>
+    </div>
+    <div class="chat-history" id="chatHistory"></div>
+    <div class="chat-input-area" id="chatInputArea">
+      <input class="chat-input" id="chatInput" type="text" readonly>
+      <button class="chat-send-btn" id="chatSendBtn" title="Gửi">➤</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast">✓ Đã xuất benh_an_14107353.pdf &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
+
+<!-- Scripts: config -> data -> render -> engine -> steps -> phase1 -> phase2 -> controls -->
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/render.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/steps.js"></script>
+<script src="js/phase1.js"></script>
+<script src="js/phase2.js"></script>
+<script src="js/controls.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+/* ===== VARIABLES ===== */
+:root {
+  --blue:#374D9E; --blue-ink:#2A3C7C; --blue-light:#EEF2FF; --blue-soft:#BBD0FF;
+  --green:#7FC34E; --green-ink:#5FA232;
+  --ink:#111827; --ink2:#374151; --ink3:#6B7280; --ink4:#9CA3AF;
+  --surface:#FFFFFF; --surface2:#F8F9FA; --border:#E5E7EB;
+  --pending-bg:#FEF9C3; --edited-bg:#DBEAFE; --agent-bg:#EDE9FE;
+  --waiting-bg:#FEE2E2; --note-bg:#F0F4FF; --suggest-bg:#F5F3FF;
+}
+
+/* ===== RESET ===== */
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--surface);color:var(--ink);-webkit-font-smoothing:antialiased;}
+
+/* ===== BUTTON CLICK EFFECT ===== */
+@keyframes btnClick{
+  0%{transform:scale(1);box-shadow:0 0 0 0 rgba(55,77,158,.5)}
+  30%{transform:scale(.92);box-shadow:0 0 0 6px rgba(55,77,158,.3)}
+  60%{transform:scale(1.03);box-shadow:0 0 0 10px rgba(55,77,158,0)}
+  100%{transform:scale(1);box-shadow:0 0 0 0 transparent}
+}
+@keyframes btnClickGreen{
+  0%{transform:scale(1);box-shadow:0 0 0 0 rgba(127,195,78,.6)}
+  30%{transform:scale(.92);box-shadow:0 0 0 6px rgba(127,195,78,.4)}
+  60%{transform:scale(1.03);box-shadow:0 0 0 10px rgba(127,195,78,0)}
+  100%{transform:scale(1);box-shadow:0 0 0 0 transparent}
+}
+.sim-click{animation:btnClick .45s ease!important;}
+.sim-click-green{animation:btnClickGreen .45s ease!important;}
+
+/* Highlight ring for chip buttons */
+@keyframes chipPop{
+  0%{transform:scale(1);box-shadow:0 0 0 0 rgba(22,101,52,.6)}
+  30%{transform:scale(1.35);box-shadow:0 0 0 5px rgba(22,101,52,.25)}
+  60%{transform:scale(1.1)}
+  100%{transform:scale(1);box-shadow:none}
+}
+.sim-chip-click{animation:chipPop .4s ease!important;}

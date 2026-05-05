@@ -1,0 +1,152 @@
+<style>
+  .q-title { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 6px; }
+  .q-sub { font-size: 13px; color: #6B7280; margin-bottom: 24px; }
+  .cards { display: flex; gap: 16px; flex-wrap: wrap; }
+  .card { flex: 1; min-width: 260px; border: 2px solid #E5E7EB; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all .2s; background: #fff; }
+  .card:hover { border-color: #374D9E; box-shadow: 0 4px 16px rgba(55,77,158,.15); }
+  .card.selected { border-color: #374D9E; box-shadow: 0 0 0 3px rgba(55,77,158,.2); }
+  .card-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: #fff; padding: 6px 14px; }
+  .card-label.a { background: #374D9E; }
+  .card-label.b { background: #7C3AED; }
+  .card-label.c { background: #059669; }
+  .card-preview { padding: 14px; background: #F3F4F6; min-height: 280px; display: flex; flex-direction: column; gap: 8px; }
+  .card-body { padding: 14px; }
+  .card-body h3 { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .card-body p { font-size: 12px; color: #6B7280; line-height: 1.5; }
+  /* mini mockup elements */
+  .mini-hdr { height: 28px; background: #fff; border-bottom: 1px solid #E5E7EB; border-radius: 6px 6px 0 0; display: flex; align-items: center; padding: 0 10px; gap: 6px; }
+  .mini-dot { width: 6px; height: 6px; border-radius: 50%; background: #374D9E; }
+  .mini-logo { font-size: 9px; font-weight: 700; color: #374D9E; }
+  .mini-body { display: flex; gap: 6px; flex: 1; }
+  .mini-left { flex: 0 0 60%; background: #fff; border-radius: 4px; padding: 6px; display: flex; flex-direction: column; gap: 4px; }
+  .mini-right { flex: 1; border-radius: 4px; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .mini-field { height: 10px; border-radius: 2px; background: #DBEAFE; }
+  .mini-field.lit { background: #BBD0FF; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:.7} 50%{opacity:1} }
+  /* Option A: Focus panel */
+  .focus-panel { background: #F0F4FF; border-radius: 4px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; flex: 1; }
+  .focus-icon { width: 28px; height: 28px; background: #374D9E; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .focus-title { font-size: 9px; font-weight: 700; color: #374D9E; text-align: center; line-height: 1.4; }
+  .focus-sub { font-size: 8px; color: #6B7280; text-align: center; line-height: 1.4; }
+  .focus-badge { background: #374D9E; color: #fff; font-size: 8px; padding: 2px 7px; border-radius: 99px; }
+  .focus-tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+  .focus-tag { background: #EEF2FF; color: #374D9E; font-size: 7px; padding: 2px 6px; border-radius: 99px; border: 1px solid #BBD0FF; }
+  .focus-tag.done { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
+  /* Option B: Live notes feed */
+  .feed-panel { background: #fff; border-radius: 4px; flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 6px; overflow: hidden; }
+  .feed-item { padding: 4px 6px; border-radius: 3px; font-size: 7px; line-height: 1.4; }
+  .feed-item.note { background: #EEF2FF; border-left: 2px solid #374D9E; color: #374151; }
+  .feed-item.action { background: #F0FDF4; border-left: 2px solid #22C55E; color: #374151; }
+  .feed-item.thinking { background: #F5F3FF; border-left: 2px solid #7C3AED; color: #374151; font-style: italic; }
+  .feed-lbl { font-weight: 700; margin-right: 3px; }
+  /* Option C: Full-width form */
+  .full-left { flex: 0 0 100%; background: #fff; border-radius: 4px; padding: 6px; display: flex; flex-direction: column; gap: 4px; }
+  .overlay-bar { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(55,77,158,.9); color: #fff; font-size: 7px; padding: 4px 8px; border-radius: 0 0 4px 4px; text-align: center; }
+  .mini-body-full { display: flex; gap: 0; flex: 1; position: relative; }
+</style>
+
+<div class="q-title">Phase 1: Panel bên phải nên hiện gì trong khi MedVita đang xử lý audio?</div>
+<div class="q-sub">Bên trái (bệnh án) luôn tự động điền. Câu hỏi là: bên phải hiện thông tin gì?</div>
+
+<div class="cards">
+
+  <!-- Option A: Focus/Mission panel -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-label a">A — Tập trung & Yên tĩnh</div>
+    <div class="card-preview">
+      <div style="background:#fff;border-radius:6px;padding:6px;flex:1;display:flex;flex-direction:column;gap:6px;border:1px solid #E5E7EB;">
+        <div class="mini-hdr"><div class="mini-dot"></div><div class="mini-logo">MedVita</div></div>
+        <div style="display:flex;gap:6px;flex:1;">
+          <div class="mini-left">
+            <div class="mini-field"></div>
+            <div class="mini-field lit"></div>
+            <div class="mini-field"></div>
+            <div class="mini-field lit"></div>
+            <div class="mini-field"></div>
+          </div>
+          <div class="mini-right" style="background:#F0F4FF;border-radius:4px;align-items:center;justify-content:center;padding:10px;">
+            <div style="width:20px;height:20px;background:#374D9E;border-radius:50%;margin-bottom:6px;"></div>
+            <div style="font-size:8px;font-weight:700;color:#374D9E;text-align:center;line-height:1.4;margin-bottom:4px;">Bác sĩ chỉ cần<br>tập trung khám</div>
+            <div style="font-size:7px;color:#6B7280;text-align:center;line-height:1.4;margin-bottom:8px;">MedVita lo phần còn lại</div>
+            <div style="display:flex;flex-wrap:wrap;gap:3px;justify-content:center;">
+              <div style="background:#DCFCE7;color:#166534;font-size:6.5px;padding:1px 5px;border-radius:99px;">✓ Lý do vào viện</div>
+              <div style="background:#DCFCE7;color:#166534;font-size:6.5px;padding:1px 5px;border-radius:99px;">✓ Tiền sử</div>
+              <div style="background:#EEF2FF;color:#374D9E;font-size:6.5px;padding:1px 5px;border-radius:99px;animation:pulse 1.5s infinite;">⏳ Khám CK...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Panel "Tập trung khám"</h3>
+      <p>Hiển thị tagline lớn + danh sách tiến độ các mục MedVita đã ghi nhận. Bác sĩ không cần nhìn — nhưng khi nhìn thì thấy AI đang làm việc.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Live notes feed -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-label b">B — Live Notes Stream</div>
+    <div class="card-preview">
+      <div style="background:#fff;border-radius:6px;padding:6px;flex:1;display:flex;flex-direction:column;gap:6px;border:1px solid #E5E7EB;">
+        <div class="mini-hdr"><div class="mini-dot"></div><div class="mini-logo">MedVita · Ghi nhận</div></div>
+        <div style="display:flex;gap:6px;flex:1;">
+          <div class="mini-left">
+            <div class="mini-field"></div>
+            <div class="mini-field lit"></div>
+            <div class="mini-field"></div>
+            <div class="mini-field lit"></div>
+          </div>
+          <div class="mini-right" style="background:#FAFAFA;flex-direction:column;gap:3px;">
+            <div style="font-size:6.5px;font-weight:700;color:#374D9E;margin-bottom:2px;text-transform:uppercase;letter-spacing:.4px;">MedVita ghi nhận</div>
+            <div style="background:#EEF2FF;border-left:1.5px solid #374D9E;padding:2px 4px;font-size:6.5px;color:#374151;border-radius:0 2px 2px 0;">
+              <span style="font-weight:700;">Ghi: </span>Nuốt vướng, đau họng tái phát
+            </div>
+            <div style="background:#F0FDF4;border-left:1.5px solid #22C55E;padding:2px 4px;font-size:6.5px;color:#374151;border-radius:0 2px 2px 0;">
+              <span style="font-weight:700;">✓</span> Lý do vào viện đã cập nhật
+            </div>
+            <div style="background:#F5F3FF;border-left:1.5px solid #7C3AED;padding:2px 4px;font-size:6.5px;color:#374151;border-radius:0 2px 2px 0;font-style:italic;">
+              <span style="font-weight:700;">→</span> Gợi ý: Hỏi thêm tiền sử VA...
+            </div>
+            <div style="background:#EEF2FF;border-left:1.5px solid #374D9E;padding:2px 4px;font-size:6.5px;color:#374151;border-radius:0 2px 2px 0;">
+              <span style="font-weight:700;">Ghi: </span>Amidan quá phát, VA tồn dư
+            </div>
+            <div style="background:#F0FDF4;border-left:1.5px solid #22C55E;padding:2px 4px;font-size:6.5px;color:#374151;border-radius:0 2px 2px 0;">
+              <span style="font-weight:700;">✓</span> Khám TMH đã ghi nhận
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Live Notes Stream</h3>
+      <p>Hiển thị luồng ghi chú real-time của MedVita — không phải transcript, mà là các hành động AI đang làm. Năng động, thể hiện AI "đang nghĩ".</p>
+    </div>
+  </div>
+
+  <!-- Option C: Full-width form, overlay tagline -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-label c">C — Toàn màn hình bệnh án</div>
+    <div class="card-preview">
+      <div style="background:#fff;border-radius:6px;padding:6px;flex:1;display:flex;flex-direction:column;gap:6px;border:1px solid #E5E7EB;">
+        <div class="mini-hdr"><div class="mini-dot"></div><div class="mini-logo">MedVita</div><div style="margin-left:auto;font-size:6.5px;background:#FEF2F2;color:#991B1B;border-radius:99px;padding:1px 6px;border:1px solid #FECACA;">● Đang ghi âm</div></div>
+        <div style="display:flex;gap:0;flex:1;position:relative;">
+          <div style="flex:1;background:#FAFAFA;border-radius:4px;padding:6px;display:flex;flex-direction:column;gap:4px;">
+            <div style="height:10px;border-radius:2px;background:#DBEAFE;width:100%;"></div>
+            <div style="height:10px;border-radius:2px;background:#BBD0FF;width:100%;animation:pulse 1.5s infinite;"></div>
+            <div style="height:10px;border-radius:2px;background:#DBEAFE;width:80%;"></div>
+            <div style="height:10px;border-radius:2px;background:#DBEAFE;width:90%;"></div>
+            <div style="height:10px;border-radius:2px;background:#BBD0FF;width:100%;animation:pulse 1.5s infinite 0.3s;"></div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(55,77,158,.92);color:#fff;font-size:7px;padding:5px 8px;border-radius:0 0 4px 4px;text-align:center;">
+            Bác sĩ chỉ cần tập trung khám · MedVita đang ghi chép...
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Toàn màn hình bệnh án</h3>
+      <p>Bỏ panel phải, form chiếm toàn bộ màn hình. Tagline hiển thị ở thanh overlay nhỏ phía dưới. Tập trung hoàn toàn vào form đang tự điền.</p>
+    </div>
+  </div>
+
+</div>

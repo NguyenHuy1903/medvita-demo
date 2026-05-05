@@ -1,0 +1,168 @@
+<style>
+  .q-title { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 6px; }
+  .q-sub { font-size: 13px; color: #6B7280; margin-bottom: 24px; }
+  .cards { display: flex; gap: 16px; flex-wrap: wrap; }
+  .card { flex: 1; min-width: 260px; border: 2px solid #E5E7EB; border-radius: 12px; overflow: hidden; cursor: pointer; transition: all .2s; background: #fff; }
+  .card:hover { border-color: #374D9E; box-shadow: 0 4px 16px rgba(55,77,158,.15); }
+  .card.selected { border-color: #374D9E; box-shadow: 0 0 0 3px rgba(55,77,158,.2); }
+  .card-label { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: #fff; padding: 6px 14px; }
+  .card-label.a { background: #374D9E; }
+  .card-label.b { background: #7C3AED; }
+  .card-label.c { background: #059669; }
+  .card-preview { padding: 12px; background: #F3F4F6; min-height: 300px; }
+  .card-body { padding: 14px; }
+  .card-body h3 { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .card-body p { font-size: 12px; color: #6B7280; line-height: 1.5; }
+
+  /* Shared mini elements */
+  .mini-wrap { background: #fff; border: 1px solid #E5E7EB; border-radius: 8px; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+  .mini-hdr { height: 26px; background: #fff; border-bottom: 1px solid #E5E7EB; display: flex; align-items: center; padding: 0 10px; gap: 6px; flex-shrink: 0; }
+  .mini-logo { font-size: 9px; font-weight: 700; color: #374D9E; }
+  .mini-body { display: flex; gap: 5px; flex: 1; min-height: 0; padding: 6px; }
+  .mini-left { flex: 0 0 58%; background: #FAFAFA; border-radius: 4px; padding: 5px; display: flex; flex-direction: column; gap: 3px; }
+  .mini-right { flex: 1; border-radius: 4px; display: flex; flex-direction: column; gap: 4px; }
+  .mini-field { height: 9px; border-radius: 2px; background: #DBEAFE; }
+  .mini-field.green { background: #DCFCE7; }
+  .mini-field.purple { background: #EDE9FE; }
+  @keyframes pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+
+  /* Option A: Numbered command buttons */
+  .cmd-btn-mini { padding: 4px 7px; border-radius: 4px; border: 1px solid #E5E7EB; background: #fff; font-size: 7px; color: #374151; cursor: default; }
+  .cmd-btn-mini.done { background: #F3F4F6; color: #9CA3AF; }
+  .cmd-btn-mini.active { border-color: #374D9E; background: #EEF2FF; color: #374D9E; font-weight: 700; }
+  .cmd-num { font-weight: 700; color: #374D9E; margin-right: 3px; }
+  .cmd-response { background: #EEF2FF; border-radius: 3px; padding: 4px 6px; font-size: 6.5px; color: #374151; line-height: 1.4; }
+
+  /* Option B: Chat-style */
+  .chat-msg-doc { display: flex; justify-content: flex-end; }
+  .chat-bubble-doc { background: #374D9E; color: #fff; padding: 4px 7px; border-radius: 6px 6px 2px 6px; font-size: 7px; max-width: 85%; line-height: 1.4; }
+  .chat-msg-mv { }
+  .chat-lbl { font-size: 6px; font-weight: 700; color: #374D9E; margin-bottom: 1px; text-transform: uppercase; letter-spacing: .3px; }
+  .chat-bubble-mv { background: #F0F4FF; padding: 4px 7px; border-radius: 2px 6px 6px 6px; font-size: 7px; color: #374151; max-width: 90%; line-height: 1.4; }
+  .chat-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 4px; padding: 4px 6px; margin-top: 3px; font-size: 6.5px; color: #374151; }
+  .chat-input-bar { height: 22px; border-top: 1px solid #E5E7EB; background: #fff; display: flex; align-items: center; padding: 0 8px; gap: 5px; flex-shrink: 0; }
+  .chat-input-fake { flex: 1; height: 14px; background: #F3F4F6; border-radius: 99px; }
+  .chat-send { width: 14px; height: 14px; background: #374D9E; border-radius: 50%; flex-shrink: 0; }
+
+  /* Option C: Auto-fill reveal + chips */
+  .auto-badge { background: #DCFCE7; color: #166534; font-size: 6.5px; padding: 2px 6px; border-radius: 99px; border: 1px solid #BBF7D0; display: inline-block; margin-bottom: 4px; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 4px; }
+  .chip { padding: 3px 7px; border-radius: 99px; border: 1px solid #374D9E; background: #EEF2FF; color: #374D9E; font-size: 6.5px; font-weight: 500; cursor: default; }
+  .chip.done { border-color: #BBF7D0; background: #DCFCE7; color: #166534; }
+  .chip.active { background: #374D9E; color: #fff; animation: pulse 1s infinite; }
+  .reveal-item { background: #EDE9FE; border-left: 2px solid #7C3AED; border-radius: 0 3px 3px 0; padding: 3px 5px; font-size: 6.5px; color: #374151; }
+</style>
+
+<div class="q-title">Phase 2: Bác sĩ tương tác với MedVita như thế nào?</div>
+<div class="q-sub">Sau khi MedVita auto-fill xong, bác sĩ muốn tinh chỉnh — giao diện lệnh nên là dạng nào?</div>
+
+<div class="cards">
+
+  <!-- Option A: Numbered command buttons (current style) -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-label a">A — Nút lệnh gợi ý</div>
+    <div class="card-preview" style="min-height:300px;">
+      <div class="mini-wrap" style="min-height:280px;">
+        <div class="mini-hdr"><div class="mini-logo">MedVita · Lệnh bác sĩ</div></div>
+        <div class="mini-body">
+          <div class="mini-left">
+            <div class="mini-field green"></div>
+            <div class="mini-field green"></div>
+            <div class="mini-field purple"></div>
+            <div class="mini-field green"></div>
+            <div class="mini-field" style="background:#EEF2FF;animation:pulse 1.5s infinite;"></div>
+          </div>
+          <div class="mini-right" style="background:#FAFAFA;border-radius:4px;padding:5px;gap:4px;">
+            <!-- Summary -->
+            <div style="background:#fff;border:1px solid #E5E7EB;border-radius:3px;padding:4px 5px;font-size:6.5px;color:#374151;">
+              <div style="font-size:6px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:2px;">Tóm tắt lâm sàng</div>
+              BN nữ 48t, viêm amydan mãn, amidan quá phát, VA tồn dư...
+            </div>
+            <!-- cmd history item -->
+            <div style="display:flex;justify-content:flex-end;">
+              <div style="background:#374D9E;color:#fff;padding:3px 6px;border-radius:4px;font-size:6.5px;">điền kết quả CLS</div>
+            </div>
+            <div class="cmd-response">✓ Đã điền 22 xét nghiệm tiền phẫu. Bác sĩ duyệt trước khi lưu.</div>
+            <!-- action buttons -->
+            <div style="border-top:1px solid #E5E7EB;padding-top:4px;display:flex;flex-direction:column;gap:2px;margin-top:auto;">
+              <div style="font-size:6px;font-weight:700;color:#9CA3AF;text-transform:uppercase;margin-bottom:2px;">Lệnh gợi ý</div>
+              <div class="cmd-btn-mini done">✓ <span class="cmd-num">1</span>Điền kết quả CLS</div>
+              <div class="cmd-btn-mini active"><span class="cmd-num">2</span>Tóm tắt bệnh án</div>
+              <div class="cmd-btn-mini"><span class="cmd-num">3</span>Cần hoàn tất gì?</div>
+              <div class="cmd-btn-mini"><span class="cmd-num">4</span>Chỉnh sửa chẩn đoán</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Nút lệnh gợi ý (kiểu hiện tại)</h3>
+      <p>4–5 nút lệnh đã soạn sẵn, bác sĩ click từng bước. Demo kiểm soát tốt, dễ trình bày cho khán giả.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Chat-style natural language -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-label b">B — Chat tự nhiên</div>
+    <div class="card-preview" style="min-height:300px;">
+      <div class="mini-wrap" style="min-height:280px;">
+        <div class="mini-hdr"><div class="mini-logo">MedVita · Chat</div></div>
+        <div class="mini-body" style="flex-direction:column;gap:4px;padding:6px;">
+          <div class="chat-msg-doc"><div class="chat-bubble-doc">Điền kết quả xét nghiệm tiền phẫu</div></div>
+          <div class="chat-msg-mv">
+            <div class="chat-lbl">MedVita</div>
+            <div class="chat-bubble-mv">Đã điền 22 XN tiền phẫu. Duyệt từng mục hoặc duyệt tất cả?</div>
+            <div class="chat-card">PT · APTT · Fibrinogen · HIV Ab · HBsAg · HCV Ab ...</div>
+          </div>
+          <div class="chat-msg-doc"><div class="chat-bubble-doc">nhân tuyến giáp có cần theo dõi không?</div></div>
+          <div class="chat-msg-mv">
+            <div class="chat-lbl">MedVita</div>
+            <div class="chat-bubble-mv">Nhân thùy trái TIRADS 3 — theo hướng dẫn cần theo dõi SA sau 6–12 tháng. Bác sĩ có muốn ghi vào khuyến nghị?</div>
+          </div>
+        </div>
+        <div class="chat-input-bar">
+          <div class="chat-input-fake"></div>
+          <div class="chat-send"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Chat tự nhiên</h3>
+      <p>Bác sĩ gõ lệnh tự do, MedVita trả lời như assistant. Thể hiện độ thông minh cao hơn — nhưng khó kiểm soát kịch bản demo.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Chips + reveal flow -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-label c">C — Quick-action chips</div>
+    <div class="card-preview" style="min-height:300px;">
+      <div class="mini-wrap" style="min-height:280px;">
+        <div class="mini-hdr"><div class="mini-logo">MedVita · Hoàn thiện bệnh án</div></div>
+        <div class="mini-body" style="flex-direction:column;padding:6px;gap:5px;">
+          <div class="auto-badge">✓ MedVita đã auto-fill 8/11 mục từ audio</div>
+          <div style="font-size:7px;color:#374151;font-weight:600;margin-bottom:2px;">Chọn để hoàn thiện:</div>
+          <div class="chip-row">
+            <div class="chip done">✓ Lý do vào viện</div>
+            <div class="chip done">✓ Tiền sử</div>
+            <div class="chip active">⏳ Kết quả CLS</div>
+            <div class="chip">Tóm tắt BA</div>
+            <div class="chip">Chẩn đoán</div>
+            <div class="chip">Hướng điều trị</div>
+          </div>
+          <!-- reveal result -->
+          <div class="reveal-item">MedVita đề xuất: Điền 22 xét nghiệm tiền phẫu (PT, APTT, Glucose, Creatinin...)</div>
+          <div style="display:flex;gap:4px;margin-top:2px;">
+            <div style="background:#374D9E;color:#fff;font-size:6.5px;padding:2px 7px;border-radius:3px;">Áp dụng tất cả</div>
+            <div style="background:#fff;border:1px solid #E5E7EB;color:#6B7280;font-size:6.5px;padding:2px 7px;border-radius:3px;">Xem từng mục</div>
+          </div>
+          <div style="margin-top:4px;font-size:6.5px;color:#6B7280;font-style:italic;">3 mục còn lại cần phán quyết chuyên môn của bác sĩ</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Quick-action chips</h3>
+      <p>Hiển thị rõ 8/11 mục đã auto-fill, còn lại là chips để bác sĩ click hoàn thiện. Trực quan, thể hiện "MedVita đã làm phần lớn rồi".</p>
+    </div>
+  </div>
+
+</div>

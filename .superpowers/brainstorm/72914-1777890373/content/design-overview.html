@@ -1,0 +1,171 @@
+<style>
+  .q-title { font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 6px; }
+  .q-sub { font-size: 13px; color: #6B7280; margin-bottom: 20px; }
+  .flow { display: flex; align-items: stretch; gap: 0; margin-bottom: 24px; }
+  .flow-step { flex: 1; padding: 14px; border: 2px solid #E5E7EB; border-radius: 0; margin-left: -1px; position: relative; background: #fff; }
+  .flow-step:first-child { border-radius: 10px 0 0 10px; margin-left: 0; }
+  .flow-step:last-child { border-radius: 0 10px 10px 0; }
+  .flow-step.highlight { border-color: #374D9E; background: #EEF2FF; z-index: 1; }
+  .flow-step.new { border-color: #7C3AED; background: #F5F3FF; z-index: 2; }
+  .flow-num { width: 22px; height: 22px; border-radius: 50%; background: #374D9E; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+  .flow-num.purple { background: #7C3AED; }
+  .flow-title { font-size: 12px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .flow-desc { font-size: 11px; color: #6B7280; line-height: 1.5; }
+  .flow-tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 99px; background: #DCFCE7; color: #166534; font-weight: 600; margin-top: 6px; }
+  .flow-tag.new-tag { background: #EDE9FE; color: #7C3AED; }
+  .flow-tag.changed { background: #FEF3C7; color: #92400E; }
+
+  .section-title { font-size: 13px; font-weight: 700; color: #374D9E; text-transform: uppercase; letter-spacing: .4px; margin: 20px 0 10px; border-bottom: 1px solid #E5E7EB; padding-bottom: 6px; }
+
+  .split-preview { display: flex; gap: 8px; margin-bottom: 16px; }
+  .pane { border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; background: #fff; }
+  .pane-hdr { background: #F9FAFB; border-bottom: 1px solid #E5E7EB; padding: 6px 10px; font-size: 10px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: .4px; }
+  .pane-body { padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+
+  /* Focus panel preview */
+  .focus-center { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 10px; gap: 8px; background: #F0F4FF; border-radius: 6px; }
+  .focus-icon { width: 36px; height: 36px; background: #374D9E; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; }
+  .focus-h { font-size: 13px; font-weight: 700; color: #374D9E; text-align: center; line-height: 1.4; }
+  .focus-s { font-size: 11px; color: #6B7280; text-align: center; }
+  .progress-tags { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 4px; }
+  .ptag { font-size: 10px; padding: 3px 8px; border-radius: 99px; }
+  .ptag.done { background: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; }
+  .ptag.active { background: #EEF2FF; color: #374D9E; border: 1px solid #BBD0FF; animation: pulse 1.5s infinite; }
+  .ptag.wait { background: #F3F4F6; color: #9CA3AF; border: 1px solid #E5E7EB; }
+  @keyframes pulse { 0%,100%{opacity:.7} 50%{opacity:1} }
+
+  /* Interstitial preview */
+  .inter-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 10px; padding: 16px; max-width: 360px; }
+  .inter-badge { background: #DCFCE7; color: #166534; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 99px; display: inline-block; margin-bottom: 12px; }
+  .inter-title { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+  .inter-sub { font-size: 12px; color: #6B7280; margin-bottom: 14px; }
+  .inter-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; }
+  .inter-item { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #374151; }
+  .inter-check { color: #22C55E; font-weight: 700; }
+  .inter-note { font-size: 10.5px; color: #9CA3AF; font-style: italic; margin-bottom: 14px; }
+  .inter-cta { width: 100%; padding: 9px; background: #374D9E; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; text-align: center; }
+
+  /* Chat preview */
+  .chat-msg-doc { display: flex; justify-content: flex-end; margin: 4px 0; }
+  .chat-bubble-doc { background: #374D9E; color: #fff; padding: 7px 11px; border-radius: 8px 8px 2px 8px; font-size: 11.5px; max-width: 88%; line-height: 1.5; }
+  .chat-msg-mv { margin: 4px 0; }
+  .chat-lbl-mv { font-size: 10px; font-weight: 700; color: #374D9E; margin-bottom: 2px; text-transform: uppercase; letter-spacing: .4px; }
+  .chat-bubble-mv { background: #F0F4FF; padding: 7px 11px; border-radius: 2px 8px 8px 8px; font-size: 11.5px; color: #374151; line-height: 1.5; }
+  .chat-card-mv { background: #fff; border: 1px solid #E5E7EB; border-radius: 5px; padding: 8px 10px; margin-top: 6px; font-size: 11px; color: #374151; line-height: 1.6; }
+  .chat-input-bar { display: flex; gap: 8px; padding: 8px; border-top: 1px solid #E5E7EB; align-items: center; }
+  .chat-input-fake { flex: 1; height: 30px; background: #F3F4F6; border-radius: 99px; border: 1px solid #E5E7EB; }
+  .chat-send-btn { width: 30px; height: 30px; background: #374D9E; border-radius: 50%; flex-shrink: 0; }
+</style>
+
+<div class="q-title">Thiết kế tổng thể — Hướng 2</div>
+<div class="q-sub">Xác nhận từng section trước khi code. Scroll xuống xem đầy đủ.</div>
+
+<!-- Flow -->
+<div class="flow">
+  <div class="flow-step">
+    <div class="flow-num">0</div>
+    <div class="flow-title">Opening</div>
+    <div class="flow-desc">Màn hình khởi động, click vào logo/nút để bắt đầu</div>
+    <span class="flow-tag">Giữ nguyên</span>
+  </div>
+  <div class="flow-step highlight">
+    <div class="flow-num">1</div>
+    <div class="flow-title">Phase 1 — Ghi nhận</div>
+    <div class="flow-desc">Trái: form tự điền. Phải: Focus Panel (tagline + progress tags)</div>
+    <span class="flow-tag changed">Đổi right panel</span>
+  </div>
+  <div class="flow-step new">
+    <div class="flow-num purple">→</div>
+    <div class="flow-title">Interstitial</div>
+    <div class="flow-desc">"Audio đã xử lý · X/11 mục đã fill" — bác sĩ click để vào Phase 2</div>
+    <span class="flow-tag new-tag">Mới hoàn toàn</span>
+  </div>
+  <div class="flow-step highlight">
+    <div class="flow-num">2</div>
+    <div class="flow-title">Phase 2 — Hoàn thiện</div>
+    <div class="flow-desc">Trái: form (đã fill phần lớn). Phải: Chat bác sĩ ↔ MedVita</div>
+    <span class="flow-tag changed">Chat thay command buttons</span>
+  </div>
+</div>
+
+<!-- Section 1: Phase 1 Focus Panel -->
+<div class="section-title">1 · Phase 1 — Focus Panel (right side)</div>
+<div class="split-preview">
+  <div class="pane" style="flex:0 0 55%">
+    <div class="pane-hdr">Trái — Form tự điền (giữ nguyên)</div>
+    <div class="pane-body">
+      <div style="height:12px;background:#DBEAFE;border-radius:3px;"></div>
+      <div style="height:12px;background:#BBD0FF;border-radius:3px;width:80%;animation:pulse 1.5s infinite;"></div>
+      <div style="height:12px;background:#DCFCE7;border-radius:3px;"></div>
+      <div style="height:12px;background:#DBEAFE;border-radius:3px;width:90%;"></div>
+      <div style="height:12px;background:#BBD0FF;border-radius:3px;animation:pulse 1.5s infinite 0.4s;"></div>
+    </div>
+  </div>
+  <div class="pane" style="flex:1">
+    <div class="pane-hdr">Phải — Focus Panel (mới)</div>
+    <div class="pane-body">
+      <div class="focus-center">
+        <div class="focus-icon">✦</div>
+        <div class="focus-h">Bác sĩ chỉ cần<br>tập trung khám</div>
+        <div class="focus-s">Phần ghi nhớ và ghi chép<br>đã có MedVita lo</div>
+        <div class="progress-tags">
+          <div class="ptag done">✓ Lý do vào viện</div>
+          <div class="ptag done">✓ Tiền sử</div>
+          <div class="ptag active">⏳ Khám TMH...</div>
+          <div class="ptag wait">Tóm tắt</div>
+          <div class="ptag wait">Chẩn đoán</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: Interstitial -->
+<div class="section-title">2 · Transition Interstitial</div>
+<div style="display:flex;justify-content:center;margin-bottom:16px;">
+  <div class="inter-card">
+    <div class="inter-badge">✓ MedVita đã xử lý xong audio</div>
+    <div class="inter-title">Bệnh án đã được điền tự động</div>
+    <div class="inter-sub">Sẵn sàng chuyển sang giai đoạn hoàn thiện</div>
+    <div class="inter-list">
+      <div class="inter-item"><span class="inter-check">✓</span>Lý do vào viện</div>
+      <div class="inter-item"><span class="inter-check">✓</span>Quá trình bệnh lý</div>
+      <div class="inter-item"><span class="inter-check">✓</span>Tiền sử bản thân</div>
+      <div class="inter-item"><span class="inter-check">✓</span>Khám thực thể TMH</div>
+      <div class="inter-item"><span class="inter-check">✓</span>Khám toàn thân</div>
+      <div class="inter-item"><span class="inter-check">✓</span>Tóm tắt bệnh án</div>
+    </div>
+    <div class="inter-note">Chẩn đoán, CLS, hướng điều trị — chờ bác sĩ xác nhận</div>
+    <div class="inter-cta">Chuyển sang hoàn thiện bệnh án →</div>
+  </div>
+</div>
+
+<!-- Section 3: Phase 2 Chat -->
+<div class="section-title">3 · Phase 2 — Chat bác sĩ ↔ MedVita</div>
+<div class="pane" style="max-width:380px;margin-bottom:8px;">
+  <div class="pane-hdr">Chat panel (right side)</div>
+  <div class="pane-body" style="gap:4px;">
+    <!-- Clinical summary card first -->
+    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:6px;padding:8px 10px;font-size:11px;color:#374151;line-height:1.6;margin-bottom:4px;">
+      <div style="font-size:10px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Tóm tắt lâm sàng</div>
+      BN nữ 48t, vào viện vì nuốt vướng tái phát. Amidan quá phát, VA tồn dư. Nhân tuyến giáp TIRADS 3 trái. Chẩn đoán sơ bộ: J35.0 Viêm amydan mãn tính.
+    </div>
+    <!-- Chat messages -->
+    <div class="chat-msg-doc"><div class="chat-bubble-doc">điền kết quả xét nghiệm tiền phẫu</div></div>
+    <div class="chat-msg-mv">
+      <div class="chat-lbl-mv">MedVita</div>
+      <div class="chat-bubble-mv">Đã điền 22 xét nghiệm từ phác đồ tiền phẫu chuẩn. Bác sĩ duyệt trước khi lưu.</div>
+      <div class="chat-card-mv">PT · APTT · Fibrinogen · Glucose · Ure · Creatinin · AST · ALT · Điện giải đồ · Nhóm máu · HIV · HBsAg · HCV · Tổng phân tích máu · Nước tiểu · Điện tim · X-quang ngực · Thính lực · Nhĩ lượng · T3 · FT4 · TSH</div>
+    </div>
+    <div class="chat-msg-doc"><div class="chat-bubble-doc">nhân tuyến giáp TIRADS 3 có cần ghi chú gì không?</div></div>
+    <div class="chat-msg-mv">
+      <div class="chat-lbl-mv">MedVita</div>
+      <div class="chat-bubble-mv">TIRADS 3 cần theo dõi siêu âm sau 6–12 tháng theo hướng dẫn ACR. Bác sĩ có muốn tôi thêm vào mục "Khuyến nghị theo dõi"?</div>
+    </div>
+  </div>
+  <div class="chat-input-bar">
+    <div class="chat-input-fake"></div>
+    <div class="chat-send-btn"></div>
+  </div>
+</div>
+<div style="font-size:11px;color:#6B7280;font-style:italic;">* Chat có 3–4 turns demo sẵn (không cần gõ thật), bác sĩ click "gửi" để trigger từng bước</div>
