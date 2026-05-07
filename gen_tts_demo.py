@@ -59,6 +59,27 @@ CLIPS = [
         "v7-xn-command", DOCTOR_VOICE,
         "List xét nghiệm cơ bản tai mũi họng.",
     ),
+    # ── Video 3: Hoàn thiện hồ sơ xuất viện (Enceladus) ─────────────────────
+    (
+        "v3-1-xacnhan-diung", DOCTOR_VOICE,
+        "Xác nhận, bệnh nhân chỉ dị ứng Penicillin, dùng Cefuroxime an toàn.",
+    ),
+    (
+        "v3-2-ghinhận-cdha", DOCTOR_VOICE,
+        "Ghi nhận. Bổ sung kết quả X-quang sau khi CĐHA có. Tiến hành làm hồ sơ.",
+    ),
+    (
+        "v3-3-kedon-xuatvien", DOCTOR_VOICE,
+        "Kê đơn thuốc xuất viện cho bệnh nhân.",
+    ),
+    (
+        "v3-4-giayruvien", DOCTOR_VOICE,
+        "Làm giấy ra viện.",
+    ),
+    (
+        "v3-5-ky-luu-hoso", DOCTOR_VOICE,
+        "Ký và lưu tất cả hồ sơ.",
+    ),
     # ── MedVita voice (Sadaltager) ────────────────────────────────────────────
     (
         "mv1-allergy", MEDVITA_VOICE,
