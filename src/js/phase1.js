@@ -3,8 +3,8 @@ const checklistItems = [
   'Lý do vào viện',
   'Quá trình bệnh lý',
   'Tiền sử bản thân',
-  'Khám thực thể TMH',
-  'Khám toàn thân',
+  'Khám lâm sàng TMH',
+  'Sinh hiệu',
   'Tóm tắt bệnh án',
 ];
 

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Kết quả XN #XN-2605-0042 — HIS Bệnh viện Đa khoa</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',system-ui,sans-serif;background:#F1F5F9;color:#0F172A;-webkit-font-smoothing:antialiased;font-size:13px;}
+
+/* TOP BAR */
+.topbar{background:#1E3A5F;color:#fff;padding:0 24px;height:44px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;}
+.topbar-logo{font-size:14px;font-weight:700;letter-spacing:-.2px;}
+.topbar-sep{width:1px;height:18px;background:rgba(255,255,255,.25);}
+.topbar-module{font-size:11.5px;color:rgba(255,255,255,.7);}
+.topbar-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.topbar-btn{height:28px;padding:0 12px;border-radius:5px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;transition:background .12s;display:flex;align-items:center;gap:5px;}
+.topbar-btn:hover{background:rgba(255,255,255,.1);}
+.topbar-btn.primary{background:#2563EB;border-color:#2563EB;}
+.topbar-btn.primary:hover{background:#1D4ED8;}
+
+/* PATIENT BAR */
+.patient-bar{background:#fff;border-bottom:1px solid #E2E8F0;padding:10px 24px;display:flex;align-items:center;gap:20px;}
+.patient-name{font-size:15px;font-weight:700;color:#0F172A;}
+.patient-meta{font-size:11.5px;color:#64748B;}
+.patient-badges{display:flex;gap:6px;margin-left:auto;}
+.badge{padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:600;}
+.badge-blue{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;}
+.badge-amber{background:#FFFBEB;color:#92400E;border:1px solid #FCD34D;}
+.badge-green{background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;}
+
+/* MAIN LAYOUT */
+.main{max-width:960px;margin:0 auto;padding:20px 24px 60px;}
+
+/* SECTION */
+.section{background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.section-hdr{padding:12px 18px;border-bottom:1px solid #E2E8F0;display:flex;align-items:center;gap:8px;}
+.section-hdr-icon{font-size:15px;}
+.section-hdr-title{font-size:12.5px;font-weight:700;color:#0F172A;}
+.section-hdr-sub{font-size:11px;color:#64748B;margin-left:4px;}
+.section-hdr-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
+
+/* ORDER META GRID */
+.order-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:0;}
+.order-cell{padding:12px 18px;border-right:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;}
+.order-cell:nth-child(4n){border-right:none;}
+.order-cell:nth-last-child(-n+4){border-bottom:none;}
+.order-cell-label{font-size:10px;font-weight:600;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+.order-cell-val{font-size:12.5px;font-weight:500;color:#0F172A;}
+.order-cell-val.mono{font-family:'Menlo',monospace;font-size:11.5px;}
+
+/* STATUS TAG */
+.status-tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:600;}
+.status-completed{background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;}
+.status-pending{background:#FFF7ED;color:#C2410C;border:1px solid #FED7AA;}
+.status-processing{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE;}
+
+/* RESULTS TABLE */
+.results-table{width:100%;border-collapse:collapse;}
+.results-table thead tr{background:#F8FAFC;border-bottom:2px solid #E2E8F0;}
+.results-table th{padding:9px 16px;text-align:left;font-size:10.5px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.5px;}
+.results-table th:nth-child(2),.results-table td:nth-child(2){text-align:right;}
+.results-table th:nth-child(3),.results-table td:nth-child(3){text-align:center;}
+.results-table th:nth-child(4),.results-table td:nth-child(4){text-align:right;}
+.results-table th:nth-child(5),.results-table td:nth-child(5){text-align:center;}
+.results-table tbody tr{border-bottom:1px solid #F1F5F9;transition:background .1s;}
+.results-table tbody tr:hover{background:#F8FAFC;}
+.results-table tbody tr:last-child{border-bottom:none;}
+.results-table td{padding:10px 16px;font-size:12.5px;color:#1E293B;}
+.test-name{font-weight:500;}
+.test-code{font-size:10px;color:#94A3B8;display:block;margin-top:1px;}
+.value-cell{font-weight:600;font-size:13px;}
+.value-high{color:#D97706;}
+.value-low{color:#2563EB;}
+.value-normal{color:#15803D;}
+.value-pending{color:#94A3B8;font-weight:400;font-style:italic;}
+.ref-range{font-size:11px;color:#94A3B8;}
+.unit-cell{font-size:11px;color:#64748B;}
+.flag{display:inline-flex;align-items:center;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700;}
+.flag-H{background:#FEF3C7;color:#92400E;}
+.flag-L{background:#EFF6FF;color:#1D4ED8;}
+.flag-N{background:#F0FDF4;color:#15803D;}
+.flag-P{background:#F1F5F9;color:#94A3B8;}
+
+/* ABNORMAL ROWS */
+.row-abnormal{background:#FFFDF0;}
+.row-abnormal:hover{background:#FEFCE8!important;}
+
+/* FOOTER NOTE */
+.result-note{padding:12px 18px;background:#F8FAFC;border-top:1px solid #E2E8F0;font-size:11px;color:#64748B;line-height:1.6;}
+.result-note strong{color:#475569;}
+
+/* SIGNATURE */
+.sig-row{display:flex;gap:0;border-top:1px solid #E2E8F0;}
+.sig-cell{flex:1;padding:14px 18px;border-right:1px solid #E2E8F0;}
+.sig-cell:last-child{border-right:none;}
+.sig-label{font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.sig-name{font-size:12.5px;font-weight:600;color:#0F172A;}
+.sig-title{font-size:11px;color:#64748B;}
+.sig-time{font-size:11px;color:#94A3B8;margin-top:2px;}
+
+/* PRINT */
+@media print {
+  .topbar,.topbar-btn{display:none!important;}
+  body{background:#fff;}
+  .main{padding:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">🏥 HIS · Bệnh viện Đa khoa</div>
+  <div class="topbar-sep"></div>
+  <div class="topbar-module">Kết quả Xét nghiệm</div>
+  <div class="topbar-right">
+    <button class="topbar-btn" onclick="window.print()">🖨 In kết quả</button>
+    <button class="topbar-btn primary" onclick="window.close()">✕ Đóng</button>
+  </div>
+</div>
+
+<!-- PATIENT BAR -->
+<div class="patient-bar">
+  <div>
+    <div class="patient-name">NGUYỄN THỊ HOA</div>
+    <div class="patient-meta">Nữ &nbsp;·&nbsp; 19 tuổi &nbsp;·&nbsp; Mã BN: 26063163 &nbsp;·&nbsp; Khoa Tai Mũi Họng &nbsp;·&nbsp; Lần vào: TMH2600572</div>
+  </div>
+  <div class="patient-badges">
+    <span class="badge badge-blue">Nội trú</span>
+    <span class="badge badge-amber">⚠ Dị ứng kháng sinh</span>
+    <span class="badge badge-green">BHYT HN4 — 100%</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ORDER INFO -->
+  <div class="section">
+    <div class="section-hdr">
+      <span class="section-hdr-icon">🧾</span>
+      <span class="section-hdr-title">Phiếu chỉ định</span>
+      <span class="section-hdr-sub">#XN-2605-0042</span>
+      <div class="section-hdr-right">
+        <span class="status-tag status-completed">✓ Hoàn thành</span>
+      </div>
+    </div>
+    <div class="order-grid">
+      <div class="order-cell">
+        <div class="order-cell-label">Số phiếu</div>
+        <div class="order-cell-val mono">#XN-2605-0042</div>
+      </div>
+      <div class="order-cell">
+        <div class="order-cell-label">Bác sĩ chỉ định</div>
+        <div class="order-cell-val">BS. Nguyễn Văn Minh</div>
+      </div>
+      <div class="order-cell">
+        <div class="order-cell-label">Thời gian chỉ định</div>
+        <div class="order-cell-val">03/05/2026 &nbsp;03:52</div>
+      </div>
+      <div class="order-cell">
+        <div class="order-cell-label">Thời gian trả kết quả</div>
+        <div class="order-cell-val">03/05/2026 &nbsp;04:15</div>
+      </div>
+      <div class="order-cell">
+        <div class="order-cell-label">Khoa chỉ định</div>
+        <div class="order-cell-val">Tai Mũi Họng</div>
+      </div>
+      <div class="order-cell">
+        <div class="order-cell-label">Phòng lấy mẫu</div>
+        <div class="order-cell-val">Xét nghiệm trung tâm — P.108</div>
+      </div>
+      <div class="order-cell">
+        <div class="order-cell-label">Chẩn đoán lâm sàng</div>
+        <div class="order-cell-val">Viêm xoang cấp (J01)</div>
+      </div>
+      <div class="order-cell">
+        <div class="order-cell-label">Ghi chú</div>
+        <div class="order-cell-val" style="color:#D97706;font-weight:600;">⚠ Dị ứng kháng sinh</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS TABLE -->
+  <div class="section">
+    <div class="section-hdr">
+      <span class="section-hdr-icon">🔬</span>
+      <span class="section-hdr-title">Kết quả xét nghiệm</span>
+      <span class="section-hdr-sub">5 xét nghiệm · 4 hoàn thành · 1 đang xử lý</span>
+      <div class="section-hdr-right">
+        <span style="font-size:10.5px;color:#64748B;">KTV: Trần Thị Lan &nbsp;·&nbsp; Máy: Sysmex XN-550</span>
+      </div>
+    </div>
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th style="width:32%">Xét nghiệm</th>
+          <th style="width:14%">Kết quả</th>
+          <th style="width:8%">Cờ</th>
+          <th style="width:20%">Khoảng tham chiếu</th>
+          <th style="width:10%">Đơn vị</th>
+          <th style="width:16%">Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- CBC -->
+        <tr class="row-abnormal">
+          <td>
+            <span class="test-name">Công thức tế bào máu (CBC)</span>
+            <span class="test-code">CTTBM · Huyết học</span>
+          </td>
+          <td><span class="value-cell value-high">11.2</span></td>
+          <td><span class="flag flag-H">↑ H</span></td>
+          <td><span class="ref-range">4.0 – 10.0</span></td>
+          <td><span class="unit-cell">G/L</span></td>
+          <td><span class="status-tag status-completed" style="font-size:10px;">✓ Hoàn thành</span></td>
+        </tr>
+        <tr>
+          <td style="padding-left:32px;color:#64748B;">
+            <span class="test-name" style="font-weight:400;">— Bạch cầu đa nhân trung tính (NEU)</span>
+          </td>
+          <td><span class="value-cell value-high">8.7</span></td>
+          <td><span class="flag flag-H">↑ H</span></td>
+          <td><span class="ref-range">1.8 – 7.5</span></td>
+          <td><span class="unit-cell">G/L</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="padding-left:32px;color:#64748B;">
+            <span class="test-name" style="font-weight:400;">— Hemoglobin (HGB)</span>
+          </td>
+          <td><span class="value-cell value-normal">133</span></td>
+          <td><span class="flag flag-N">N</span></td>
+          <td><span class="ref-range">120 – 160</span></td>
+          <td><span class="unit-cell">g/L</span></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td style="padding-left:32px;color:#64748B;">
+            <span class="test-name" style="font-weight:400;">— Tiểu cầu (PLT)</span>
+          </td>
+          <td><span class="value-cell value-normal">248</span></td>
+          <td><span class="flag flag-N">N</span></td>
+          <td><span class="ref-range">150 – 400</span></td>
+          <td><span class="unit-cell">G/L</span></td>
+          <td></td>
+        </tr>
+
+        <!-- CRP -->
+        <tr class="row-abnormal">
+          <td>
+            <span class="test-name">C-Reactive Protein (CRP)</span>
+            <span class="test-code">CRP · Sinh hoá</span>
+          </td>
+          <td><span class="value-cell value-high">48</span></td>
+          <td><span class="flag flag-H">↑ H</span></td>
+          <td><span class="ref-range">&lt; 5.0</span></td>
+          <td><span class="unit-cell">mg/L</span></td>
+          <td><span class="status-tag status-completed" style="font-size:10px;">✓ Hoàn thành</span></td>
+        </tr>
+
+        <!-- Creatinin -->
+        <tr>
+          <td>
+            <span class="test-name">Creatinin máu</span>
+            <span class="test-code">CREA · Sinh hoá</span>
+          </td>
+          <td><span class="value-cell value-normal">61.05</span></td>
+          <td><span class="flag flag-N">N</span></td>
+          <td><span class="ref-range">44 – 97</span></td>
+          <td><span class="unit-cell">µmol/L</span></td>
+          <td><span class="status-tag status-completed" style="font-size:10px;">✓ Hoàn thành</span></td>
+        </tr>
+
+        <!-- Glucose -->
+        <tr>
+          <td>
+            <span class="test-name">Glucose máu</span>
+            <span class="test-code">GLU · Sinh hoá</span>
+          </td>
+          <td><span class="value-cell value-normal">4.35</span></td>
+          <td><span class="flag flag-N">N</span></td>
+          <td><span class="ref-range">3.9 – 6.4</span></td>
+          <td><span class="unit-cell">mmol/L</span></td>
+          <td><span class="status-tag status-completed" style="font-size:10px;">✓ Hoàn thành</span></td>
+        </tr>
+
+        <!-- X-quang -->
+        <tr>
+          <td>
+            <span class="test-name">X-quang xoang mặt</span>
+            <span class="test-code">XQ-XOANG · Chẩn đoán hình ảnh</span>
+          </td>
+          <td><span class="value-pending">Đang xử lý</span></td>
+          <td><span class="flag flag-P">—</span></td>
+          <td><span class="ref-range">—</span></td>
+          <td><span class="unit-cell">—</span></td>
+          <td><span class="status-tag status-processing" style="font-size:10px;">⏳ Đang xử lý</span></td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div class="result-note">
+      <strong>Nhận xét:</strong> Bạch cầu tăng 11.2 G/L (bạch cầu đa nhân trung tính chiếm ưu thế 77.7%), CRP tăng rõ 48 mg/L — <strong>phù hợp viêm nhiễm cấp tính</strong>, kết hợp lâm sàng: viêm xoang cấp.<br>
+      Creatinin và Glucose trong giới hạn bình thường. X-quang xoang mặt đang trong quá trình đọc kết quả bởi BS. Chẩn đoán hình ảnh.
+    </div>
+  </div>
+
+  <!-- SIGNATURES -->
+  <div class="section">
+    <div class="section-hdr">
+      <span class="section-hdr-icon">✍️</span>
+      <span class="section-hdr-title">Xác nhận & Ký duyệt</span>
+    </div>
+    <div class="sig-row">
+      <div class="sig-cell">
+        <div class="sig-label">Kỹ thuật viên XN</div>
+        <div class="sig-name">Trần Thị Lan</div>
+        <div class="sig-title">KTV Xét nghiệm — Khoa Xét nghiệm TT</div>
+        <div class="sig-time">03/05/2026 04:08</div>
+      </div>
+      <div class="sig-cell">
+        <div class="sig-label">Bác sĩ duyệt kết quả</div>
+        <div class="sig-name">ThS. Phạm Quang Huy</div>
+        <div class="sig-title">BS CKI Xét nghiệm — Trưởng khoa</div>
+        <div class="sig-time">03/05/2026 04:15</div>
+      </div>
+      <div class="sig-cell">
+        <div class="sig-label">Bác sĩ điều trị</div>
+        <div class="sig-name" style="color:#94A3B8;font-style:italic;">Chờ xác nhận</div>
+        <div class="sig-title" style="color:#94A3B8;">BS. Nguyễn Văn Minh</div>
+        <div class="sig-time" style="color:#94A3B8;">—</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -30,6 +30,22 @@ function simClick(el, cls) {
   });
 }
 
+// ===== AUDIO UNLOCK (browser autoplay policy) =====
+// Chrome blocks audio unless triggered by a real user gesture.
+// We play a silent token on the first real click/keydown to prime the permission.
+(function () {
+  var done = false;
+  function unlock() {
+    if (done) return;
+    done = true;
+    var a = new Audio();
+    a.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+    a.play().catch(function () {});
+  }
+  document.addEventListener('click', unlock);
+  document.addEventListener('keydown', unlock);
+}());
+
 // ===== PAUSE / RESUME STATE =====
 var paused = false, resumeResolve = null;
 

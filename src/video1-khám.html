@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>MedVita — Video 1: Bs · BN Đang Khám</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/opening.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/fields.css">
+<link rel="stylesheet" href="css/feed.css">
+<link rel="stylesheet" href="css/chat.css">
+<link rel="stylesheet" href="css/context.css">
+<style>
+/* ===== VIDEO 1: Layout — side-col LEFT (35%), form-panel RIGHT (65%) ===== */
+.app { grid-template-columns: 35% 65%; }
+.form-panel { border-right: none; border-left: 1px solid var(--border); order: 2; }
+.side-col { order: 1; }
+
+/* ===== Patient info card (thông tin cơ bản BN) ===== */
+.v1-bn-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  background: #F8F9FA; flex-shrink: 0;
+}
+.v1-bn-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #EEF2FF; display: flex; align-items: center;
+  justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.v1-bn-info { flex: 1; min-width: 0; }
+.v1-bn-name { font-size: 12.5px; font-weight: 700; color: var(--ink); }
+.v1-bn-meta { font-size: 11px; color: var(--ink3); margin-top: 1px; }
+.v1-bn-badges { display: flex; flex-direction: column; gap: 3px; align-items: flex-end; }
+.v1-bn-badge {
+  font-size: 10px; font-weight: 600; padding: 2px 7px;
+  border-radius: 4px; background: #EEF2FF; color: var(--blue);
+  white-space: nowrap;
+}
+.v1-bn-badge.amber { background: #FEF3C7; color: #92400E; }
+
+/* ===== Gợi ý block (AI suggestion cards in feed) ===== */
+.v1-done-card {
+  background: linear-gradient(135deg, #F0FDF4, #ECFDF5);
+  border: 1px solid #BBF7D0; border-radius: 10px;
+  padding: 14px 16px; text-align: center;
+  font-size: 12.5px; font-weight: 600; color: #166534;
+  margin: 4px 0;
+}
+.v1-done-card .v1-done-sub {
+  font-size: 11px; font-weight: 400; color: #4B5563; margin-top: 4px;
+}
+
+/* Opening badge override for Video 1 */
+.v1-label-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px; padding: 4px 12px; font-size: 11px;
+  color: #fff; margin-bottom: 8px; font-weight: 600; letter-spacing: .3px;
+}
+.v1-label-dot { width: 6px; height: 6px; border-radius: 50%; background: #F87171; animation: recPulse 1.5s infinite; }
+
+/* ===== STICKY AUDIO BANNER ===== */
+.v1-audio-banner {
+  display: none; /* shown by JS when conversation starts */
+  align-items: center; gap: 10px;
+  padding: 8px 14px; border-bottom: 1px solid #2a2a3e;
+  background: #16182a; flex-shrink: 0;
+}
+.v1-audio-banner.playing { display: flex; }
+.v1-audio-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #ef4444; flex-shrink: 0;
+  animation: recPulse 1.2s infinite;
+}
+.v1-audio-dot.done { background: #22c55e; animation: none; }
+.v1-audio-info { flex: 1; min-width: 0; }
+.v1-audio-label { font-size: 11px; font-weight: 600; color: #fff; line-height: 1.3; }
+.v1-audio-meta  { font-size: 10px; color: rgba(255,255,255,.45); margin-top: 1px; }
+.v1-audio-wave  {
+  display: flex; align-items: center; gap: 2px; height: 18px; flex-shrink: 0;
+}
+.v1-audio-wave span {
+  width: 3px; border-radius: 2px; background: #ef4444;
+  transform-origin: bottom; animation: waveBar .75s ease-in-out infinite alternate;
+}
+.v1-audio-wave.done span { background: #22c55e; animation: none; transform: scaleY(.3); }
+.v1-audio-wave span:nth-child(1) { height: 6px;  animation-delay: 0s; }
+.v1-audio-wave span:nth-child(2) { height: 14px; animation-delay: .08s; }
+.v1-audio-wave span:nth-child(3) { height: 10px; animation-delay: .18s; }
+.v1-audio-wave span:nth-child(4) { height: 18px; animation-delay: .06s; }
+.v1-audio-wave span:nth-child(5) { height: 8px;  animation-delay: .14s; }
+.v1-audio-wave span:nth-child(6) { height: 16px; animation-delay: .22s; }
+.v1-audio-wave span:nth-child(7) { height: 11px; animation-delay: .10s; }
+.v1-audio-wave span:nth-child(8) { height: 7px;  animation-delay: .04s; }
+@keyframes waveBar {
+  0%   { transform: scaleY(.35); opacity: .55; }
+  100% { transform: scaleY(1);   opacity: 1; }
+}
+.v1-audio-timer {
+  font-size: 11px; font-family: 'SF Mono', 'Courier New', monospace;
+  color: rgba(255,255,255,.5); flex-shrink: 0; min-width: 32px; text-align: right;
+}
+</style>
+</head>
+<body>
+<div class="edit-banner">✎ Edit mode — kéo field để di chuyển · Kéo góc để resize · <kbd style="background:#fff;color:var(--blue);border-radius:3px;padding:1px 5px;font-family:inherit;">S</kbd> lưu JSON · <kbd style="background:#fff;color:var(--blue);border-radius:3px;padding:1px 5px;font-family:inherit;">E</kbd> thoát</div>
+
+<!-- OPENING SCREEN -->
+<div class="opening" id="opening">
+  <div class="oc-orb o1"></div><div class="oc-orb o2"></div><div class="oc-orb o3"></div><div class="oc-grid"></div>
+  <div class="oc">
+    <div class="oc-pill"><span class="oc-pill-dot"></span>MedVita &nbsp;·&nbsp; by Trivita AI</div>
+    <div class="v1-label-pill" style="margin-bottom:10px;"><span class="v1-label-dot"></span>Bs · BN Đang Khám</div>
+    <div class="oc-quote-wrap"><span class="oc-q-mark">"</span><div class="oc-quote">Bác sĩ khám như thường lệ.<br><em>MedVita lo phần còn lại.</em></div></div>
+    <div class="oc-sub">Kịch bản: Tai Mũi Họng · BN nữ, 19 tuổi · Viêm xoang cấp<br>MedVita lắng nghe, ghi nhận và điền bệnh án tự động.</div>
+    <div class="oc-metrics">
+      <div class="oc-metric"><span class="oc-metric-icon">🎙</span><span>Ghi âm <strong>real-time</strong> cuộc khám</span></div>
+      <div class="oc-metric"><span class="oc-metric-icon">✍️</span><span>Điền bệnh án <strong>tự động</strong></span></div>
+      <div class="oc-metric"><span class="oc-metric-icon">🔒</span><span>Bác sĩ <strong>kiểm soát</strong> hoàn toàn</span></div>
+    </div>
+    <div class="oc-cta-wrap"><button class="oc-cta" id="startBtn">Xem demo Bs · BN Đang Khám <span class="oc-cta-arrow">→</span></button></div>
+  </div>
+</div>
+
+<!-- CONTEXT SCREEN -->
+<div class="ctx-screen" id="ctxScreen">
+  <div class="ctx-inner">
+    <div class="ctx-eyebrow">🎙 Bs · BN Đang Khám · Tai Mũi Họng · Viêm xoang cấp</div>
+    <div class="ctx-heading">Bác sĩ đang khám.<br><em>MedVita đang lắng nghe.</em></div>
+    <div class="ctx-lead">MedVita ghi âm toàn bộ cuộc khám, nhận diện nội dung lâm sàng và tự động điền vào bệnh án — bác sĩ chỉ cần khám.</div>
+    <div class="ctx-timeline">
+      <div class="ctx-step step-done" id="ctxS1">
+        <div class="ctx-icon">👩‍⚕️</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">Bác sĩ và bệnh nhân gặp nhau</div>
+          <div class="ctx-step-meta"><span>11:30 · Phòng khám Tai Mũi Họng</span><span class="ctx-tag">Xong</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-done" id="ctxS2">
+        <div class="ctx-icon">🎙</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">MedVita bắt đầu ghi âm</div>
+          <div class="ctx-step-meta"><span>Tự động khởi động khi vào phòng khám</span><span class="ctx-tag">Đang ghi</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-done" id="ctxS3">
+        <div class="ctx-icon">🧠</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">AI nhận diện nội dung lâm sàng</div>
+          <div class="ctx-step-meta"><span>Triệu chứng · tiền sử · chỉ định · sinh hiệu</span><span class="ctx-tag">Real-time</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-active" id="ctxS4">
+        <div class="ctx-icon" style="color:#fff;font-size:12px;">▶</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">Điền bệnh án tự động theo cuộc khám</div>
+          <div class="ctx-step-meta"><span>MedVita điền · Bác sĩ duyệt từng mục</span><span class="ctx-tag">Sắp diễn ra</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ctx-patient" id="ctxPatient">
+      <div class="ctx-avatar">👩</div>
+      <div>
+        <div class="ctx-patient-name">Nguyễn Thị Hoa</div>
+        <div class="ctx-patient-sub">Nữ · 19 tuổi · Tai Mũi Họng</div>
+      </div>
+      <div class="ctx-badges">
+        <div class="ctx-badge">benh_an_26063163</div>
+        <div class="ctx-badge amber">Viêm xoang cấp</div>
+      </div>
+    </div>
+    <button class="ctx-cta-btn" id="ctxCta">Xem MedVita điền bệnh án <span class="ctx-cta-arrow">→</span></button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <div class="hdr" id="hdr">
+    <div class="hdr-logo">MedVita</div><div class="hdr-sep"></div>
+    <div><div class="hdr-title" id="hdrTitle">Bs · BN đang khám</div><div class="hdr-sub" id="hdrSub">MedVita lắng nghe và điền bệnh án tự động · Bác sĩ toàn quyền kiểm soát</div></div>
+    <div class="rec-badge" id="recBadge"><div class="rec-dot"></div>Đang ghi âm</div>
+    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode: tốc độ nhanh">⚡</button><button class="ctrl-btn" id="btnPause" title="Tạm dừng (Space)">⏸</button></div>
+  </div>
+
+  <!-- SIDE PANEL — LEFT (35%): patient info + feed + chat input -->
+  <div class="side-col">
+
+    <!-- Thông tin cơ bản BN -->
+    <div class="v1-bn-card">
+      <div class="v1-bn-avatar">👩</div>
+      <div class="v1-bn-info">
+        <div class="v1-bn-name">Nguyễn Thị Hoa</div>
+        <div class="v1-bn-meta">Nữ · 19t · TMH · 03/05/2026 · 11:30</div>
+      </div>
+      <div class="v1-bn-badges">
+        <span class="v1-bn-badge">26063163</span>
+        <span class="v1-bn-badge amber">Viêm xoang cấp</span>
+      </div>
+    </div>
+
+    <!-- STICKY AUDIO BANNER — shown when conversation is playing -->
+    <div class="v1-audio-banner" id="v1AudioBanner">
+      <div class="v1-audio-dot" id="v1AudioDot"></div>
+      <div class="v1-audio-info">
+        <div class="v1-audio-label" id="v1AudioLabel">Đang ghi âm buổi khám</div>
+        <div class="v1-audio-meta">Nguyễn Thị Hoa · TMH · 03/05/2026</div>
+      </div>
+      <div class="v1-audio-wave" id="v1AudioWave">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="v1-audio-timer" id="v1AudioTimer">00:00</div>
+    </div>
+
+    <div class="fp-hdr" id="sideHdr">
+      <div class="fp-mascot-wrap"><img src="../images/mascot.png" alt="MedVita"></div>
+      <span class="fp-hdr-title" id="sideHdrTitle">MedVita đang ghi nhận</span>
+      <span class="fp-hdr-sub" id="sideHdrSub">Lắng nghe cuộc khám · Điền bệnh án real-time</span>
+    </div>
+    <div class="chat-summary" id="chatSummary" style="display:none">
+      <div class="chat-sum-lbl">📌 Tóm tắt lâm sàng</div>
+      <div class="chat-sum-txt">BN nữ 19t, vào viện hồi 3h30 ngày 03/05/2026 vì ho, sốt. Tiền sử dị ứng kháng sinh không rõ loại. Chẩn đoán: J01 Viêm xoang cấp. Bệnh kèm: Viêm họng cấp. Hướng xử lý: nội khoa, Cefuroxime.</div>
+      <div class="chat-sum-btns">
+        <button class="chat-sum-btn" id="sumDuyet">✓ Duyệt</button>
+        <button class="chat-sum-btn" id="sumSua">✎ Sửa</button>
+      </div>
+    </div>
+    <div class="fp-feed" id="fpFeed"></div>
+    <div class="chat-input-area" id="chatInputArea">
+      <button class="chat-mic-btn" id="chatMicBtn" title="Ghi âm">🎙</button>
+      <input class="chat-input" id="chatInput" type="text" readonly placeholder="Nhập yêu cầu cho MedVita...">
+      <div class="chat-wave" id="chatWave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <button class="chat-send-btn" id="chatSendBtn" title="Gửi">➤</button>
+    </div>
+  </div>
+
+  <!-- FORM PANEL — RIGHT (65%): Bệnh Án -->
+  <div class="form-panel">
+    <div class="form-toolbar">
+      <span class="form-file">📄 benh_an_TMH_26063163.pdf</span>
+      <span id="pageInfo" style="font-size:11px;">Trang 1/4</span>
+      <span class="pending-badge" id="pendingBadge">0 mục chờ duyệt</span>
+      <button class="export-btn" id="exportBtn" disabled>Xuất bệnh án</button>
+    </div>
+    <div class="prog"><div class="prog-fill" id="progFill"></div></div>
+    <div class="pdf-scroll" id="pdfScroll"></div>
+    <div class="cl-overlay" id="clOverlay">
+      <div class="cl-card">
+        <div class="cl-badge">✓ MedVita đã xử lý xong audio</div>
+        <div class="cl-title">Bệnh án đã được điền tự động</div>
+        <div class="cl-sub">Sẵn sàng chuyển sang giai đoạn hoàn thiện</div>
+        <div class="cl-items" id="clItems"></div>
+        <div class="cl-note">Chẩn đoán, CLS, hướng điều trị — chờ bác sĩ xác nhận</div>
+        <button class="cl-cta" id="clCta">Chuyển sang hoàn thiện bệnh án →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Đã xuất benh_an_26063163.pdf &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
+
+<!-- REVIEW MODAL -->
+<div class="rv-overlay" id="reviewModal">
+  <div class="rv-card">
+    <div class="rv-hdr">
+      <div class="rv-hdr-icon">⚠️</div>
+      <div>
+        <div class="rv-title">MedVita phát hiện 1 lưu ý</div>
+        <div class="rv-sub">Trước khi lưu, bác sĩ vui lòng xem qua:</div>
+      </div>
+    </div>
+    <div class="rv-items">
+      <div class="rv-item">
+        <div class="rv-item-ico">⚠️</div>
+        <div class="rv-item-body">
+          <div class="rv-item-title">Dị ứng kháng sinh — chưa xác định loại cụ thể</div>
+          <div class="rv-item-text">Bệnh án ghi nhận dị ứng kháng sinh không rõ loại. Hướng điều trị đã dùng Cefuroxime (Cephalosporin thế hệ 2, an toàn với dị ứng Penicillin). Nếu bệnh nhân từng dị ứng cả Cephalosporin, vui lòng đổi sang Clarithromycin 500 mg × 2 lần/ngày.</div>
+        </div>
+      </div>
+    </div>
+    <div class="rv-actions">
+      <button class="rv-btn-sec" id="reviewBtnBack">← Xem lại bệnh án</button>
+      <button class="rv-btn-pri" id="reviewBtnSave">✓ Xác nhận &amp; Lưu</button>
+    </div>
+  </div>
+</div>
+
+<!-- HIS SIDE PANEL -->
+<div class="his-backdrop" id="hispanelBackdrop" onclick="closeHISPanel()"></div>
+<div class="his-panel" id="hispanel">
+  <div class="his-panel-hdr">
+    <div class="his-panel-hdr-left">
+      <span class="his-panel-tag">HIS</span>
+      <div>
+        <div class="his-panel-title">Kết quả XN · #XN-2605-0042</div>
+        <div class="his-panel-sub">Nguyễn Thị Hoa · 19t · Tai Mũi Họng · 03/05/2026 04:15</div>
+      </div>
+    </div>
+    <div class="his-panel-hdr-right">
+      <a class="his-panel-newtab" href="his-result.html" target="_blank">Xem đầy đủ ↗</a>
+      <button class="his-panel-close" onclick="closeHISPanel()">✕</button>
+    </div>
+  </div>
+  <div class="his-panel-body">
+    <div class="his-alert"><span>⚠</span> Bệnh nhân có tiền sử <strong>dị ứng kháng sinh</strong> — đã ghi nhận vào bệnh án</div>
+    <div class="his-section-title">Kết quả xét nghiệm</div>
+    <table class="his-table">
+      <thead><tr><th>Xét nghiệm</th><th>Kết quả</th><th>Tham chiếu</th><th>Đơn vị</th><th></th></tr></thead>
+      <tbody>
+        <tr class="his-row-abn"><td><span class="his-name">Bạch cầu (BC)</span><span class="his-code">Công thức máu</span></td><td class="his-val-high">11.2</td><td class="his-ref">4.0–10.0</td><td class="his-unit">G/L</td><td><span class="his-flag his-flag-H">↑ H</span></td></tr>
+        <tr class="his-row-abn"><td><span class="his-name">CRP</span><span class="his-code">Sinh hoá</span></td><td class="his-val-high">48</td><td class="his-ref">&lt; 5.0</td><td class="his-unit">mg/L</td><td><span class="his-flag his-flag-H">↑ H</span></td></tr>
+        <tr><td><span class="his-name">Glucose</span><span class="his-code">Sinh hoá</span></td><td class="his-val-ok">4.35</td><td class="his-ref">3.9–6.4</td><td class="his-unit">mmol/L</td><td><span class="his-flag his-flag-N">✓ N</span></td></tr>
+        <tr><td><span class="his-name">Creatinin</span><span class="his-code">Sinh hoá</span></td><td class="his-val-ok">61.05</td><td class="his-ref">44–97</td><td class="his-unit">µmol/L</td><td><span class="his-flag his-flag-N">✓ N</span></td></tr>
+        <tr><td><span class="his-name">X-quang xoang</span><span class="his-code">CĐHA</span></td><td class="his-val-pending">Đang xử lý</td><td class="his-ref">—</td><td class="his-unit">—</td><td><span class="his-flag his-flag-P">⏳</span></td></tr>
+      </tbody>
+    </table>
+    <div class="his-note"><strong>Nhận xét:</strong> BC và CRP tăng — phù hợp viêm nhiễm cấp tính. Creatinin, Glucose bình thường.</div>
+    <div class="his-meta-row">
+      <div class="his-meta-cell"><div class="his-meta-label">Bác sĩ chỉ định</div><div class="his-meta-val">BS. Nguyễn Văn Minh</div></div>
+      <div class="his-meta-cell"><div class="his-meta-label">KTV duyệt</div><div class="his-meta-val">Trần Thị Lan · 04:08</div></div>
+      <div class="his-meta-cell"><div class="his-meta-label">BS duyệt KQ</div><div class="his-meta-val">ThS. Phạm Quang Huy · 04:15</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="typingTag" class="typing-tag"></div>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/render.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/steps.js"></script>
+<script src="js/phase1.js"></script>
+<script src="js/phase2.js"></script>
+<script src="js/controls.js"></script>
+<script>
+// ===== VIDEO 1 OVERRIDES =====
+
+// ── Conversation audio banner ──────────────────────────────────────────────
+var _convAudio = null, _convTimerIv = null, _convSecs = 0;
+
+function startConversationAudio() {
+  var banner = document.getElementById('v1AudioBanner');
+  var timerEl = document.getElementById('v1AudioTimer');
+  banner.classList.add('playing');
+
+  // Timer counting up
+  _convSecs = 0;
+  _convTimerIv = setInterval(function () {
+    _convSecs++;
+    var m = String(Math.floor(_convSecs / 60)).padStart(2, '0');
+    var s = String(_convSecs % 60).padStart(2, '0');
+    timerEl.textContent = m + ':' + s;
+  }, 1000);
+
+  // Play audio
+  _convAudio = new Audio('../audio/conversation/audio.wav');
+  _convAudio.onended = function () {
+    clearInterval(_convTimerIv);
+    document.getElementById('v1AudioDot').classList.add('done');
+    document.getElementById('v1AudioWave').classList.add('done');
+    document.getElementById('v1AudioLabel').textContent = '✓ Đã ghi xong buổi khám';
+  };
+  _convAudio.onerror = function () {};
+  _convAudio.play().catch(function () {});
+}
+
+// ── Override addFillStartButton: also kick off conversation audio ────────────
+addFillStartButton = function () {
+  if (fillStartAdded) return;
+  fillStartAdded = true;
+  var el = document.createElement('div');
+  el.className = 'fp-item';
+  el.id = 'fillStartItem';
+  el.innerHTML =
+    '<div class="fp-fill-start">' +
+      '<div class="fp-fill-start-icon">📋</div>' +
+      '<div class="fp-fill-start-info">' +
+        '<div class="fp-fill-start-title">Bệnh án — Nguyễn Thị Hoa · 26063163</div>' +
+        '<div class="fp-fill-start-sub">Tai Mũi Họng · BN nữ, 19 tuổi · Viêm xoang cấp</div>' +
+      '</div>' +
+      '<button class="fp-fill-start-btn" id="fillStartBtn">▶ Bắt đầu điền bệnh án</button>' +
+    '</div>';
+  fpFeed.appendChild(el);
+  feedScroll();
+
+  document.getElementById('fillStartBtn').onclick = function () {
+    this.textContent = '✓ Đang điền...';
+    this.classList.add('done');
+    this.disabled = true;
+    startConversationAudio();   // ← kick off conversation audio
+    processQueue();
+  };
+
+  // Auto-click start
+  setTimeout(function () {
+    var btn = document.getElementById('fillStartBtn');
+    if (btn) {
+      simClick(btn, 'sim-click');
+      setTimeout(function () { btn.click(); }, speed(350));
+    }
+  }, speed(3500));
+};
+
+// ── Override steps: AI passively listens, 2 doctor voice commands ────────────
+// Runs AFTER steps.js (which sets var steps = [...]), reassigning for video 1.
+steps = [
+  // HIS auto-fill — instant
+  {t:'feedStatus', icon:'📋', label:'', text:'Đã mở bệnh án cho Nguyễn Thị Hoa · Mã BN 26063163'},
+  {t:'delay', ms:1000},
+  {t:'feedProcess', tag:'process', summary:'Đang điền thông tin hành chính từ HIS…'},
+  {t:'fillA', ids:['hoTen','sD1','sD2','sD3','sD4','sD5','sD6','sD7','sD8','tuoi','gioi','nghe','dantoc','diachiXa','diachiHuyen','diachiTinh','bhytNgay','bhytThang','bhytNam','sdt']},
+  {t:'delay', ms:1000},
+  {t:'feedFinishProcess'},
+  {t:'feedDone', label:'Thông tin HIS', text:'Đã điền tên, SĐT, BHYT, mã bệnh án từ hệ thống HIS.'},
+  {t:'delay', ms:1800},
+
+  // AI phát hiện lý do từ hội thoại (không cần bác sĩ ra lệnh)
+  {t:'scrollForm', page:2},
+  {t:'feedStatus', icon:'🎙', label:'', text:'AI nhận diện: <em>"ho, sốt"</em> — lý do vào viện'},
+  {t:'feedProcess', tag:'process', summary:'Đang ghi nhận "Lý do vào viện"…'},
+  {t:'delay', ms:700},
+  {t:'fieldB', id:'lydo', value:'Ho, sốt', sources:[
+    {type:'audio', ts:'00:02–00:08', quote:'ngạt mũi, ho, sốt — vào viện'},
+  ]},
+  {t:'feedFinishProcess'},
+  {t:'autoApprove', id:'lydo'},
+  {t:'feedDone', label:'Lý do vào viện', text:'✓ Đã ghi nhận từ hội thoại.'},
+  {t:'delay', ms:2200},
+
+  // AI tự phát hiện quá trình bệnh lý từ hội thoại
+  {t:'feedProcess', tag:'process', summary:'Đang ghi nhận "Quá trình bệnh lý"…'},
+  {t:'delay', ms:500},
+  {t:'fieldB', id:'qtbl', value:qtblText, sources:[
+    {type:'audio', ts:'00:08–00:28', quote:'ngạt mũi, chảy mũi 1 tuần, ho có đờm…'},
+    {type:'audio', ts:'00:30–00:46', quote:'hôm nay sốt, đau đầu dữ, nôn…'},
+  ]},
+  {t:'feedFinishProcess'},
+  {t:'autoApprove', id:'qtbl'},
+  {t:'feedDone', label:'Quá trình bệnh lý', text:'✓ Đã điền xong — MedVita đã chuẩn hoá văn phong lâm sàng.'},
+  {t:'delay', ms:2000},
+
+  // ── DOCTOR COMMAND 1 ── Bổ sung tiền sử (bác sĩ confirm ngắn gọn)
+  {t:'feedProcess', tag:'process', summary:'Đang ghi nhận tiền sử…'},
+  {t:'feedVoice', text:'dị ứng kháng sinh không rõ, thêm tiền sử', audio:'../audio/v3-tiensu/audio.wav', ms:2200},
+  {t:'delay', ms:600},
+  {t:'fieldB', id:'tiensu', value:tiensuText, sources:[
+    {type:'audio', ts:'00:48–00:56', quote:'dị ứng kháng sinh không rõ loại'},
+  ]},
+  {t:'fieldB', id:'tiensuGD', value:tiensuGDText, sources:[
+    {type:'audio', ts:'00:58–01:03', quote:'gia đình không bệnh lý đặc biệt'},
+  ]},
+  {t:'feedFinishProcess'},
+  {t:'autoApprove', id:'tiensu'},
+  {t:'autoApprove', id:'tiensuGD'},
+  {t:'feedDone', label:'Tiền sử', text:'✓ Dị ứng kháng sinh · Gia đình không bệnh lý đặc biệt.'},
+  {t:'delay', ms:1200},
+
+  // MedVita TTS — alert dị ứng kháng sinh
+  {t:'feedAnnounce', variant:'alert', title:'Phát hiện dị ứng kháng sinh', text:'Bệnh nhân có tiền sử dị ứng kháng sinh không rõ loại. Tôi sẽ đánh dấu cảnh báo vào hướng điều trị.'},
+  {t:'feedMVSpeak', audio:'../audio/mv1-allergy/audio.wav', ms:3500},
+  {t:'delay', ms:1800},
+
+  // Sinh hiệu — auto từ HIS
+  {t:'feedProcess', tag:'process', summary:'Đang điền sinh hiệu…'},
+  {t:'fillA', ids:['mach','nhietdo','ha','nhiptho','cannang']},
+  {t:'delay', ms:900},
+  {t:'feedFinishProcess'},
+  {t:'feedDone', label:'Sinh hiệu', text:'Mạch 90 · T° 38.8°C · HA 110/60 · NT 20 · CN 41 kg.'},
+  {t:'delay', ms:1800},
+
+  // ── DOCTOR COMMAND 2 ── Khám lâm sàng TMH (bổ sung quan sát cá nhân)
+  {t:'feedProcess', tag:'process', summary:'Đang ghi nhận khám lâm sàng…'},
+  {t:'feedVoice', text:'mũi dịch mủ đặc, họng xung huyết, tai bình thường', audio:'../audio/v4-kham/audio.wav', ms:3500},
+  {t:'delay', ms:700},
+  {t:'fieldB', id:'khamtoanthan', value:khamtoanthanText, sources:[
+    {type:'audio', ts:'01:05–01:26', quote:'mũi khe và sàn nhiều dịch mủ đặc…'},
+  ]},
+  {t:'feedFinishProcess'},
+  {t:'feedDone', label:'Khám lâm sàng', text:'✓ Đã ghi nhận toàn bộ kết quả thăm khám.'},
+  {t:'delay', ms:2000},
+
+  // MedVita TTS — xin điền Tóm tắt
+  {t:'feedMVSpeak', audio:'../audio/mv2-tomtat/audio.wav', ms:3500},
+  {t:'feedAnnounce', variant:'permission', title:'📝 Tóm tắt bệnh án', sources:[
+    {label:'Lý do vào viện', val:'"Ho, sốt"'},
+    {label:'Tiền sử', val:'"Dị ứng kháng sinh"'},
+    {label:'Sinh hiệu', val:'"Sốt 38.8°C"'},
+    {label:'Khám lâm sàng', val:'"Mũi dịch mủ đặc..."'},
+  ], autoApprove:true},
+  {t:'delay', ms:800},
+
+  // AI fill Tóm tắt
+  {t:'feedProcess', tag:'process', summary:'Đang điền "Tóm tắt bệnh án"…'},
+  {t:'scrollForm', page:3},
+  {t:'fieldB', id:'tomtat', value:tomtatText, sources:[
+    {type:'infer', fields:['lydo','tiensu','khamtoanthan','nhietdo']},
+  ]},
+  {t:'feedFinishProcess'},
+  {t:'autoApprove', id:'tomtat'},
+  {t:'feedDone', label:'Tóm tắt bệnh án', text:'✓ Đã điền xong.'},
+  {t:'delay', ms:2200},
+
+  // Hoàn tất Phase 1
+  {t:'feedStatus', icon:'✅', label:'Hoàn tất điền bệnh án', text:'Tất cả các trường đã được điền. Bác sĩ vui lòng kiểm tra và duyệt.'},
+  {t:'delay', ms:2500},
+  {t:'endPhase1'},
+];
+
+// ── After Phase 1: show completion, stop conversation audio ──────────────────
+showPhase1End = function () {
+  paused = true;
+
+  // Stop conversation audio + freeze banner
+  if (_convAudio) { _convAudio.pause(); _convAudio.currentTime = 0; }
+  clearInterval(_convTimerIv);
+  document.getElementById('v1AudioDot').classList.add('done');
+  document.getElementById('v1AudioWave').classList.add('done');
+  document.getElementById('v1AudioLabel').textContent = '✓ Đã ghi xong buổi khám';
+
+  // Update main header
+  document.getElementById('hdrTitle').textContent = 'Bệnh án đã được điền tự động';
+  document.getElementById('hdrSub').textContent = 'MedVita đã ghi nhận toàn bộ buổi khám · Bác sĩ duyệt và lưu';
+  document.getElementById('recBadge').innerHTML = '<span style="color:#16A34A;font-size:13px;">✓</span> Hoàn tất';
+  document.getElementById('recBadge').style.background = '#DCFCE7';
+  document.getElementById('recBadge').style.borderColor = '#BBF7D0';
+  document.getElementById('recBadge').style.color = '#166534';
+
+  // Completion card in feed
+  var feed = document.getElementById('fpFeed');
+  var el = document.createElement('div');
+  el.className = 'fp-item';
+  el.innerHTML =
+    '<div class="v1-done-card">' +
+      '<div style="font-size:22px;margin-bottom:6px;">✅</div>' +
+      '<div>MedVita đã ghi nhận xong buổi khám</div>' +
+      '<div class="v1-done-sub">Bệnh án đã được điền tự động từ audio · Bác sĩ xem lại và nhấn Xuất khi sẵn sàng</div>' +
+    '</div>';
+  feed.appendChild(el);
+  feed.scrollTop = feed.scrollHeight;
+
+  updateProgress();
+};
+
+// Summary quick actions
+document.getElementById('sumDuyet').onclick = function () { this.textContent = '✓ Đã duyệt'; this.disabled = true; };
+document.getElementById('sumSua').onclick   = function () { this.textContent = 'Đang sửa...'; this.disabled = true; };
+</script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>MedVita — Bs Đi Buồng · Tờ Điều Trị</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/opening.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/feed.css">
+<link rel="stylesheet" href="css/chat.css">
+<link rel="stylesheet" href="css/context.css">
+<style>
+/* ===== VIDEO 2 LAYOUT: side-col LEFT (35%), tdt-panel RIGHT (65%) ===== */
+.app { grid-template-columns: 35% 65%; }
+.tdt-panel { order: 2; border-left: 1px solid var(--border); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.side-col { order: 1; }
+
+/* ===== TỜ ĐIỀU TRỊ PANEL ===== */
+.tdt-toolbar { padding: 7px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; font-size: 11.5px; color: var(--ink3); background: #fff; flex-shrink: 0; }
+.tdt-file { display: flex; align-items: center; gap: 5px; color: var(--ink2); font-weight: 500; }
+.tdt-prog { height: 2px; background: var(--border); flex-shrink: 0; }
+.tdt-prog-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--green)); width: 0%; transition: width .6s cubic-bezier(.4,0,.2,1); }
+.tdt-scroll { flex: 1 1 0; min-height: 0; overflow-y: auto; padding: 18px; background: #EAECF0; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.tdt-scroll::-webkit-scrollbar { width: 8px; }
+.tdt-scroll::-webkit-scrollbar-thumb { background: #C5CAD3; border-radius: 8px; }
+
+/* ===== TREATMENT SHEET DOCUMENT ===== */
+.tdt-doc { width: 680px; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,.12); }
+
+/* Document header */
+.tdt-doc-hdr { background: var(--blue); color: #fff; padding: 14px 24px; }
+.tdt-doc-hdr-title { font-size: 16px; font-weight: 800; letter-spacing: 1px; text-align: center; margin-bottom: 4px; }
+.tdt-doc-hdr-sub { font-size: 11px; text-align: center; opacity: .8; }
+
+/* Patient strip */
+.tdt-patient-strip { background: #F0F4FF; border-bottom: 2px solid #C7D7FF; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.tdt-pt-main { font-size: 13px; font-weight: 700; color: var(--ink); }
+.tdt-pt-meta { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.tdt-pt-badge { font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 4px; background: #FEF3C7; color: #92400E; }
+
+/* Sections */
+.tdt-section { border-bottom: 1px solid var(--border); }
+.tdt-section:last-child { border-bottom: none; }
+.tdt-sec-hdr { padding: 8px 24px; background: var(--surface2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+.tdt-sec-num { width: 20px; height: 20px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.tdt-sec-label { font-size: 11px; font-weight: 700; color: var(--ink2); text-transform: uppercase; letter-spacing: .5px; }
+.tdt-sec-status { margin-left: auto; font-size: 10px; font-weight: 600; color: var(--ink4); }
+.tdt-sec-status.done { color: #16A34A; }
+.tdt-sec-body { padding: 14px 24px; min-height: 60px; position: relative; }
+
+/* Pending section (AI working on it) */
+.tdt-section.pending .tdt-sec-hdr { background: #FEF9C3; border-bottom-color: #FEF08A; }
+.tdt-section.pending .tdt-sec-num { background: var(--blue); }
+.tdt-section.approved .tdt-sec-hdr { background: #F0FDF4; border-bottom-color: #BBF7D0; }
+.tdt-section.approved .tdt-sec-num { background: #16A34A; }
+.tdt-section.approved .tdt-sec-status { color: #16A34A; }
+
+/* Slot (text fill area) */
+.tdt-slot { font-size: 12.5px; line-height: 1.7; color: var(--ink); white-space: pre-wrap; display: block; }
+.tdt-slot.empty { color: var(--ink4); font-style: italic; }
+.tdt-slot.filling::after { content: '|'; animation: blink .8s infinite; color: var(--blue); }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Vital row */
+.tdt-vital-row { display: flex; gap: 20px; margin-bottom: 10px; flex-wrap: wrap; }
+.tdt-vital { display: flex; flex-direction: column; gap: 1px; }
+.tdt-vital-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink4); font-weight: 600; }
+.tdt-vital-val { font-size: 14px; font-weight: 700; color: var(--ink); }
+.tdt-vital-val.normal { color: #16A34A; }
+.tdt-vital-val.low { color: var(--blue); }
+
+/* XN comparison table */
+.tdt-xn-tbl { width: 100%; border-collapse: collapse; font-size: 12px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
+.tdt-xn-tbl th { background: var(--surface2); padding: 7px 12px; text-align: left; font-weight: 700; font-size: 10.5px; color: var(--ink3); text-transform: uppercase; letter-spacing: .3px; border-bottom: 1px solid var(--border); }
+.tdt-xn-tbl td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.tdt-xn-tbl tr:last-child td { border-bottom: none; }
+.tdt-xn-trend-up { color: #dc2626; font-weight: 700; }
+.tdt-xn-trend-down { color: #16A34A; font-weight: 700; }
+.tdt-xn-trend-ok { color: #16A34A; }
+.tdt-xn-note { margin-top: 10px; font-size: 11.5px; color: #166534; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px; padding: 8px 12px; }
+
+/* Orders list */
+.tdt-orders { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.tdt-order-item { display: flex; align-items: baseline; gap: 8px; font-size: 12.5px; color: var(--ink); line-height: 1.5; }
+.tdt-order-item::before { content: '•'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+.tdt-order-item .tag { font-size: 9px; font-weight: 600; padding: 1px 5px; border-radius: 3px; }
+.tag-cont { background: #F0FDF4; color: #166534; }
+.tag-adj { background: #FEF3C7; color: #92400E; }
+.tag-new { background: #EFF6FF; color: #1D4ED8; }
+
+/* Doctor signature area */
+.tdt-sign { padding: 14px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
+.tdt-sign-box { text-align: center; }
+.tdt-sign-label { font-size: 10px; color: var(--ink3); margin-bottom: 24px; }
+.tdt-sign-name { font-size: 12px; font-weight: 700; color: var(--ink); border-top: 1px solid var(--ink); padding-top: 4px; display: none; }
+.tdt-sign-name.show { display: block; }
+
+/* Save button in toolbar */
+.tdt-save-btn { padding: 5px 13px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface2); color: var(--ink4); font-family: inherit; font-weight: 600; font-size: 11.5px; cursor: not-allowed; transition: all .2s; margin-left: auto; }
+.tdt-save-btn.ready { background: var(--green); color: #fff; border-color: var(--green); cursor: pointer; animation: epulse 2s infinite; }
+@keyframes epulse { 0%,100% { box-shadow: 0 0 0 0 rgba(127,195,78,.4); } 50% { box-shadow: 0 0 0 7px rgba(127,195,78,0); } }
+</style>
+</head>
+<body>
+<div class="edit-banner" style="display:none"></div>
+
+<!-- OPENING SCREEN -->
+<div class="opening" id="opening">
+  <div class="oc-orb o1"></div><div class="oc-orb o2"></div><div class="oc-orb o3"></div><div class="oc-grid"></div>
+  <div class="oc">
+    <div class="oc-pill"><span class="oc-pill-dot"></span>MedVita &nbsp;·&nbsp; by Trivita AI</div>
+    <div class="oc-quote-wrap"><span class="oc-q-mark">"</span><div class="oc-quote">Bác sĩ đi buồng như thường lệ.<br><em>MedVita đã đọc chart sẵn rồi.</em></div></div>
+    <div class="oc-sub">Kịch bản: Đi buồng sáng · Ngày điều trị thứ 2<br>AI tóm tắt diễn biến · đọc kết quả XN · cập nhật Tờ điều trị.</div>
+    <div class="oc-metrics">
+      <div class="oc-metric"><span class="oc-metric-icon">📊</span><span>AI đọc XN <strong>từ HIS</strong></span></div>
+      <div class="oc-metric"><span class="oc-metric-icon">📝</span><span>Cập nhật <strong>Tờ điều trị</strong></span></div>
+      <div class="oc-metric"><span class="oc-metric-icon">⚡</span><span>Đi buồng <strong>nhanh hơn 3×</strong></span></div>
+    </div>
+    <div class="oc-cta-wrap"><button class="oc-cta" id="startBtn">Xem MedVita hỗ trợ đi buồng <span class="oc-cta-arrow">→</span></button></div>
+  </div>
+</div>
+
+<!-- CONTEXT SCREEN -->
+<div class="ctx-screen" id="ctxScreen">
+  <div class="ctx-inner">
+    <div class="ctx-eyebrow">🏥 Bs Đi Buồng · Ngày điều trị 2 · Tai Mũi Họng</div>
+    <div class="ctx-heading">Sáng nay bác sĩ đi buồng.<br><em>MedVita đã chuẩn bị sẵn.</em></div>
+    <div class="ctx-lead">Trước khi bác sĩ vào phòng, MedVita đã đọc toàn bộ chart: diễn biến đêm qua, kết quả XN về sáng, thuốc đang dùng. Bác sĩ chỉ cần xác nhận và ra lệnh.</div>
+    <div class="ctx-timeline">
+      <div class="ctx-step step-done" id="ctxS1">
+        <div class="ctx-icon">✓</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">BN nhập viện ngày 1 · Bệnh án đã lập</div>
+          <div class="ctx-step-meta"><span>03/05/2026 · Tai Mũi Họng · Viêm xoang cấp</span><span class="ctx-tag">Xong</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-done" id="ctxS2">
+        <div class="ctx-icon">✓</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">Kết quả XN sáng đã về từ HIS</div>
+          <div class="ctx-step-meta"><span>BC · CRP · Điện giải đồ · 06:15</span><span class="ctx-tag">Xong</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-done" id="ctxS3">
+        <div class="ctx-icon">🧠</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">MedVita đã đọc và phân tích chart</div>
+          <div class="ctx-step-meta"><span>Diễn biến · XN · Thuốc đang dùng</span><span class="ctx-tag">Sẵn sàng</span></div>
+        </div>
+      </div>
+      <div class="ctx-step step-active" id="ctxS4">
+        <div class="ctx-icon" style="color:#fff;font-size:12px;">▶</div>
+        <div class="ctx-body">
+          <div class="ctx-step-title">Bác sĩ đi buồng · MedVita điền Tờ điều trị</div>
+          <div class="ctx-step-meta"><span>Bác sĩ ra lệnh · AI điền · Bác sĩ duyệt</span><span class="ctx-tag">Sắp diễn ra</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ctx-patient" id="ctxPatient">
+      <div class="ctx-avatar">👩</div>
+      <div>
+        <div class="ctx-patient-name">Nguyễn Thị Hoa</div>
+        <div class="ctx-patient-sub">Nữ · 19 tuổi · TMH · Ngày điều trị 2</div>
+      </div>
+      <div class="ctx-badges">
+        <div class="ctx-badge">26063163</div>
+        <div class="ctx-badge amber">J01 Viêm xoang cấp</div>
+      </div>
+    </div>
+    <button class="ctx-cta-btn" id="ctxCta">Bắt đầu đi buồng <span class="ctx-cta-arrow">→</span></button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <div class="hdr" id="hdr">
+    <div class="hdr-logo">MedVita</div><div class="hdr-sep"></div>
+    <div><div class="hdr-title" id="hdrTitle">Đi buồng · Nguyễn Thị Hoa</div><div class="hdr-sub" id="hdrSub">Bác sĩ ra lệnh · MedVita điền Tờ điều trị · Ngày 2</div></div>
+    <div class="rec-badge" id="recBadge" style="background:#F0FDF4;border-color:#BBF7D0;color:#166534;"><span style="font-size:13px;">📊</span> Chart đã sẵn sàng</div>
+    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode">⚡</button><button class="ctrl-btn" id="btnPause" title="Tạm dừng (Space)">⏸</button></div>
+  </div>
+
+  <!-- LEFT: side-col (35%) -->
+  <div class="side-col">
+    <div class="fp-hdr" id="sideHdr">
+      <div class="fp-mascot-wrap"><img src="../images/mascot.png" alt="MedVita"></div>
+      <span class="fp-hdr-title" id="sideHdrTitle">Trợ lý đi buồng</span>
+      <span class="fp-hdr-sub" id="sideHdrSub">Đã đọc chart · Sẵn sàng hỗ trợ</span>
+    </div>
+    <!-- Clinical summary -->
+    <div class="chat-summary" id="chatSummary">
+      <div class="chat-sum-lbl">📌 Tóm tắt — Ngày 2</div>
+      <div class="chat-sum-txt">BN ổn định, sốt giảm 37.5°C, còn chảy mũi ít. Đang dùng Cefuroxime 500mg (ngày 2/7). BC/CRP cải thiện so hôm qua. Chưa có XN hình ảnh.</div>
+      <div class="chat-sum-btns">
+        <button class="chat-sum-btn" id="sumDuyet">✓ Duyệt</button>
+        <button class="chat-sum-btn" id="sumSua">✎ Sửa</button>
+      </div>
+    </div>
+    <div class="fp-feed" id="fpFeed"></div>
+    <div class="chat-input-area" id="chatInputArea">
+      <button class="chat-mic-btn" id="chatMicBtn" title="Ghi âm">🎙</button>
+      <input class="chat-input" id="chatInput" type="text" readonly placeholder="Nhập yêu cầu cho MedVita...">
+      <div class="chat-wave" id="chatWave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <button class="chat-send-btn" id="chatSendBtn" title="Gửi">➤</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Tờ Điều Trị (65%) -->
+  <div class="tdt-panel">
+    <div class="tdt-toolbar">
+      <span class="tdt-file">📄 to_dieu_tri_26063163_ngay2.pdf</span>
+      <span id="tdtProgress" style="font-size:11px;color:var(--ink4);">0 / 3 mục</span>
+      <button class="tdt-save-btn" id="tdtSaveBtn" disabled>Lưu Tờ điều trị</button>
+    </div>
+    <div class="tdt-prog"><div class="tdt-prog-fill" id="tdtProgFill"></div></div>
+    <div class="tdt-scroll">
+      <div class="tdt-doc" id="tdtDoc">
+
+        <!-- Document header -->
+        <div class="tdt-doc-hdr">
+          <div class="tdt-doc-hdr-title">TỜ ĐIỀU TRỊ</div>
+          <div class="tdt-doc-hdr-sub">Bệnh viện Đa Khoa TMH · Khoa Tai Mũi Họng · Ngày điều trị thứ <strong>2</strong> · 04/05/2026 · Sáng</div>
+        </div>
+
+        <!-- Patient strip -->
+        <div class="tdt-patient-strip">
+          <div>
+            <div class="tdt-pt-main">Nguyễn Thị Hoa &nbsp;·&nbsp; Nữ &nbsp;·&nbsp; 19 tuổi</div>
+            <div class="tdt-pt-meta">Mã BN: 26063163 &nbsp;·&nbsp; Buồng 204 - Giường 03 &nbsp;·&nbsp; Vào: 03/05/2026</div>
+          </div>
+          <div class="tdt-pt-badge">J01 Viêm xoang cấp</div>
+        </div>
+
+        <!-- Section 1: Diễn biến -->
+        <div class="tdt-section" id="sec-dienbian">
+          <div class="tdt-sec-hdr">
+            <div class="tdt-sec-num">1</div>
+            <div class="tdt-sec-label">Diễn biến bệnh & Sinh hiệu</div>
+            <div class="tdt-sec-status" id="sec-dienbian-status">Chờ điền</div>
+          </div>
+          <div class="tdt-sec-body" id="sec-dienbian-body">
+            <div class="tdt-vital-row" id="vitals-row" style="display:none">
+              <div class="tdt-vital">
+                <span class="tdt-vital-label">Nhiệt độ</span>
+                <span class="tdt-vital-val normal" id="v-nhietdo">—</span>
+              </div>
+              <div class="tdt-vital">
+                <span class="tdt-vital-label">Mạch</span>
+                <span class="tdt-vital-val normal" id="v-mach">—</span>
+              </div>
+              <div class="tdt-vital">
+                <span class="tdt-vital-label">HA</span>
+                <span class="tdt-vital-val normal" id="v-ha">—</span>
+              </div>
+              <div class="tdt-vital">
+                <span class="tdt-vital-label">NT</span>
+                <span class="tdt-vital-val normal" id="v-nt">—</span>
+              </div>
+            </div>
+            <span class="tdt-slot empty" id="slot-dienbian">— Chưa điền —</span>
+          </div>
+        </div>
+
+        <!-- Section 2: Kết quả XN -->
+        <div class="tdt-section" id="sec-xn">
+          <div class="tdt-sec-hdr">
+            <div class="tdt-sec-num">2</div>
+            <div class="tdt-sec-label">Kết quả xét nghiệm</div>
+            <div class="tdt-sec-status" id="sec-xn-status">Chờ điền</div>
+          </div>
+          <div class="tdt-sec-body" id="sec-xn-body">
+            <span class="tdt-slot empty" id="slot-xn">— Chờ bác sĩ yêu cầu —</span>
+          </div>
+        </div>
+
+        <!-- Section 3: Y lệnh -->
+        <div class="tdt-section" id="sec-ylenh">
+          <div class="tdt-sec-hdr">
+            <div class="tdt-sec-num">3</div>
+            <div class="tdt-sec-label">Y lệnh ngày 2</div>
+            <div class="tdt-sec-status" id="sec-ylenh-status">Chờ bác sĩ</div>
+          </div>
+          <div class="tdt-sec-body" id="sec-ylenh-body">
+            <span class="tdt-slot empty" id="slot-ylenh">— Chờ y lệnh —</span>
+          </div>
+        </div>
+
+        <!-- Doctor signature -->
+        <div class="tdt-sign">
+          <div class="tdt-sign-box">
+            <div class="tdt-sign-label">Bác sĩ điều trị ký tên</div>
+            <div class="tdt-sign-name" id="signName">BS. Nguyễn Văn Minh</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Đã lưu Tờ điều trị ngày 2 &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
+<div id="typingTag" class="typing-tag"></div>
+
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script>
+// ===== VIDEO 2: ĐI BUỒNG DEMO =====
+
+var paused = false, resumeResolve = null, devMode = false;
+var completedSections = 0;
+
+function checkPause() { return paused ? new Promise(function(r){ resumeResolve = r; }) : Promise.resolve(); }
+
+document.getElementById('btnPause').onclick = function () {
+  paused = !paused;
+  if (paused) { this.textContent = '▶'; this.classList.add('active'); }
+  else { this.textContent = '⏸'; this.classList.remove('active'); if (resumeResolve) { resumeResolve(); resumeResolve = null; } }
+};
+document.getElementById('btnMode').onclick = function () {
+  devMode = !devMode;
+  this.className = devMode ? 'ctrl-btn mode-dev' : 'ctrl-btn';
+};
+document.addEventListener('keydown', function(e) {
+  if (e.code === 'Space') { e.preventDefault(); document.getElementById('btnPause').click(); }
+  if (e.code === 'KeyR') location.reload();
+});
+document.getElementById('sumDuyet').onclick = function () { this.textContent = '✓ Đã duyệt'; this.disabled = true; };
+document.getElementById('sumSua').onclick   = function () { this.textContent = 'Đang sửa...'; this.disabled = true; };
+
+// ===== FEED HELPERS =====
+var fpFeed = document.getElementById('fpFeed');
+function feedScroll() { fpFeed.scrollTo({ top: fpFeed.scrollHeight, behavior: 'smooth' }); }
+function addFeedMsg(cls, html) {
+  var el = document.createElement('div'); el.className = 'fp-item';
+  el.innerHTML = html; fpFeed.appendChild(el); feedScroll(); return el;
+}
+function addDoctorMsg(text) {
+  return addFeedMsg('fp-item', '<div class="chat-doctor"><div class="chat-doctor-bub">' + text + '</div></div>');
+}
+function addMVMsg(text, extra) {
+  return addFeedMsg('fp-item', '<div class="chat-mv"><div class="chat-mv-lbl">MEDVITA</div><div class="chat-mv-txt">' + text + '</div>' + (extra || '') + '</div>');
+}
+function addTypingIndicator() {
+  var el = document.createElement('div'); el.className = 'fp-item';
+  el.innerHTML = '<div class="chat-typing"><div class="dots"><span></span><span></span><span></span></div><span>MedVita đang xử lý...</span>';
+  fpFeed.appendChild(el); feedScroll(); return el;
+}
+
+// ===== SECTION HELPERS =====
+function sectionPending(id) { document.getElementById('sec-' + id).classList.add('pending'); }
+function sectionApprove(id, statusText) {
+  var sec = document.getElementById('sec-' + id);
+  sec.classList.remove('pending'); sec.classList.add('approved');
+  var st = document.getElementById('sec-' + id + '-status');
+  if (st) { st.textContent = statusText || '✓ Đã điền'; st.classList.add('done'); }
+  completedSections++;
+  updateTdtProgress();
+}
+function updateTdtProgress() {
+  document.getElementById('tdtProgress').textContent = completedSections + ' / 3 mục';
+  document.getElementById('tdtProgFill').style.width = (completedSections / 3 * 100) + '%';
+  if (completedSections === 3) {
+    var btn = document.getElementById('tdtSaveBtn');
+    btn.disabled = false; btn.classList.add('ready');
+  }
+}
+
+// ===== TYPING INTO CHAT INPUT =====
+async function typeInChat(text) {
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSendBtn');
+  input.disabled = false; input.placeholder = ''; input.value = '';
+  var charDelay = devMode ? 10 : 40;
+  for (var i = 0; i < text.length; i++) {
+    await checkPause();
+    input.value += text[i];
+    await new Promise(function(r){ setTimeout(r, charDelay); });
+  }
+  sendBtn.disabled = false;
+  await new Promise(function(r){ setTimeout(r, speed(220)); });
+  simClick(sendBtn, 'sim-send');
+  await new Promise(function(r){ setTimeout(r, speed(280)); });
+  input.value = ''; input.placeholder = 'Nhập yêu cầu cho MedVita...'; input.disabled = true; sendBtn.disabled = true;
+}
+
+// ===== SLOT TYPEWRITER =====
+async function typeSlot(slotId, text) {
+  var slot = document.getElementById(slotId);
+  slot.classList.remove('empty'); slot.classList.add('filling');
+  slot.textContent = '';
+  var charDelay = devMode ? 4 : 18;
+  for (var i = 0; i < text.length; i++) {
+    await checkPause();
+    slot.textContent = text.slice(0, i + 1);
+    await new Promise(function(r){ setTimeout(r, charDelay); });
+  }
+  slot.classList.remove('filling');
+}
+
+// ===== MAIN DEMO SEQUENCE =====
+async function runDemo() {
+  await checkPause();
+  await new Promise(function(r){ setTimeout(r, speed(800)); });
+
+  // Auto-approve summary
+  simClick(document.getElementById('sumDuyet'), 'sim-click-green');
+  await new Promise(function(r){ setTimeout(r, speed(400)); });
+  document.getElementById('sumDuyet').textContent = '✓ Đã duyệt'; document.getElementById('sumDuyet').disabled = true;
+  await new Promise(function(r){ setTimeout(r, speed(1000)); });
+
+  // ─── BLOCK 1: MedVita tự động điền Diễn biến ───────────────────────────
+  addMVMsg('Tôi đã đọc chart sáng nay. BN ổn định — sốt giảm còn 37.5°C, không đau đầu, chảy mũi ít hơn. Để tôi điền <strong>Diễn biến</strong> và sinh hiệu nhé.');
+  await new Promise(function(r){ setTimeout(r, speed(1800)); });
+
+  sectionPending('dienbian');
+  var tdoc = document.getElementById('tdtDoc');
+  tdoc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Fill vitals instantly
+  await new Promise(function(r){ setTimeout(r, speed(500)); });
+  document.getElementById('vitals-row').style.display = 'flex';
+  var vitals = [['v-nhietdo','37.5°C'],['v-mach','84 l/ph'],['v-ha','110/70'],['v-nt','18 l/ph']];
+  for (var vi = 0; vi < vitals.length; vi++) {
+    document.getElementById(vitals[vi][0]).textContent = vitals[vi][1];
+    await new Promise(function(r){ setTimeout(r, speed(180)); });
+  }
+
+  // Type diễn biến text
+  await typeSlot('slot-dienbian',
+    'BN tỉnh, tiếp xúc tốt. Sốt giảm còn 37.5°C (hôm qua 38.8°C). Không còn đau đầu, không nôn. Chảy mũi giảm nhiều, còn ít dịch nhày. Ăn uống được, ngủ tốt hơn. Họng bớt xung huyết. Mũi còn tắc nhẹ một bên.'
+  );
+  sectionApprove('dienbian', '✓ Đã điền');
+  addMVMsg('✓ Đã điền Diễn biến — BN đáp ứng tốt với điều trị ngày đầu.');
+  await new Promise(function(r){ setTimeout(r, speed(2000)); });
+
+  // ─── BLOCK 2: Doctor yêu cầu xem XN ───────────────────────────────────
+  await typeInChat('xem kết quả xét nghiệm sáng nay');
+  addDoctorMsg('xem kết quả xét nghiệm sáng nay');
+  await new Promise(function(r){ setTimeout(r, speed(400)); });
+
+  var tind = addTypingIndicator();
+  await new Promise(function(r){ setTimeout(r, speed(1400)); });
+  tind.remove();
+
+  sectionPending('xn');
+  document.getElementById('slot-xn').classList.remove('empty');
+
+  // Inject XN comparison table
+  var xnBody = document.getElementById('sec-xn-body');
+  xnBody.innerHTML =
+    '<table class="tdt-xn-tbl">' +
+      '<thead><tr><th>Xét nghiệm</th><th>Hôm qua</th><th>Hôm nay</th><th>Tham chiếu</th><th>Xu hướng</th></tr></thead>' +
+      '<tbody>' +
+        '<tr><td><strong>Bạch cầu (BC)</strong></td><td>11.2 G/L</td><td style="font-weight:700;color:#16A34A">8.5 G/L</td><td style="color:var(--ink3)">4–10</td><td class="tdt-xn-trend-down">↓ Cải thiện</td></tr>' +
+        '<tr><td><strong>CRP</strong></td><td>48 mg/L</td><td style="font-weight:700;color:#16A34A">22 mg/L</td><td style="color:var(--ink3)">&lt;5</td><td class="tdt-xn-trend-down">↓ Cải thiện</td></tr>' +
+        '<tr><td><strong>Glucose</strong></td><td>4.35 mmol/L</td><td style="font-weight:700;color:var(--ink)">4.2 mmol/L</td><td style="color:var(--ink3)">3.9–6.4</td><td class="tdt-xn-trend-ok">✓ Bình thường</td></tr>' +
+        '<tr><td><strong>Creatinin</strong></td><td>61 µmol/L</td><td style="font-weight:700;color:var(--ink)">59 µmol/L</td><td style="color:var(--ink3)">44–97</td><td class="tdt-xn-trend-ok">✓ Bình thường</td></tr>' +
+      '</tbody>' +
+    '</table>' +
+    '<div class="tdt-xn-note">✓ <strong>Nhận xét:</strong> BC và CRP giảm rõ — viêm đang được kiểm soát tốt với Cefuroxime. Chức năng thận, gan ổn định.</div>';
+
+  sectionApprove('xn', '✓ Đã cập nhật');
+
+  addMVMsg(
+    'BC giảm 11.2 → 8.5 · CRP giảm 48 → 22 — viêm giảm tốt, đáp ứng kháng sinh. Chức năng thận bình thường, không cần điều chỉnh liều.',
+    '<div class="chat-mv-card" style="margin-top:6px;">' +
+      '<span style="font-size:10px;color:#16A34A;font-weight:700;">📉 BC −24% &nbsp;·&nbsp; CRP −54%</span>' +
+    '</div>'
+  );
+  await new Promise(function(r){ setTimeout(r, speed(2200)); });
+
+  // ─── BLOCK 3: Doctor ra y lệnh ─────────────────────────────────────────
+  await typeInChat('tiếp tục phác đồ, giảm liều paracetamol vì BN hết sốt');
+  addDoctorMsg('tiếp tục phác đồ, giảm liều paracetamol vì BN hết sốt');
+  await new Promise(function(r){ setTimeout(r, speed(400)); });
+
+  var tind2 = addTypingIndicator();
+  await new Promise(function(r){ setTimeout(r, speed(1200)); });
+  tind2.remove();
+
+  sectionPending('ylenh');
+  var ylenBody = document.getElementById('sec-ylenh-body');
+  ylenBody.innerHTML =
+    '<ul class="tdt-orders" id="orders-list">' +
+      '<li class="tdt-order-item"><span>Cefuroxime 500 mg × 2 lần/ngày (uống sau ăn) — ngày 2/7</span><span class="tag tag-cont">Tiếp tục</span></li>' +
+      '<li class="tdt-order-item"><span>Paracetamol 500 mg: giảm xuống <em>khi sốt &gt; 38.5°C</em> (BN đã ổn nhiệt)</span><span class="tag tag-adj">Điều chỉnh</span></li>' +
+      '<li class="tdt-order-item"><span>Nước muối sinh lý nhỏ mũi 3–4 lần/ngày</span><span class="tag tag-cont">Tiếp tục</span></li>' +
+      '<li class="tdt-order-item"><span>Theo dõi thân nhiệt mỗi 6 giờ</span><span class="tag tag-cont">Tiếp tục</span></li>' +
+      '<li class="tdt-order-item"><span>Xét nghiệm lại BC + CRP sau 3 ngày (07/05/2026)</span><span class="tag tag-new">Mới</span></li>' +
+    '</ul>';
+
+  // Animate items appearing
+  var items = ylenBody.querySelectorAll('.tdt-order-item');
+  items.forEach(function(item) { item.style.opacity = '0'; });
+  for (var oi = 0; oi < items.length; oi++) {
+    await new Promise(function(r){ setTimeout(r, speed(220)); });
+    items[oi].style.transition = 'opacity .3s'; items[oi].style.opacity = '1';
+  }
+
+  sectionApprove('ylenh', '✓ Đã cập nhật');
+
+  addMVMsg('✓ Đã cập nhật Y lệnh ngày 2 — tiếp tục kháng sinh, giảm paracetamol. Đặt lịch XN lại ngày 07/05. Bác sĩ ký tên để lưu.');
+  await new Promise(function(r){ setTimeout(r, speed(1800)); });
+
+  // ─── DONE: activate save ───────────────────────────────────────────────
+  document.getElementById('signName').classList.add('show');
+  document.getElementById('hdrTitle').textContent = 'Tờ điều trị ngày 2 — hoàn tất';
+  document.getElementById('hdrSub').textContent = 'MedVita đã điền đủ 3 mục · Bác sĩ ký và lưu';
+
+  // Auto-save simulation
+  await new Promise(function(r){ setTimeout(r, speed(2000)); });
+  var saveBtn = document.getElementById('tdtSaveBtn');
+  simClick(saveBtn, 'sim-click-green');
+  await new Promise(function(r){ setTimeout(r, speed(400)); });
+  var toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 3000);
+
+  var feedDone = document.createElement('div'); feedDone.className = 'fp-item';
+  feedDone.innerHTML = '<div class="chat-done-msg">✓ Tờ điều trị ngày 2 đã được lưu</div>';
+  fpFeed.appendChild(feedDone); feedScroll();
+}
+
+// ===== INIT FLOW =====
+function showCtxScreen() {
+  var ctx = document.getElementById('ctxScreen');
+  ctx.classList.add('show');
+  var steps = ['ctxS1','ctxS2','ctxS3','ctxS4'].map(function(id){ return document.getElementById(id); });
+  steps.forEach(function(s, i){ setTimeout(function(){ s.classList.add('visible'); }, 180 + i * 220); });
+  setTimeout(function(){ document.getElementById('ctxPatient').classList.add('visible'); }, 180 + steps.length * 220 + 80);
+  setTimeout(function(){ document.getElementById('ctxCta').classList.add('visible'); }, 180 + steps.length * 220 + 220);
+
+  // Auto-dismiss
+  var autoDismiss = 180 + steps.length * 220 + 220 + 7000;
+  setTimeout(function(){
+    simClick(document.getElementById('ctxCta'), 'sim-click-green');
+    setTimeout(function(){ document.getElementById('ctxCta').click(); }, speed(350));
+  }, autoDismiss);
+}
+
+var _demoStarted = false;
+document.getElementById('ctxCta').onclick = function () {
+  if (_demoStarted) return; _demoStarted = true;
+  var ctx = document.getElementById('ctxScreen');
+  ctx.classList.add('hide');
+  ctx.addEventListener('animationend', function(){ ctx.style.display = 'none'; }, { once: true });
+  setTimeout(runDemo, 600);
+};
+
+document.getElementById('startBtn').onclick = function () {
+  var op = document.getElementById('opening');
+  op.classList.add('fade-out');
+  op.addEventListener('animationend', function(){ op.style.display = 'none'; showCtxScreen(); }, { once: true });
+};
+
+// Auto-start
+setTimeout(function(){
+  simClick(document.getElementById('startBtn'), 'sim-click-green');
+  setTimeout(function(){ document.getElementById('startBtn').click(); }, speed(350));
+}, speed(8000));
+
+document.getElementById('tdtSaveBtn').onclick = function(){
+  if (this.disabled) return;
+  var toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 3000);
+};
+</script>
+</body>
+</html>

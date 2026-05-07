@@ -1,10 +1,20 @@
+// ===== HIS SIDE PANEL =====
+function openHISPanel() {
+  document.getElementById('hispanel').classList.add('show');
+  document.getElementById('hispanelBackdrop').classList.add('show');
+}
+function closeHISPanel() {
+  document.getElementById('hispanel').classList.remove('show');
+  document.getElementById('hispanelBackdrop').classList.remove('show');
+}
+
 // ===== PLAYBACK CONTROLS =====
 document.getElementById('btnPause').onclick = function () {
   paused = !paused;
   if (paused) {
-    this.textContent = '▶ Tiếp tục'; this.classList.add('active');
+    this.textContent = '▶'; this.classList.add('active');
   } else {
-    this.textContent = '⏸ Tạm dừng'; this.classList.remove('active');
+    this.textContent = '⏸'; this.classList.remove('active');
     if (resumeResolve) { resumeResolve(); resumeResolve = null; }
   }
 };
@@ -146,8 +156,8 @@ function addFillStartButton() {
     '<div class="fp-fill-start">' +
       '<div class="fp-fill-start-icon">📋</div>' +
       '<div class="fp-fill-start-info">' +
-        '<div class="fp-fill-start-title">Bệnh án — Nguyễn Thị Hồng</div>' +
-        '<div class="fp-fill-start-sub">Tai Mũi Họng · BN nữ, 48 tuổi</div>' +
+        '<div class="fp-fill-start-title">Bệnh án — Nguyễn Thị Hoa · 26063163</div>' +
+        '<div class="fp-fill-start-sub">Tai Mũi Họng · BN nữ, 19 tuổi · Viêm xoang cấp</div>' +
       '</div>' +
       '<button class="fp-fill-start-btn" id="fillStartBtn">▶ Bắt đầu điền bệnh án</button>' +
     '</div>';
@@ -168,7 +178,7 @@ function addFillStartButton() {
       simClick(btn, 'sim-click');
       setTimeout(function () { btn.click(); }, speed(350));
     }
-  }, speed(900));
+  }, speed(3500));
 }
 
 function showCtxScreen() {
@@ -185,7 +195,7 @@ function showCtxScreen() {
   setTimeout(function () { cta.classList.add('visible'); }, 180 + ctxSteps.length * 220 + 220);
 
   // Auto-dismiss context screen
-  const autoDismiss = 180 + ctxSteps.length * 220 + 220 + 1200;
+  const autoDismiss = 180 + ctxSteps.length * 220 + 220 + 8000;
   setTimeout(function () {
     simClick(cta, 'sim-click-green');
     setTimeout(function () { cta.click(); }, speed(350));
@@ -210,4 +220,4 @@ setTimeout(function () {
   const btn = document.getElementById('startBtn');
   simClick(btn, 'sim-click-green');
   setTimeout(function () { btn.click(); }, speed(350));
-}, speed(2200));
+}, speed(9000));

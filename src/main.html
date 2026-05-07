@@ -21,7 +21,7 @@
   <div class="oc">
     <div class="oc-pill"><span class="oc-pill-dot"></span>MedVita &nbsp;·&nbsp; by Trivita AI</div>
     <div class="oc-quote-wrap"><span class="oc-q-mark">"</span><div class="oc-quote">Bác sĩ khám như thường lệ.<br><em>MedVita lo phần còn lại.</em></div></div>
-    <div class="oc-sub">Kịch bản: Tai Mũi Họng · BN nữ, 48 tuổi · Viêm amydan mãn tính<br>Bác sĩ toàn quyền kiểm soát, không thêm bước nào.</div>
+    <div class="oc-sub">Kịch bản: Tai Mũi Họng · BN nữ, 19 tuổi · Viêm xoang cấp<br>Bác sĩ toàn quyền kiểm soát, không thêm bước nào.</div>
     <div class="oc-metrics">
       <div class="oc-metric"><span class="oc-metric-icon">⏱</span><span>Tiết kiệm <strong>15 phút</strong>/bệnh nhân</span></div>
       <div class="oc-metric"><span class="oc-metric-icon">✍️</span><span><strong>Không sai sót</strong> do ghi tay</span></div>
@@ -34,7 +34,7 @@
 <!-- CONTEXT SCREEN -->
 <div class="ctx-screen" id="ctxScreen">
   <div class="ctx-inner">
-    <div class="ctx-eyebrow">📋 Kịch bản demo · Tai Mũi Họng</div>
+    <div class="ctx-eyebrow">📋 Kịch bản demo · Tai Mũi Họng · Viêm xoang cấp</div>
     <div class="ctx-heading">Buổi khám <em>vừa kết thúc.</em><br>MedVita đã ghi nhận tất cả.</div>
     <div class="ctx-lead">Bây giờ, xem MedVita tự động điền bệnh án — bác sĩ toàn quyền kiểm soát từng mục.</div>
     <div class="ctx-timeline">
@@ -70,12 +70,12 @@
     <div class="ctx-patient" id="ctxPatient">
       <div class="ctx-avatar">👩</div>
       <div>
-        <div class="ctx-patient-name">Nguyễn Thị Hồng</div>
-        <div class="ctx-patient-sub">Nữ · 48 tuổi · Tai Mũi Họng</div>
+        <div class="ctx-patient-name">Nguyễn Thị Hoa</div>
+        <div class="ctx-patient-sub">Nữ · 19 tuổi · Tai Mũi Họng</div>
       </div>
       <div class="ctx-badges">
-        <div class="ctx-badge">benh_an_14107353</div>
-        <div class="ctx-badge amber">Viêm amydan mãn tính</div>
+        <div class="ctx-badge">benh_an_26063163</div>
+        <div class="ctx-badge amber">Viêm xoang cấp</div>
       </div>
     </div>
     <button class="ctx-cta-btn" id="ctxCta">Xem MedVita điền bệnh án <span class="ctx-cta-arrow">→</span></button>
@@ -87,12 +87,12 @@
   <div class="hdr" id="hdr">
     <div class="hdr-logo">MedVita</div><div class="hdr-sep"></div>
     <div><div class="hdr-title" id="hdrTitle">Đang ghi nhận buổi khám</div><div class="hdr-sub" id="hdrSub">Bác sĩ kiểm soát buổi khám · MedVita chỉ ghi chép và đề xuất</div></div>
-    <div class="rec-badge" id="recBadge"><div class="rec-dot"></div>Đang ghi âm</div>
-    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode: tốc độ nhanh">⚡</button><button class="ctrl-btn" id="btnPause">⏸ Tạm dừng</button></div>
+    <div class="rec-badge" id="recBadge"><div class="rec-dot"></div>Điền bệnh án</div>
+    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode: tốc độ nhanh">⚡</button><button class="ctrl-btn" id="btnPause" title="Tạm dừng (Space)">⏸</button></div>
   </div>
   <div class="form-panel">
     <div class="form-toolbar">
-      <span class="form-file">📄 benh_an_TMH_14107353.pdf</span>
+      <span class="form-file">📄 benh_an_TMH_26063163.pdf</span>
       <span id="pageInfo" style="font-size:11px;">Trang 1/4</span>
       <span class="pending-badge" id="pendingBadge">0 mục chờ duyệt</span>
       <button class="export-btn" id="exportBtn" disabled>Xuất bệnh án</button>
@@ -118,20 +118,21 @@
   </div>
   <div class="chat-summary" id="chatSummary" style="display:none">
     <div class="chat-sum-lbl">📌 Tóm tắt lâm sàng</div>
-    <div class="chat-sum-txt">BN nữ 48t, vào viện vì nuốt vướng tái phát nhiều lần trong năm. Amidan quá phát độ III, VA tồn dư. Nhân tuyến giáp TIRADS 3 trái (phát hiện tại BV Đồng Hỷ). Chẩn đoán: J35.0 Viêm amydan mãn tính. Hướng xử lý: ngoại khoa.</div>
+    <div class="chat-sum-txt">BN nữ 19t, vào viện hồi 3h30 ngày 03/05/2026 vì ho, sốt. Tiền sử dị ứng kháng sinh không rõ loại. Chẩn đoán: J01 Viêm xoang cấp. Bệnh kèm: Viêm họng cấp. Hướng xử lý: nội khoa, Cefuroxime.</div>
     <div class="chat-sum-btns">
       <button class="chat-sum-btn" id="sumDuyet">✓ Duyệt</button>
       <button class="chat-sum-btn" id="sumSua">✎ Sửa</button>
     </div>
   </div>
-  <div class="fp-feed" id="fpFeed">
-  <div class="chat-input-area" id="chatInputArea" style="display:none">
-    <input class="chat-input" id="chatInput" type="text" readonly>
+  <div class="fp-feed" id="fpFeed"></div>
+  <div class="chat-input-area" id="chatInputArea">
+    <button class="chat-mic-btn" id="chatMicBtn" title="Ghi âm">🎙</button>
+    <input class="chat-input" id="chatInput" type="text" readonly placeholder="Nhập yêu cầu cho MedVita...">
+    <div class="chat-wave" id="chatWave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <button class="chat-send-btn" id="chatSendBtn" title="Gửi">➤</button>
   </div>
-  </div>
 </div>
-<div class="toast" id="toast">✓ Đã xuất benh_an_14107353.pdf &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
+<div class="toast" id="toast">✓ Đã xuất benh_an_26063163.pdf &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
 
 <!-- REVIEW MODAL -->
 <div class="rv-overlay" id="reviewModal">
@@ -147,8 +148,8 @@
       <div class="rv-item">
         <div class="rv-item-ico">⚠️</div>
         <div class="rv-item-body">
-          <div class="rv-item-title">Nhân tuyến giáp TIRADS 3 trái — chưa có lịch theo dõi</div>
-          <div class="rv-item-text">Tôi nhận thấy trong hồ sơ, BN có đề cập nhân tuyến giáp TIRADS 3 trái phát hiện tại BV Đồng Hỷ nhưng chưa có ghi chú theo dõi. Theo hướng dẫn ACR TI-RADS, khuyến nghị siêu âm kiểm tra lại sau 12 tháng.</div>
+          <div class="rv-item-title">Dị ứng kháng sinh — chưa xác định loại cụ thể</div>
+          <div class="rv-item-text">Bệnh án ghi nhận dị ứng kháng sinh không rõ loại. Hướng điều trị đã dùng Cefuroxime (Cephalosporin thế hệ 2, an toàn với dị ứng Penicillin). Nếu bệnh nhân từng dị ứng cả Cephalosporin, vui lòng đổi sang Clarithromycin 500 mg × 2 lần/ngày.</div>
         </div>
       </div>
     </div>
@@ -159,7 +160,99 @@
   </div>
 </div>
 
+<!-- HIS SIDE PANEL -->
+<div class="his-backdrop" id="hispanelBackdrop" onclick="closeHISPanel()"></div>
+<div class="his-panel" id="hispanel">
+  <div class="his-panel-hdr">
+    <div class="his-panel-hdr-left">
+      <span class="his-panel-tag">HIS</span>
+      <div>
+        <div class="his-panel-title">Kết quả XN · #XN-2605-0042</div>
+        <div class="his-panel-sub">Nguyễn Thị Hoa · 19t · Tai Mũi Họng · 03/05/2026 04:15</div>
+      </div>
+    </div>
+    <div class="his-panel-hdr-right">
+      <a class="his-panel-newtab" href="his-result.html" target="_blank">Xem đầy đủ ↗</a>
+      <button class="his-panel-close" onclick="closeHISPanel()">✕</button>
+    </div>
+  </div>
+
+  <div class="his-panel-body">
+
+    <!-- Alert -->
+    <div class="his-alert">
+      <span>⚠</span> Bệnh nhân có tiền sử <strong>dị ứng kháng sinh</strong> — đã ghi nhận vào bệnh án
+    </div>
+
+    <!-- Results table -->
+    <div class="his-section-title">Kết quả xét nghiệm</div>
+    <table class="his-table">
+      <thead><tr><th>Xét nghiệm</th><th>Kết quả</th><th>Tham chiếu</th><th>Đơn vị</th><th></th></tr></thead>
+      <tbody>
+        <tr class="his-row-abn">
+          <td><span class="his-name">Bạch cầu (BC)</span><span class="his-code">Công thức máu</span></td>
+          <td class="his-val-high">11.2</td>
+          <td class="his-ref">4.0–10.0</td>
+          <td class="his-unit">G/L</td>
+          <td><span class="his-flag his-flag-H">↑ H</span></td>
+        </tr>
+        <tr class="his-row-abn">
+          <td><span class="his-name">CRP</span><span class="his-code">Sinh hoá</span></td>
+          <td class="his-val-high">48</td>
+          <td class="his-ref">&lt; 5.0</td>
+          <td class="his-unit">mg/L</td>
+          <td><span class="his-flag his-flag-H">↑ H</span></td>
+        </tr>
+        <tr>
+          <td><span class="his-name">Glucose</span><span class="his-code">Sinh hoá</span></td>
+          <td class="his-val-ok">4.35</td>
+          <td class="his-ref">3.9–6.4</td>
+          <td class="his-unit">mmol/L</td>
+          <td><span class="his-flag his-flag-N">✓ N</span></td>
+        </tr>
+        <tr>
+          <td><span class="his-name">Creatinin</span><span class="his-code">Sinh hoá</span></td>
+          <td class="his-val-ok">61.05</td>
+          <td class="his-ref">44–97</td>
+          <td class="his-unit">µmol/L</td>
+          <td><span class="his-flag his-flag-N">✓ N</span></td>
+        </tr>
+        <tr>
+          <td><span class="his-name">X-quang xoang</span><span class="his-code">CĐHA</span></td>
+          <td class="his-val-pending">Đang xử lý</td>
+          <td class="his-ref">—</td>
+          <td class="his-unit">—</td>
+          <td><span class="his-flag his-flag-P">⏳</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Note -->
+    <div class="his-note">
+      <strong>Nhận xét:</strong> BC và CRP tăng — phù hợp viêm nhiễm cấp tính. Creatinin, Glucose bình thường. X-quang đang chờ kết quả CĐHA.
+    </div>
+
+    <!-- Doctor & Time -->
+    <div class="his-meta-row">
+      <div class="his-meta-cell">
+        <div class="his-meta-label">Bác sĩ chỉ định</div>
+        <div class="his-meta-val">BS. Nguyễn Văn Minh</div>
+      </div>
+      <div class="his-meta-cell">
+        <div class="his-meta-label">KTV duyệt</div>
+        <div class="his-meta-val">Trần Thị Lan · 04:08</div>
+      </div>
+      <div class="his-meta-cell">
+        <div class="his-meta-label">BS duyệt KQ</div>
+        <div class="his-meta-val">ThS. Phạm Quang Huy · 04:15</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- Scripts: config -> data -> render -> engine -> steps -> phase1 -> phase2 -> controls -->
+<div id="typingTag" class="typing-tag"></div>
 <script src="js/config.js"></script>
 <script src="js/data.js"></script>
 <script src="js/render.js"></script>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Voice Picker — MedVita</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: #F8FAFC; color: #0F172A; padding: 32px 24px 100px; }
+  h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .sub { font-size: 13px; color: #64748B; margin-bottom: 36px; }
+  .section { margin-bottom: 40px; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: #94A3B8; margin-bottom: 6px; }
+  .section-script {
+    font-size: 12px; color: #475569; background: #F1F5F9;
+    border-left: 3px solid #CBD5E1; padding: 8px 12px; border-radius: 0 6px 6px 0;
+    margin-bottom: 16px; font-style: italic; line-height: 1.5;
+  }
+  .cards { display: flex; gap: 12px; flex-wrap: wrap; }
+  .card {
+    background: #fff; border: 2px solid #E2E8F0; border-radius: 12px;
+    padding: 16px 18px 14px; width: 190px; cursor: pointer; transition: all .15s; position: relative;
+  }
+  .card:hover { border-color: #94A3B8; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  .card.selected { border-color: #374D9E; background: #EEF2FF; }
+  .card.playing { border-color: #059669; background: #F0FDF4; }
+  .card-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .card-desc { font-size: 10.5px; color: #64748B; margin-bottom: 12px; line-height: 1.4; }
+  .card-play {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #374D9E; color: #fff; border: none; border-radius: 6px;
+    padding: 6px 11px; font-size: 11px; font-weight: 600;
+    font-family: inherit; cursor: pointer; transition: background .1s;
+  }
+  .card-play:hover { background: #2d3f84; }
+  .card.playing .card-play { background: #059669; }
+  .card-badge {
+    position: absolute; top: 9px; right: 9px; font-size: 9px; font-weight: 700;
+    letter-spacing: .4px; text-transform: uppercase; padding: 2px 6px; border-radius: 20px;
+  }
+  .badge-current { background: #FEF3C7; color: #92400E; }
+  .badge-selected { background: #374D9E; color: #fff; }
+  .badge-ok { background: #DCFCE7; color: #166534; }
+  .wave-bar { display: none; align-items: center; gap: 2px; margin-top: 10px; height: 16px; }
+  .card.playing .wave-bar { display: flex; }
+  .wave-bar span { width: 3px; background: #059669; border-radius: 2px; animation: wave .7s ease-in-out infinite; }
+  .wave-bar span:nth-child(1){ height:5px; animation-delay:0s; }
+  .wave-bar span:nth-child(2){ height:13px; animation-delay:.1s; }
+  .wave-bar span:nth-child(3){ height:9px; animation-delay:.2s; }
+  .wave-bar span:nth-child(4){ height:15px; animation-delay:.05s; }
+  .wave-bar span:nth-child(5){ height:7px; animation-delay:.15s; }
+  @keyframes wave { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.8)} }
+
+  /* Fixed MedVita result */
+  .mv-fixed {
+    background: #EEF2FF; border: 2px solid #374D9E; border-radius: 10px;
+    padding: 12px 16px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  }
+  .mv-fixed-icon { font-size: 22px; }
+  .mv-fixed-label { font-size: 10px; color: #6366F1; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 2px; }
+  .mv-fixed-val { font-size: 14px; font-weight: 700; }
+  .mv-fixed-desc { font-size: 11px; color: #6366F1; }
+
+  .result-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #1E293B; color: #fff; padding: 14px 24px;
+    display: flex; align-items: center; gap: 20px; font-size: 13px;
+    transform: translateY(100%); transition: transform .25s;
+  }
+  .result-bar.show { transform: none; }
+  .result-label { color: #94A3B8; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
+  .result-val { font-weight: 700; font-size: 14px; }
+  .result-sep { color: #334155; font-size: 20px; }
+</style>
+</head>
+<body>
+
+<h1>🎙 Voice Selection — MedVita Demo</h1>
+<p class="sub">Nghe thử từng giọng, click card để chọn. Kết quả hiện ở thanh dưới.</p>
+
+<!-- MEDVITA — đã chốt -->
+<div class="section">
+  <div class="section-title">🤖 Giọng MedVita AI — đã chọn</div>
+  <div class="mv-fixed">
+    <div class="mv-fixed-icon">✅</div>
+    <div>
+      <div class="mv-fixed-label">MedVita Voice</div>
+      <div class="mv-fixed-val">Sadaltager</div>
+      <div class="mv-fixed-desc">Knowledgeable — học thức, chuyên gia</div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCTOR VOICE — cần chọn lại -->
+<div class="section">
+  <div class="section-title">🩺 Giọng bác sĩ — nam, trầm, già, uy tín (chọn 1)</div>
+  <div class="section-script">"Tiền sử: dị ứng kháng sinh không rõ loại. Không hút thuốc, không uống rượu bia."</div>
+  <div class="cards">
+
+    <div class="card" id="doc_charon" onclick="selectCard(this,'doctor')">
+      <span class="card-badge badge-current">Hiện tại</span>
+      <div class="card-name">Charon</div>
+      <div class="card-desc">Informative<br>giọng hiện đang dùng</div>
+      <button class="card-play" onclick="play(event,'audio/voice-samples/doc_charon.wav','doc_charon')">▶ Nghe</button>
+      <div class="wave-bar"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="card" id="doc_orus" onclick="selectCard(this,'doctor')">
+      <div class="card-name">Orus</div>
+      <div class="card-desc">Firm<br>chắc chắn, quyết đoán</div>
+      <button class="card-play" onclick="play(event,'audio/voice-samples/doc_orus.wav','doc_orus')">▶ Nghe</button>
+      <div class="wave-bar"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="card" id="doc_alnilam" onclick="selectCard(this,'doctor')">
+      <div class="card-name">Alnilam</div>
+      <div class="card-desc">Firm<br>cứng rắn, rõ ràng</div>
+      <button class="card-play" onclick="play(event,'audio/voice-samples/doc_alnilam.wav','doc_alnilam')">▶ Nghe</button>
+      <div class="wave-bar"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="card" id="doc_iapetus" onclick="selectCard(this,'doctor')">
+      <div class="card-name">Iapetus</div>
+      <div class="card-desc">Clear<br>rõ, chuyên nghiệp</div>
+      <button class="card-play" onclick="play(event,'audio/voice-samples/doc_iapetus.wav','doc_iapetus')">▶ Nghe</button>
+      <div class="wave-bar"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="card" id="doc_enceladus" onclick="selectCard(this,'doctor')">
+      <div class="card-name">Enceladus</div>
+      <div class="card-desc">Breathy<br>chắc, nhẹ</div>
+      <button class="card-play" onclick="play(event,'audio/voice-samples/doc_enceladus.wav','doc_enceladus')">▶ Nghe</button>
+      <div class="wave-bar"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="card" id="doc_rasalgethi" onclick="selectCard(this,'doctor')">
+      <div class="card-name">Rasalgethi</div>
+      <div class="card-desc">Informative<br>thông tin, rõ ràng</div>
+      <button class="card-play" onclick="play(event,'audio/voice-samples/doc_rasalgethi.wav','doc_rasalgethi')">▶ Nghe</button>
+      <div class="wave-bar"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="card" id="doc_zuben" onclick="selectCard(this,'doctor')">
+      <div class="card-name">Zubenelgenubi</div>
+      <div class="card-desc">Casual<br>tự nhiên, thư thái</div>
+      <button class="card-play" onclick="play(event,'audio/voice-samples/doc_zuben.wav','doc_zuben')">▶ Nghe</button>
+      <div class="wave-bar"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+
+  </div>
+</div>
+
+<div id="resultBar" class="result-bar">
+  <div><span class="result-label">🤖 MedVita</span><br><span class="result-val">Sadaltager</span></div>
+  <div class="result-sep">|</div>
+  <div><span class="result-label">🩺 Bác sĩ</span><br><span class="result-val" id="docResult">— chưa chọn</span></div>
+</div>
+
+<script>
+const playing = {};
+const selected = {};
+
+function play(e, src, id) {
+  e.stopPropagation();
+  // Stop all
+  Object.entries(playing).forEach(([k, a]) => {
+    a.pause(); a.currentTime = 0;
+    const c = document.getElementById(k);
+    if (c) { c.classList.remove('playing'); c.querySelector('.card-play').textContent = '▶ Nghe'; }
+  });
+
+  const aud = new Audio(src);
+  playing[id] = aud;
+  const card = document.getElementById(id);
+  card.classList.add('playing');
+  card.querySelector('.card-play').textContent = '■ Dừng';
+  aud.play();
+  aud.onended = () => {
+    card.classList.remove('playing');
+    card.querySelector('.card-play').textContent = '▶ Nghe';
+    delete playing[id];
+  };
+}
+
+function selectCard(card, group) {
+  if (selected[group]) {
+    const old = document.getElementById(selected[group]);
+    if (old) {
+      old.classList.remove('selected');
+      old.querySelector('.badge-selected')?.remove();
+    }
+  }
+  selected[group] = card.id;
+  card.classList.add('selected');
+  const b = document.createElement('span');
+  b.className = 'card-badge badge-selected'; b.textContent = '✓';
+  card.querySelector('.badge-current')?.replaceWith(b) || card.appendChild(b);
+
+  document.getElementById('docResult').textContent =
+    card.querySelector('.card-name').textContent;
+  document.getElementById('resultBar').classList.add('show');
+}
+</script>
+</body>
+</html>
