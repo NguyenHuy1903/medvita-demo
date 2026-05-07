@@ -58,6 +58,6 @@ const tiensuGDText = 'Không ghi nhận tiền sử bệnh lý đặc biệt tro
 
 const khamtoanthanText = 'BN tỉnh, tiếp xúc được. Da, niêm mạc hồng nhạt. Hạch ngoại vi không to. Tuyến giáp không sờ thấy. Sốt 38.8°C. Mũi: khe và sàn nhiều dịch mủ đặc. Họng: niêm mạc xung huyết, hạ họng ứ đọng dịch. Tai: bình thường hai bên.';
 
-const tomtatText = 'BN nữ 19 tuổi, vào viện hồi 3h30 ngày 03/05/2026 với lý do ho, sốt. Tiền sử dị ứng kháng sinh không rõ loại. Toàn thân sốt 38.8°C. Khám chuyên khoa: mũi khe và sàn nhiều dịch mủ đặc, họng niêm mạc xung huyết. Mã BN: 26063163 · Lưu trữ: TMH2600572.';
+const tomtatText = 'BN nữ 19 tuổi, vào viện hồi 3h30 ngày 03/05/2026 với lý do ngạt mũi, chảy mũi, ho có đờm kéo dài 1 tuần — hôm nay sốt 38.8°C, đau đầu, nôn. Tiền sử dị ứng kháng sinh không rõ loại. Toàn thân sốt 38.8°C. Khám chuyên khoa: mũi khe và sàn nhiều dịch mủ đặc, họng niêm mạc xung huyết. Mã BN: 26063163 · Lưu trữ: TMH2600572.';
 
 const huongdtText = 'Nội khoa. ⚠ Lưu ý dị ứng kháng sinh: dùng Cefuroxime 500 mg × 2 lần/ngày × 7 ngày (thay Amoxicillin). Paracetamol 500 mg khi sốt > 38.5°C. Nước muối sinh lý nhỏ mũi 3–4 lần/ngày. Tái khám sau 7 ngày hoặc khi triệu chứng nặng hơn.';

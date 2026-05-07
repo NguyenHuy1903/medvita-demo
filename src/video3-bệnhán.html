@@ -25,6 +25,49 @@
   color: #fff; margin-bottom: 8px; font-weight: 600; letter-spacing: .3px;
 }
 .v3-label-dot { width: 6px; height: 6px; border-radius: 50%; background: #34D399; animation: recPulse 1.5s infinite; }
+
+/* ===== V3 CARD: Đơn thuốc BHYT ===== */
+.v3-rx-card { margin-top:8px; border:1px solid #D1FAE5; border-radius:8px; overflow:hidden; font-size:12px; background:#fff; }
+.v3-rx-hdr { display:flex; align-items:center; justify-content:space-between; padding:7px 10px; background:#F0FDF4; border-bottom:1px solid #BBF7D0; }
+.v3-rx-tag { font-weight:700; color:#166534; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
+.v3-rx-ref { font-size:10px; color:#6B7280; font-family:monospace; background:#E5E7EB; border-radius:3px; padding:1px 5px; }
+.v3-rx-items { padding:6px 10px; }
+.v3-rx-row { display:flex; gap:8px; padding:6px 0; border-bottom:1px solid #F3F4F6; }
+.v3-rx-row:last-child { border-bottom:none; }
+.v3-rx-num { width:17px; height:17px; border-radius:50%; background:#3B82F6; color:#fff; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+.v3-rx-body { flex:1; min-width:0; }
+.v3-rx-name { font-weight:600; color:#111827; margin-bottom:2px; }
+.v3-rx-sig { color:#6B7280; font-size:11px; line-height:1.4; }
+.v3-rx-bhyt { display:inline-block; margin-left:5px; background:#EFF6FF; color:#1D4ED8; border-radius:3px; padding:1px 4px; font-size:10px; font-family:monospace; vertical-align:middle; }
+.v3-rx-warn { font-size:10px; color:#92400E; background:#FEF3C7; border-radius:3px; padding:2px 5px; margin-top:3px; display:inline-block; }
+.v3-rx-footer { display:flex; gap:6px; padding:8px 10px; background:#F9FAFB; border-top:1px solid #E5E7EB; }
+.v3-rx-btn-ok { flex:1; background:#16A34A; color:#fff; border:none; border-radius:6px; padding:7px 0; font-size:12px; font-weight:600; cursor:pointer; transition:background .2s; }
+.v3-rx-btn-ok:disabled { background:#6B7280; cursor:default; }
+.v3-rx-btn-edit { background:#F3F4F6; color:#374151; border:1px solid #D1D5DB; border-radius:6px; padding:6px 10px; font-size:12px; cursor:pointer; }
+
+/* ===== V3 CARD: Kiểm tra hồ sơ BHYT ===== */
+.v3-bhyt-card { margin-top:8px; border:1px solid #BFDBFE; border-radius:8px; overflow:hidden; font-size:12px; background:#fff; }
+.v3-bhyt-hdr { padding:7px 10px; background:#EFF6FF; border-bottom:1px solid #BFDBFE; font-weight:700; color:#1E40AF; font-size:11px; text-transform:uppercase; letter-spacing:.4px; }
+.v3-bhyt-list { padding:8px 10px; display:flex; flex-direction:column; gap:5px; }
+.v3-bhyt-item { display:flex; gap:8px; align-items:center; color:#374151; font-size:12px; }
+.v3-bhyt-item.warn { color:#92400E; }
+.v3-bhyt-ico { font-size:13px; flex-shrink:0; }
+.v3-bhyt-note { padding:7px 10px; background:#FFFBEB; border-top:1px solid #FDE68A; color:#78350F; font-size:11px; font-style:italic; line-height:1.5; }
+.v3-bhyt-footer { padding:8px 10px; background:#F9FAFB; border-top:1px solid #E5E7EB; }
+.v3-bhyt-btn { width:100%; background:#2563EB; color:#fff; border:none; border-radius:6px; padding:7px 0; font-size:12px; font-weight:600; cursor:pointer; transition:background .2s; }
+.v3-bhyt-btn:disabled { background:#6B7280; cursor:default; }
+
+/* ===== V3 CARD: Giấy hẹn tái khám ===== */
+.v3-fu-card { margin-top:8px; border:1px solid #FED7AA; border-radius:8px; overflow:hidden; font-size:12px; background:#fff; }
+.v3-fu-hdr { display:flex; align-items:center; gap:6px; padding:7px 10px; background:#FFF7ED; border-bottom:1px solid #FED7AA; font-weight:600; color:#92400E; font-size:12px; }
+.v3-fu-body { padding:10px 10px; display:flex; flex-direction:column; gap:5px; }
+.v3-fu-row { display:flex; gap:8px; align-items:baseline; }
+.v3-fu-lbl { color:#9CA3AF; font-size:11px; width:88px; flex-shrink:0; }
+.v3-fu-val { color:#111827; font-weight:500; font-size:12px; }
+.v3-fu-date { color:#DC2626; font-weight:700; font-size:13px; }
+.v3-fu-footer { padding:8px 10px; background:#F9FAFB; border-top:1px solid #E5E7EB; }
+.v3-fu-btn { background:#F59E0B; color:#fff; border:none; border-radius:6px; padding:6px 14px; font-size:12px; font-weight:600; cursor:pointer; transition:background .2s; }
+.v3-fu-btn:disabled { background:#6B7280; cursor:default; }
 </style>
 </head>
 <body>
@@ -37,11 +80,11 @@
     <div class="oc-pill"><span class="oc-pill-dot"></span>MedVita &nbsp;·&nbsp; by Trivita AI</div>
     <div class="v3-label-pill" style="margin-bottom:10px;"><span class="v3-label-dot"></span>Tổng kết · Lập HS Bệnh Án</div>
     <div class="oc-quote-wrap"><span class="oc-q-mark">"</span><div class="oc-quote">Bệnh án đã sẵn sàng.<br><em>Bác sĩ chỉ cần duyệt.</em></div></div>
-    <div class="oc-sub">MedVita đã điền tự động · Bác sĩ ra lệnh giọng nói để hoàn thiện<br>Chẩn đoán · Xét nghiệm · Hướng điều trị · Xuất bệnh án.</div>
+    <div class="oc-sub">MedVita đã điền tự động · Bác sĩ ra lệnh giọng nói để hoàn thiện<br>Chẩn đoán · Kê đơn BHYT · Kiểm tra hồ sơ · Xuất bệnh án.</div>
     <div class="oc-metrics">
       <div class="oc-metric"><span class="oc-metric-icon">📋</span><span>Bệnh án <strong>đã điền tự động</strong></span></div>
-      <div class="oc-metric"><span class="oc-metric-icon">🎙</span><span>Bác sĩ <strong>ra lệnh giọng nói</strong></span></div>
-      <div class="oc-metric"><span class="oc-metric-icon">✅</span><span>Xuất bệnh án <strong>1 bước</strong></span></div>
+      <div class="oc-metric"><span class="oc-metric-icon">🎙</span><span>Kê đơn <strong>bằng giọng nói</strong></span></div>
+      <div class="oc-metric"><span class="oc-metric-icon">🏥</span><span>Hồ sơ BHYT <strong>kiểm tra tự động</strong></span></div>
     </div>
     <div class="oc-cta-wrap"><button class="oc-cta" id="startBtn">Xem Tổng kết &amp; Lập HS Bệnh Án <span class="oc-cta-arrow">→</span></button></div>
   </div>
@@ -78,8 +121,8 @@
       <div class="ctx-step step-active" id="ctxS4">
         <div class="ctx-icon" style="color:#fff;font-size:12px;">▶</div>
         <div class="ctx-body">
-          <div class="ctx-step-title">Bác sĩ hoàn thiện · Duyệt · Xuất bệnh án</div>
-          <div class="ctx-step-meta"><span>Giọng nói · Chẩn đoán · XN · Hướng điều trị</span><span class="ctx-tag">Sắp diễn ra</span></div>
+          <div class="ctx-step-title">Hoàn thiện hồ sơ · BHYT · Xuất bệnh án</div>
+          <div class="ctx-step-meta"><span>Chẩn đoán · Kê đơn BHYT · Kiểm tra hồ sơ · Giấy hẹn</span><span class="ctx-tag">Sắp diễn ra</span></div>
         </div>
       </div>
     </div>
@@ -94,7 +137,7 @@
         <div class="ctx-badge amber">Viêm xoang cấp</div>
       </div>
     </div>
-    <button class="ctx-cta-btn" id="ctxCta">Xem bác sĩ hoàn thiện bệnh án <span class="ctx-cta-arrow">→</span></button>
+    <button class="ctx-cta-btn" id="ctxCta">Xem bác sĩ hoàn thiện hồ sơ BHYT <span class="ctx-cta-arrow">→</span></button>
   </div>
 </div>
 
@@ -102,9 +145,9 @@
 <div class="app">
   <div class="hdr" id="hdr">
     <div class="hdr-logo">MedVita</div><div class="hdr-sep"></div>
-    <div><div class="hdr-title" id="hdrTitle">Tổng kết · Lập HS Bệnh Án</div><div class="hdr-sub" id="hdrSub">Bác sĩ ra lệnh · MedVita tạo nháp · Bác sĩ duyệt trước khi lưu</div></div>
+    <div><div class="hdr-title" id="hdrTitle">Hoàn thiện Hồ sơ · BHYT · HIS</div><div class="hdr-sub" id="hdrSub">Chẩn đoán · Kê đơn · Kiểm tra BHYT · Xuất bệnh án</div></div>
     <div class="rec-badge" id="recBadge" style="background:#DCFCE7;border-color:#BBF7D0;color:#166534;"><span style="font-size:13px;">✓</span> Bệnh án đã điền</div>
-    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode: tốc độ nhanh">⚡</button><button class="ctrl-btn" id="btnPause" title="Tạm dừng (Space)">⏸</button></div>
+    <div class="hdr-ctrls"><a class="ctrl-btn" href="index.html" title="Hub">☰</a><button class="ctrl-btn" id="btnMode" title="Dev mode: tốc độ nhanh">⚡</button><button class="ctrl-btn" id="btnPause" title="Tạm dừng (Space)">⏸</button></div>
   </div>
 
   <!-- SIDE PANEL — LEFT (35%): summary + chat -->
@@ -160,7 +203,7 @@
   </div>
 </div>
 
-<div class="toast" id="toast">✓ Đã xuất benh_an_26063163.pdf &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
+<div class="toast" id="toast">✓ Đã lưu và xuất: benh_an_26063163.pdf · DT-2605-0042 &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
 
 <!-- REVIEW MODAL -->
 <div class="rv-overlay" id="reviewModal">
@@ -177,7 +220,7 @@
         <div class="rv-item-ico">⚠️</div>
         <div class="rv-item-body">
           <div class="rv-item-title">Dị ứng kháng sinh — chưa xác định loại cụ thể</div>
-          <div class="rv-item-text">Bệnh án ghi nhận dị ứng kháng sinh không rõ loại. Hướng điều trị đã dùng Cefuroxime (Cephalosporin thế hệ 2, an toàn với dị ứng Penicillin). Nếu bệnh nhân từng dị ứng cả Cephalosporin, vui lòng đổi sang Clarithromycin 500 mg × 2 lần/ngày.</div>
+          <div class="rv-item-text">Hồ sơ ghi nhận dị ứng kháng sinh không rõ loại. Đơn thuốc #DT-2605-0042 đã dùng Cefuroxime (Cephalosporin thế hệ 2 — an toàn với dị ứng Penicillin). Nếu bệnh nhân từng dị ứng cả Cephalosporin, đổi sang Clarithromycin 500 mg × 2 lần/ngày và cập nhật hồ sơ BHYT trước khi lưu.</div>
         </div>
       </div>
     </div>
@@ -238,12 +281,9 @@
 <script>
 // ===== VIDEO 3 OVERRIDES =====
 
-// Instantly fill all Phase 1 fields (groupA + groupB) as approved
+// ── Instantly fill all Phase 1 fields (groupA + groupB) as approved ──
 function v3InstantFillAll() {
-  // Fill groupA (HIS data) — handwriting fields using existing fillA()
   Object.keys(groupA).forEach(function (id) { fillA(id); });
-
-  // Fill groupB AI fields as already approved
   var aiFields = [
     { id: 'lydo',             v: 'Ho, sốt' },
     { id: 'qtbl',             v: qtblText },
@@ -253,41 +293,227 @@ function v3InstantFillAll() {
     { id: 'tomtat',           v: tomtatText },
     { id: 'xetnghiemlamsan',  v: 'BC 11.2 G/L ↑ · CRP 48 mg/L ↑ · Glucose 4.35 mmol/L (BT) · Creatinin 61.05 µmol/L (BT). X-quang xoang: đang xử lý.' },
   ];
-
   aiFields.forEach(function (f) {
-    var el = fieldEls[f.id];
-    if (!el) return;
+    var el = fieldEls[f.id]; if (!el) return;
     var slot = el.querySelector('.text-slot');
-    if (slot) { slot.textContent = f.v; }
-    // Remove waiting state, mark as approved
+    if (slot) slot.textContent = f.v;
     el.classList.remove('pending', 'waiting', 'agent-draft');
     el.classList.add('approved');
     var chip = el.querySelector('.cursor-chip');
-    if (chip) { chip.style.display = 'none'; }
+    if (chip) chip.style.display = 'none';
   });
-
   updateProgress();
 }
 
-// Override addFillStartButton: skip Phase 1, instantly fill and start Phase 2 (idempotent)
+// ── Override addFillStartButton: skip Phase 1, start Phase 2 immediately ──
 var _v3Started = false;
 addFillStartButton = function () {
   if (_v3Started) return;
   _v3Started = true;
-  // Immediately fill all Phase 1 fields
   v3InstantFillAll();
-
-  // Brief status message in feed
-  addFeedStatus('📋', 'Bệnh án đã điền tự động', 'MedVita đã ghi nhận toàn bộ buổi khám · Sẵn sàng hoàn thiện');
-
-  // Scroll form to page 4 (remaining fields: chẩn đoán, hướng điều trị)
+  addFeedStatus('📋', 'Bệnh án đã điền tự động', 'MedVita đã ghi nhận toàn bộ buổi khám · Sẵn sàng hoàn thiện hồ sơ');
   setTimeout(function () { scrollFormToPage(4); }, 600);
-
-  // Start Phase 2 after a short moment
   setTimeout(function () { startPhase2(); }, 1200);
 };
 
-// Summary quick actions
+// ── V3: Override chatTurns (after phase2.js loads) ──
+// Workflow: Chẩn đoán → Kê đơn thuốc → Kiểm tra BHYT → Giấy hẹn → Xuất
+chatTurns = [
+  // Turn 0: Doctor types chẩn đoán directly on form (page 4)
+  {
+    isDirect: true,
+    targetField: 'chandoan',
+    autoClickAction: 'tabApprove',
+  },
+  // Turn 1: Doctor dictates prescription → MedVita tạo đơn thuốc BHYT + điền Hướng điều trị
+  {
+    isPrescription: true,
+    voiceText: 'kê đơn: Cefuroxime 500 mg 1 viên sáng tối 7 ngày · Paracetamol 500 mg khi sốt · nước muối sinh lý nhỏ mũi 3–4 lần/ngày',
+    voiceAudio: '../audio/v6-cefuroxime/audio.wav',
+    voiceMs: 4200,
+  },
+  // Turn 2: Kiểm tra hồ sơ BHYT đầy đủ
+  { isBHYTCheck: true },
+  // Turn 3: Giấy hẹn tái khám
+  { isFollowup: true },
+];
+
+// ── Patch autoRunChatTurn to dispatch V3 turn types ──
+var _origAutoRunChatTurn = autoRunChatTurn;
+autoRunChatTurn = async function (index) {
+  var turn = chatTurns[index];
+  if (turn.isPrescription) { await v3ShowPrescription(turn); return; }
+  if (turn.isBHYTCheck)    { await v3ShowBHYTCheck();        return; }
+  if (turn.isFollowup)     { await v3ShowFollowup();         return; }
+  return _origAutoRunChatTurn(index);
+};
+
+// ─────────────────────────────────────────────────────────────────
+// TURN 1 — Kê đơn thuốc BHYT
+// ─────────────────────────────────────────────────────────────────
+async function v3ShowPrescription(turn) {
+  var hist = document.getElementById('fpFeed');
+
+  // 1. Doctor voice (mic animation + audio)
+  await playVoiceInput(turn.voiceText, turn.voiceAudio, turn.voiceMs);
+
+  // 2. MedVita processing
+  var proc = addFeedProcess('process', 'Đang tạo đơn thuốc BHYT và kiểm tra dị ứng…');
+  await delay(speed(1400));
+  finishFeedProcess(proc);
+
+  // 3. Prescription card in chat feed
+  var mvResp = document.createElement('div');
+  mvResp.className = 'chat-mv';
+  mvResp.innerHTML =
+    '<div class="chat-mv-lbl">MEDVITA</div>' +
+    '<div class="chat-mv-txt">Đã tạo đơn thuốc BHYT. <strong>⚠ Đã dùng Cefuroxime thay Amoxicillin</strong> vì tiền sử dị ứng kháng sinh.</div>' +
+    '<div class="v3-rx-card">' +
+      '<div class="v3-rx-hdr">' +
+        '<span class="v3-rx-tag">Đơn thuốc BHYT</span>' +
+        '<span class="v3-rx-ref">#DT-2605-0042</span>' +
+      '</div>' +
+      '<div class="v3-rx-items">' +
+        '<div class="v3-rx-row">' +
+          '<span class="v3-rx-num">1</span>' +
+          '<div class="v3-rx-body">' +
+            '<div class="v3-rx-name">Cefuroxime 500 mg <span class="v3-rx-bhyt">J01DC02</span></div>' +
+            '<div class="v3-rx-sig">1 viên × 2 lần/ngày × 7 ngày &nbsp;—&nbsp; 14 viên</div>' +
+            '<span class="v3-rx-warn">⚠ Thay Amoxicillin — tiền sử dị ứng Penicillin</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="v3-rx-row">' +
+          '<span class="v3-rx-num">2</span>' +
+          '<div class="v3-rx-body">' +
+            '<div class="v3-rx-name">Paracetamol 500 mg <span class="v3-rx-bhyt">N02BE01</span></div>' +
+            '<div class="v3-rx-sig">1 viên khi sốt &gt; 38.5°C &nbsp;—&nbsp; 10 viên</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="v3-rx-row">' +
+          '<span class="v3-rx-num">3</span>' +
+          '<div class="v3-rx-body">' +
+            '<div class="v3-rx-name">Natri Clorid 0.9% nhỏ mũi <span class="v3-rx-bhyt">V07AB</span></div>' +
+            '<div class="v3-rx-sig">Nhỏ 3–4 lần/ngày × 7 ngày &nbsp;—&nbsp; 2 lọ</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="v3-rx-footer">' +
+        '<button class="v3-rx-btn-ok"   id="rxBtnOk">✓ Duyệt đơn</button>' +
+        '<button class="v3-rx-btn-edit" id="rxBtnEdit">✎ Chỉnh sửa</button>' +
+      '</div>' +
+    '</div>';
+  hist.appendChild(mvResp);
+  hist.scrollTop = hist.scrollHeight;
+
+  // 4. Auto-approve prescription after brief read pause
+  await delay(speed(2800));
+  var rxBtn = document.getElementById('rxBtnOk');
+  simClick(rxBtn, 'sim-click-green');
+  await delay(speed(400));
+  rxBtn.textContent = '✓ Đã duyệt';
+  rxBtn.disabled = true;
+  addFeedDone('Đơn thuốc BHYT', '✓ #DT-2605-0042 đã lưu vào HIS.');
+
+  // 5. MedVita auto-fills Hướng điều trị from prescription data
+  await delay(speed(700));
+  addFeedStatus('📝', 'Hướng điều trị', 'MedVita điền tự động từ đơn thuốc — bác sĩ xác nhận trên form.');
+  scrollFormToPage(4);
+  await delay(400);
+  var huongEl = fieldEls['huongdt'];
+  if (huongEl) {
+    huongEl.classList.remove('c', 'waiting', 'agent-draft', 'approved', 'edited', 'pending');
+    huongEl.classList.add('b');
+    await setFieldB('huongdt', huongdtText, null, [
+      { type: 'infer', fields: ['Đơn thuốc #DT-2605-0042', 'Tiền sử dị ứng kháng sinh'] },
+    ]);
+    await delay(speed(600));
+    autoApprove('huongdt');
+    addFeedDone('Hướng điều trị', '✓ Đã điền và duyệt từ đơn thuốc.');
+  }
+  await delay(speed(800));
+}
+
+// ─────────────────────────────────────────────────────────────────
+// TURN 2 — Kiểm tra hồ sơ BHYT
+// ─────────────────────────────────────────────────────────────────
+async function v3ShowBHYTCheck() {
+  var hist = document.getElementById('fpFeed');
+
+  var proc = addFeedProcess('process', 'Đang kiểm tra đầy đủ hồ sơ bảo hiểm y tế…');
+  await delay(speed(1800));
+  finishFeedProcess(proc);
+
+  var mvResp = document.createElement('div');
+  mvResp.className = 'chat-mv';
+  mvResp.innerHTML =
+    '<div class="chat-mv-lbl">MEDVITA</div>' +
+    '<div class="chat-mv-txt">Hồ sơ BHYT ngoại trú đủ điều kiện thanh toán — 5/6 mục hoàn tất.</div>' +
+    '<div class="v3-bhyt-card">' +
+      '<div class="v3-bhyt-hdr">Kiểm tra hồ sơ BHYT · Ngoại trú · BN 26063163</div>' +
+      '<div class="v3-bhyt-list">' +
+        '<div class="v3-bhyt-item ok"><span class="v3-bhyt-ico">✅</span><span>Bệnh án ngoại trú — 4 trang · benh_an_TMH_26063163</span></div>' +
+        '<div class="v3-bhyt-item ok"><span class="v3-bhyt-ico">✅</span><span>Phiếu chỉ định XN · #XN-2605-0042</span></div>' +
+        '<div class="v3-bhyt-item ok"><span class="v3-bhyt-ico">✅</span><span>Kết quả XN: BC, CRP, Glucose, Creatinin</span></div>' +
+        '<div class="v3-bhyt-item ok"><span class="v3-bhyt-ico">✅</span><span>Chẩn đoán ICD-10 · J01 Viêm xoang cấp</span></div>' +
+        '<div class="v3-bhyt-item ok"><span class="v3-bhyt-ico">✅</span><span>Đơn thuốc BHYT · #DT-2605-0042 · 3 loại thuốc</span></div>' +
+        '<div class="v3-bhyt-item warn"><span class="v3-bhyt-ico">⏳</span><span>X-quang xoang mặt · Kết quả đang chờ CĐHA</span></div>' +
+      '</div>' +
+      '<div class="v3-bhyt-note">Hồ sơ đủ thanh toán BHYT ngay. X-quang bổ sung vào hồ sơ khi có kết quả.</div>' +
+      '<div class="v3-bhyt-footer">' +
+        '<button class="v3-bhyt-btn" id="bhytBtnOk">✓ Xác nhận hồ sơ BHYT</button>' +
+      '</div>' +
+    '</div>';
+  hist.appendChild(mvResp);
+  hist.scrollTop = hist.scrollHeight;
+
+  await delay(speed(3000));
+  var btn = document.getElementById('bhytBtnOk');
+  simClick(btn, 'sim-click-green');
+  await delay(speed(400));
+  btn.textContent = '✓ Đã xác nhận';
+  btn.disabled = true;
+  addFeedDone('Hồ sơ BHYT', '✓ Đã xác nhận — sẵn sàng thanh toán bảo hiểm.');
+  await delay(speed(600));
+}
+
+// ─────────────────────────────────────────────────────────────────
+// TURN 3 — Giấy hẹn tái khám
+// ─────────────────────────────────────────────────────────────────
+async function v3ShowFollowup() {
+  var hist = document.getElementById('fpFeed');
+
+  var mvResp = document.createElement('div');
+  mvResp.className = 'chat-mv';
+  mvResp.innerHTML =
+    '<div class="chat-mv-lbl">MEDVITA</div>' +
+    '<div class="chat-mv-txt">Đã tạo giấy hẹn tái khám theo phác đồ viêm xoang — sau 7 ngày điều trị.</div>' +
+    '<div class="v3-fu-card">' +
+      '<div class="v3-fu-hdr"><span>📅</span><span>Giấy hẹn tái khám</span></div>' +
+      '<div class="v3-fu-body">' +
+        '<div class="v3-fu-row"><span class="v3-fu-lbl">Bệnh nhân</span><span class="v3-fu-val">Nguyễn Thị Hoa · Nữ · 19 tuổi</span></div>' +
+        '<div class="v3-fu-row"><span class="v3-fu-lbl">Ngày tái khám</span><span class="v3-fu-val v3-fu-date">10/05/2026</span></div>' +
+        '<div class="v3-fu-row"><span class="v3-fu-lbl">Chuyên khoa</span><span class="v3-fu-val">Tai Mũi Họng · BS. Nguyễn Văn Minh</span></div>' +
+        '<div class="v3-fu-row"><span class="v3-fu-lbl">Lý do</span><span class="v3-fu-val">Kiểm tra đáp ứng điều trị J01 Viêm xoang cấp</span></div>' +
+        '<div class="v3-fu-row"><span class="v3-fu-lbl">Lưu ý</span><span class="v3-fu-val">Mang kết quả X-quang xoang khi có</span></div>' +
+      '</div>' +
+      '<div class="v3-fu-footer">' +
+        '<button class="v3-fu-btn" id="fuBtnPrint">🖨 In giấy hẹn</button>' +
+      '</div>' +
+    '</div>';
+  hist.appendChild(mvResp);
+  hist.scrollTop = hist.scrollHeight;
+
+  await delay(speed(2500));
+  var printBtn = document.getElementById('fuBtnPrint');
+  simClick(printBtn, 'sim-click-green');
+  await delay(speed(400));
+  printBtn.textContent = '✓ Đã in';
+  printBtn.disabled = true;
+  addFeedDone('Giấy hẹn tái khám', '✓ 10/05/2026 · Tai Mũi Họng · Đã in cho bệnh nhân.');
+  await delay(speed(600));
+}
+
+// ── Summary quick actions ──
 document.getElementById('sumDuyet').onclick = function () { this.textContent = '✓ Đã duyệt'; this.disabled = true; };
 document.getElementById('sumSua').onclick   = function () { this.textContent = 'Đang sửa...'; this.disabled = true; };
 </script>

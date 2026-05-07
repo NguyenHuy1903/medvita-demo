@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>MedVita — Demo · Trivita AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET ===== */
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100%;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
+body{background:#0B1540;color:#fff;overflow-x:hidden;}
+
+/* ===== ORBS ===== */
+.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;animation:orbF 10s ease-in-out infinite alternate;}
+.orb.o1{width:680px;height:680px;background:radial-gradient(circle,rgba(55,77,158,.55) 0%,transparent 65%);top:-160px;left:-120px;animation-duration:12s;}
+.orb.o2{width:440px;height:440px;background:radial-gradient(circle,rgba(126,195,77,.22) 0%,transparent 65%);bottom:-100px;right:-80px;animation-duration:14s;animation-delay:-5s;}
+.orb.o3{width:280px;height:280px;background:radial-gradient(circle,rgba(124,58,237,.18) 0%,transparent 70%);top:45%;left:62%;animation-duration:9s;animation-delay:-3s;}
+@keyframes orbF{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,20px) scale(1.06)}}
+
+/* ===== GRID BG ===== */
+.bg-grid{position:fixed;inset:0;background-image:radial-gradient(circle,rgba(126,195,77,.15) 1.5px,transparent 1.5px),radial-gradient(circle,rgba(255,255,255,.05) 1.5px,transparent 1.5px);background-size:38px 38px,19px 19px;background-position:0 0,9.5px 9.5px;pointer-events:none;}
+
+/* ===== MAIN WRAP ===== */
+.wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:0 32px 80px;}
+
+/* ===== HERO ===== */
+.hero{text-align:center;padding:72px 0 56px;}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:5px 16px;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:28px;}
+.hero-pill-dot{width:6px;height:6px;border-radius:50%;background:#7FC34E;box-shadow:0 0 8px #7FC34E;animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero-h1{font-size:52px;font-weight:900;line-height:1.12;letter-spacing:-1.5px;margin-bottom:18px;}
+.hero-h1 em{font-style:normal;background:linear-gradient(90deg,#7FC34E,#A8E063);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:16px;line-height:1.7;color:rgba(255,255,255,.5);max-width:540px;margin:0 auto 44px;}
+
+/* ===== JOURNEY STRIP ===== */
+.journey{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:64px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 28px;flex-wrap:wrap;gap:0;}
+.jstep{display:flex;align-items:center;gap:10px;padding:8px 16px;}
+.jstep-num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.jstep-num.s1{background:#374D9E;color:#fff;}
+.jstep-num.s2{background:#7FC34E;color:#0B1540;}
+.jstep-num.s3{background:#7C3AED;color:#fff;}
+.jstep-label{font-size:12px;font-weight:600;color:rgba(255,255,255,.75);white-space:nowrap;}
+.jstep-sub{font-size:10.5px;color:rgba(255,255,255,.35);white-space:nowrap;}
+.jarrow{font-size:16px;color:rgba(255,255,255,.2);flex-shrink:0;padding:0 4px;}
+
+/* ===== DEMO CARDS ===== */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media(max-width:860px){.cards{grid-template-columns:1fr;}}
+.card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:20px;transition:transform .22s,box-shadow .22s,border-color .22s;cursor:pointer;text-decoration:none;color:inherit;}
+.card:hover{transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,.3);border-color:rgba(255,255,255,.22);}
+.card.c1:hover{border-color:rgba(55,77,158,.6);box-shadow:0 20px 60px rgba(55,77,158,.25);}
+.card.c2:hover{border-color:rgba(127,195,78,.5);box-shadow:0 20px 60px rgba(127,195,78,.2);}
+.card.c3:hover{border-color:rgba(124,58,237,.5);box-shadow:0 20px 60px rgba(124,58,237,.2);}
+
+.card-eyebrow{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;}
+.card-tag{padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.3px;}
+.c1 .card-tag{background:rgba(55,77,158,.35);color:#93B4FF;}
+.c2 .card-tag{background:rgba(127,195,78,.2);color:#A3E07B;}
+.c3 .card-tag{background:rgba(124,58,237,.25);color:#C4B5FD;}
+.card-num{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);}
+
+.card-icon{font-size:36px;line-height:1;}
+
+.card-title{font-size:19px;font-weight:800;letter-spacing:-.4px;line-height:1.25;}
+.c1 .card-title em{font-style:normal;color:#93B4FF;}
+.c2 .card-title em{font-style:normal;color:#A3E07B;}
+.c3 .card-title em{font-style:normal;color:#C4B5FD;}
+
+.card-pain{font-size:11.5px;line-height:1.65;color:rgba(255,255,255,.45);flex:1;}
+.card-pain strong{color:rgba(255,255,255,.7);font-weight:600;}
+
+.card-metrics{display:flex;flex-direction:column;gap:6px;}
+.card-metric{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.6);}
+.card-metric-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.c1 .card-metric-dot{background:#93B4FF;}
+.c2 .card-metric-dot{background:#A3E07B;}
+.c3 .card-metric-dot{background:#C4B5FD;}
+
+.card-cta{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;font-family:inherit;border:none;cursor:pointer;transition:filter .18s,transform .18s;letter-spacing:-.1px;}
+.card-cta:hover{filter:brightness(1.12);transform:translateY(-1px);}
+.c1 .card-cta{background:#374D9E;color:#fff;}
+.c2 .card-cta{background:#7FC34E;color:#0B1540;}
+.c3 .card-cta{background:#7C3AED;color:#fff;}
+.card-cta-arrow{font-size:15px;transition:transform .18s;}
+.card:hover .card-cta-arrow{transform:translateX(4px);}
+
+/* ===== BOTTOM STRIP ===== */
+.bottom{margin-top:60px;text-align:center;}
+.bottom-logo{font-size:18px;font-weight:800;color:rgba(255,255,255,.15);letter-spacing:-.3px;margin-bottom:6px;}
+.bottom-logo span{color:#7FC34E;}
+.bottom-copy{font-size:11px;color:rgba(255,255,255,.2);}
+
+/* ===== ENTRY ANIMATIONS ===== */
+.hero,.journey,.cards,.bottom{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.4,0,.2,1), transform .6s cubic-bezier(.4,0,.2,1);}
+.hero.in,.journey.in,.cards.in,.bottom.in{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+<div class="bg-grid"></div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero" id="hero">
+    <div class="hero-pill"><span class="hero-pill-dot"></span>MedVita &nbsp;·&nbsp; by Trivita AI</div>
+    <h1 class="hero-h1">Bác sĩ khám như thường lệ.<br><em>MedVita lo phần còn lại.</em></h1>
+    <p class="hero-sub">Ba kịch bản thực tế — từ phòng khám, đến đi buồng, đến xuất viện. Xem cách MedVita tiết kiệm 30+ phút/ngày cho mỗi bác sĩ.</p>
+  </div>
+
+  <!-- PATIENT JOURNEY STRIP -->
+  <div class="journey" id="journey">
+    <div class="jstep">
+      <div class="jstep-num s1">1</div>
+      <div>
+        <div class="jstep-label">Phòng khám</div>
+        <div class="jstep-sub">Ghi âm → Điền bệnh án</div>
+      </div>
+    </div>
+    <div class="jarrow">→</div>
+    <div class="jstep">
+      <div class="jstep-num s2">2</div>
+      <div>
+        <div class="jstep-label">Đi buồng</div>
+        <div class="jstep-sub">HIS → Tờ điều trị 3 ngày</div>
+      </div>
+    </div>
+    <div class="jarrow">→</div>
+    <div class="jstep">
+      <div class="jstep-num s3">3</div>
+      <div>
+        <div class="jstep-label">Xuất viện</div>
+        <div class="jstep-sub">Duyệt → Xuất bệnh án</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEMO CARDS -->
+  <div class="cards" id="cards">
+
+    <!-- Card 1 — Phòng khám -->
+    <a class="card c1" href="main.html">
+      <div class="card-eyebrow">
+        <span class="card-tag">Kịch bản 1</span>
+        <span class="card-num">Tai Mũi Họng · Outpatient</span>
+      </div>
+      <div class="card-icon">🎙️</div>
+      <div class="card-title">Phòng khám<br><em>Ghi âm → Bệnh án</em></div>
+      <div class="card-pain">
+        Bác sĩ hiện mất <strong>15–20 phút gõ bệnh án</strong> sau mỗi ca khám — vừa mệt vừa trễ lịch.<br><br>
+        MedVita ghi âm toàn bộ buổi khám, tự động trích xuất lâm sàng và điền đúng từng ô bệnh án. Bác sĩ chỉ cần duyệt.
+      </div>
+      <div class="card-metrics">
+        <div class="card-metric"><span class="card-metric-dot"></span>Tiết kiệm 15 phút/bệnh nhân</div>
+        <div class="card-metric"><span class="card-metric-dot"></span>AI điền 8 section từ audio</div>
+        <div class="card-metric"><span class="card-metric-dot"></span>Bác sĩ toàn quyền kiểm soát</div>
+      </div>
+      <button class="card-cta">Xem kịch bản 1 <span class="card-cta-arrow">→</span></button>
+    </a>
+
+    <!-- Card 2 — Đi buồng -->
+    <a class="card c2" href="video2-thămkhám.html">
+      <div class="card-eyebrow">
+        <span class="card-tag">Kịch bản 2</span>
+        <span class="card-num">Tai Mũi Họng · Inpatient</span>
+      </div>
+      <div class="card-icon">🏥</div>
+      <div class="card-title">Đi buồng<br><em>HIS → Tờ điều trị</em></div>
+      <div class="card-pain">
+        Mỗi sáng đi buồng, bác sĩ phải <strong>mở 4–5 module HIS riêng lẻ</strong> để tổng hợp diễn biến đêm, XN mới, thuốc — trước khi có thể ra y lệnh.<br><br>
+        MedVita đọc chart sẵn từ trước, bác sĩ hỏi — AI trả lời ngay, rồi điền Tờ điều trị 3 ngày liên tiếp.
+      </div>
+      <div class="card-metrics">
+        <div class="card-metric"><span class="card-metric-dot"></span>Tổng hợp từ 4 nguồn HIS</div>
+        <div class="card-metric"><span class="card-metric-dot"></span>Tờ điều trị 3 ngày — D1, D2, D3</div>
+        <div class="card-metric"><span class="card-metric-dot"></span>So sánh XN 3 ngày tức thì</div>
+      </div>
+      <button class="card-cta">Xem kịch bản 2 <span class="card-cta-arrow">→</span></button>
+    </a>
+
+    <!-- Card 3 — Tổng kết -->
+    <a class="card c3" href="video3-bệnhán.html">
+      <div class="card-eyebrow">
+        <span class="card-tag">Kịch bản 3</span>
+        <span class="card-num">Tai Mũi Họng · Discharge</span>
+      </div>
+      <div class="card-icon">📋</div>
+      <div class="card-title">Tổng kết<br><em>Duyệt → Xuất bệnh án</em></div>
+      <div class="card-pain">
+        Kết thúc ca, bác sĩ vẫn phải <strong>tự hoàn thiện chẩn đoán, CLS, hướng điều trị</strong> và ký bệnh án — thêm 10+ phút mỗi ca.<br><br>
+        MedVita đã điền sẵn toàn bộ — bác sĩ ra lệnh giọng nói để điều chỉnh, duyệt rồi xuất 1 bước.
+      </div>
+      <div class="card-metrics">
+        <div class="card-metric"><span class="card-metric-dot"></span>Bệnh án đã điền tự động</div>
+        <div class="card-metric"><span class="card-metric-dot"></span>Ra lệnh bằng giọng nói</div>
+        <div class="card-metric"><span class="card-metric-dot"></span>Phát hiện lưu ý dị ứng thuốc</div>
+      </div>
+      <button class="card-cta">Xem kịch bản 3 <span class="card-cta-arrow">→</span></button>
+    </a>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom" id="bottom">
+    <div class="bottom-logo">Med<span>Vita</span></div>
+    <div class="bottom-copy">by Trivita AI · Confidential Demo · 2026</div>
+  </div>
+
+</div>
+
+<script>
+// Staggered entry animations
+var els = [
+  { el: document.getElementById('hero'),    delay: 80  },
+  { el: document.getElementById('journey'), delay: 280 },
+  { el: document.getElementById('cards'),   delay: 460 },
+  { el: document.getElementById('bottom'),  delay: 620 },
+];
+els.forEach(function(item){
+  setTimeout(function(){ item.el.classList.add('in'); }, item.delay);
+});
+
+// Keyboard shortcut: 1/2/3 to open demos
+document.addEventListener('keydown', function(e){
+  if (e.code === 'Digit1') location.href = 'main.html';
+  if (e.code === 'Digit2') location.href = 'video2-thămkhám.html';
+  if (e.code === 'Digit3') location.href = 'video3-bệnhán.html';
+});
+</script>
+</body>
+</html>

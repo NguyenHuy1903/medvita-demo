@@ -1,6 +1,9 @@
 // ===== SPEED MODE =====
 var devMode = false;
 
+// Global handle to whatever audio is currently playing — used by pause button
+var _activeAudio = null;
+
 function speed(ms) { return devMode ? Math.round(ms / 5) : ms; }
 
 function toggleMode() {

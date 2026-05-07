@@ -94,9 +94,10 @@ async function playVoiceInput(text, audioSrc, durationMs) {
   await new Promise(function (resolve) {
     if (!audioSrc) { setTimeout(resolve, speed(fallback)); return; }
     var aud = new Audio(audioSrc);
-    aud.onended = resolve;
-    aud.onerror = function () { setTimeout(resolve, speed(fallback)); };
-    aud.play().catch(function () { setTimeout(resolve, speed(fallback)); });
+    _activeAudio = aud;
+    aud.onended  = function () { _activeAudio = null; resolve(); };
+    aud.onerror  = function () { _activeAudio = null; setTimeout(resolve, speed(fallback)); };
+    aud.play().catch(function () { _activeAudio = null; setTimeout(resolve, speed(fallback)); });
   });
 
   // 4. Stop → restore input
@@ -174,9 +175,10 @@ async function playMedVitaTTS(audioSrc, durationMs) {
   await new Promise(function(resolve) {
     if (!audioSrc) { setTimeout(resolve, speed(fallback)); return; }
     var aud = new Audio(audioSrc);
-    aud.onended = resolve;
-    aud.onerror = function() { setTimeout(resolve, speed(fallback)); };
-    aud.play().catch(function() { setTimeout(resolve, speed(fallback)); });
+    _activeAudio = aud;
+    aud.onended  = function() { _activeAudio = null; resolve(); };
+    aud.onerror  = function() { _activeAudio = null; setTimeout(resolve, speed(fallback)); };
+    aud.play().catch(function() { _activeAudio = null; setTimeout(resolve, speed(fallback)); });
   });
 }
 

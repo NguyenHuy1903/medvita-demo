@@ -13,8 +13,10 @@ document.getElementById('btnPause').onclick = function () {
   paused = !paused;
   if (paused) {
     this.textContent = '▶'; this.classList.add('active');
+    if (_activeAudio) _activeAudio.pause();
   } else {
     this.textContent = '⏸'; this.classList.remove('active');
+    if (_activeAudio) _activeAudio.play().catch(function () {});
     if (resumeResolve) { resumeResolve(); resumeResolve = null; }
   }
 };

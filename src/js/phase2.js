@@ -1,5 +1,6 @@
 // ===== PHASE 2: CHAT ASSISTANT =====
-const chatTurns = [
+// var (not const) — allows video-specific files to override turns
+var chatTurns = [
   // Turn 0: doctor voice command → XN card + HIS result
   {
     isXNCommand: true,

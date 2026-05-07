@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>MedVita — Bs Đi Buồng · Tờ Điều Trị</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/opening.css">
 <link rel="stylesheet" href="css/layout.css">
@@ -25,81 +25,87 @@
 .tdt-scroll::-webkit-scrollbar { width: 8px; }
 .tdt-scroll::-webkit-scrollbar-thumb { background: #C5CAD3; border-radius: 8px; }
 
-/* ===== TREATMENT SHEET DOCUMENT ===== */
-.tdt-doc { width: 680px; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,.12); }
-
-/* Document header */
-.tdt-doc-hdr { background: var(--blue); color: #fff; padding: 14px 24px; }
-.tdt-doc-hdr-title { font-size: 16px; font-weight: 800; letter-spacing: 1px; text-align: center; margin-bottom: 4px; }
-.tdt-doc-hdr-sub { font-size: 11px; text-align: center; opacity: .8; }
-
-/* Patient strip */
-.tdt-patient-strip { background: #F0F4FF; border-bottom: 2px solid #C7D7FF; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-.tdt-pt-main { font-size: 13px; font-weight: 700; color: var(--ink); }
-.tdt-pt-meta { font-size: 11px; color: var(--ink3); margin-top: 2px; }
-.tdt-pt-badge { font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 4px; background: #FEF3C7; color: #92400E; }
-
-/* Sections */
-.tdt-section { border-bottom: 1px solid var(--border); }
-.tdt-section:last-child { border-bottom: none; }
-.tdt-sec-hdr { padding: 8px 24px; background: var(--surface2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
-.tdt-sec-num { width: 20px; height: 20px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.tdt-sec-label { font-size: 11px; font-weight: 700; color: var(--ink2); text-transform: uppercase; letter-spacing: .5px; }
-.tdt-sec-status { margin-left: auto; font-size: 10px; font-weight: 600; color: var(--ink4); }
-.tdt-sec-status.done { color: #16A34A; }
-.tdt-sec-body { padding: 14px 24px; min-height: 60px; position: relative; }
-
-/* Pending section (AI working on it) */
-.tdt-section.pending .tdt-sec-hdr { background: #FEF9C3; border-bottom-color: #FEF08A; }
-.tdt-section.pending .tdt-sec-num { background: var(--blue); }
-.tdt-section.approved .tdt-sec-hdr { background: #F0FDF4; border-bottom-color: #BBF7D0; }
-.tdt-section.approved .tdt-sec-num { background: #16A34A; }
-.tdt-section.approved .tdt-sec-status { color: #16A34A; }
-
-/* Slot (text fill area) */
-.tdt-slot { font-size: 12.5px; line-height: 1.7; color: var(--ink); white-space: pre-wrap; display: block; }
-.tdt-slot.empty { color: var(--ink4); font-style: italic; }
-.tdt-slot.filling::after { content: '|'; animation: blink .8s infinite; color: var(--blue); }
-@keyframes blink { 50% { opacity: 0; } }
-
-/* Vital row */
-.tdt-vital-row { display: flex; gap: 20px; margin-bottom: 10px; flex-wrap: wrap; }
-.tdt-vital { display: flex; flex-direction: column; gap: 1px; }
-.tdt-vital-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: .4px; color: var(--ink4); font-weight: 600; }
-.tdt-vital-val { font-size: 14px; font-weight: 700; color: var(--ink); }
-.tdt-vital-val.normal { color: #16A34A; }
-.tdt-vital-val.low { color: var(--blue); }
-
-/* XN comparison table */
-.tdt-xn-tbl { width: 100%; border-collapse: collapse; font-size: 12px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
-.tdt-xn-tbl th { background: var(--surface2); padding: 7px 12px; text-align: left; font-weight: 700; font-size: 10.5px; color: var(--ink3); text-transform: uppercase; letter-spacing: .3px; border-bottom: 1px solid var(--border); }
-.tdt-xn-tbl td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
-.tdt-xn-tbl tr:last-child td { border-bottom: none; }
-.tdt-xn-trend-up { color: #dc2626; font-weight: 700; }
-.tdt-xn-trend-down { color: #16A34A; font-weight: 700; }
-.tdt-xn-trend-ok { color: #16A34A; }
-.tdt-xn-note { margin-top: 10px; font-size: 11.5px; color: #166534; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 6px; padding: 8px 12px; }
-
-/* Orders list */
-.tdt-orders { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-.tdt-order-item { display: flex; align-items: baseline; gap: 8px; font-size: 12.5px; color: var(--ink); line-height: 1.5; }
-.tdt-order-item::before { content: '•'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
-.tdt-order-item .tag { font-size: 9px; font-weight: 600; padding: 1px 5px; border-radius: 3px; }
-.tag-cont { background: #F0FDF4; color: #166534; }
-.tag-adj { background: #FEF3C7; color: #92400E; }
-.tag-new { background: #EFF6FF; color: #1D4ED8; }
-
-/* Doctor signature area */
-.tdt-sign { padding: 14px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
-.tdt-sign-box { text-align: center; }
-.tdt-sign-label { font-size: 10px; color: var(--ink3); margin-bottom: 24px; }
-.tdt-sign-name { font-size: 12px; font-weight: 700; color: var(--ink); border-top: 1px solid var(--ink); padding-top: 4px; display: none; }
-.tdt-sign-name.show { display: block; }
-
 /* Save button in toolbar */
 .tdt-save-btn { padding: 5px 13px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface2); color: var(--ink4); font-family: inherit; font-weight: 600; font-size: 11.5px; cursor: not-allowed; transition: all .2s; margin-left: auto; }
 .tdt-save-btn.ready { background: var(--green); color: #fff; border-color: var(--green); cursor: pointer; animation: epulse 2s infinite; }
 @keyframes epulse { 0%,100% { box-shadow: 0 0 0 0 rgba(127,195,78,.4); } 50% { box-shadow: 0 0 0 7px rgba(127,195,78,0); } }
+
+/* ===== PHIẾU THEO DÕI ĐIỀU TRỊ ===== */
+.ptddt-doc { width: 700px; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,.14); font-size: 12px; }
+
+/* Header */
+.ptddt-hdr { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 16px 8px; border-bottom: 2px solid #000; gap: 8px; }
+.ptddt-hdr-left { font-size: 10.5px; line-height: 1.55; text-align: center; font-weight: 700; font-family: 'Times New Roman', serif; white-space: nowrap; }
+.ptddt-hdr-left small { font-weight: 400; display: block; }
+.ptddt-hdr-center { flex: 1; text-align: center; }
+.ptddt-form-title { font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; font-family: 'Times New Roman', serif; line-height: 1.3; }
+.ptddt-form-num { font-size: 10px; color: #555; margin-top: 3px; font-family: 'Inter', sans-serif; }
+.ptddt-hdr-right { font-size: 10px; line-height: 1.65; text-align: right; color: #333; font-family: 'Inter', sans-serif; white-space: nowrap; }
+
+/* Patient info rows */
+.ptddt-patient { display: flex; gap: 14px; flex-wrap: wrap; padding: 5px 14px; border-bottom: 1px solid #000; font-size: 11.5px; font-family: 'Inter', sans-serif; }
+
+/* Main 3-column table */
+.ptddt-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.ptddt-table th { border: 1px solid #000; padding: 5px 8px; text-align: center; font-size: 11px; font-weight: 700; background: #f0f0f0; text-transform: uppercase; letter-spacing: .3px; font-family: 'Times New Roman', serif; }
+.ptddt-col-date { width: 62px; }
+.ptddt-col-db { width: calc(50% - 31px); }
+.ptddt-col-yl { width: calc(50% - 31px); }
+
+/* Table cells */
+.ptddt-td-date { border: 1px solid #000; padding: 8px 4px; vertical-align: top; text-align: center; background: #fafafa; }
+.ptddt-date { font-size: 12.5px; font-weight: 700; font-family: 'Inter', sans-serif; }
+.ptddt-time { font-size: 10.5px; color: #666; margin-top: 3px; font-family: 'Inter', sans-serif; }
+.ptddt-td-db, .ptddt-td-yl { border: 1px solid #000; vertical-align: top; transition: background .35s; }
+.ptddt-td-db.filling, .ptddt-td-yl.filling { background: #FFFDE7; }
+.ptddt-td-db.done, .ptddt-td-yl.done { background: #F0FDF4; }
+
+/* Content areas */
+.ptddt-db-content, .ptddt-yl-content { padding: 8px 10px; min-height: 170px; }
+
+/* Diễn biến — handwriting style */
+.ptddt-db-text { font-family: 'Kalam', cursive; font-size: 13.5px; line-height: 1.7; color: #1a1a2e; white-space: pre-wrap; display: block; }
+.ptddt-db-text.filling::after { content: '|'; animation: blink .8s infinite; color: var(--blue); margin-left: 1px; }
+@keyframes blink { 50% { opacity: 0; } }
+.ptddt-empty { color: var(--ink4); font-style: italic; font-family: 'Inter', sans-serif; font-size: 11.5px; }
+
+/* Y lệnh */
+.ptddt-yl-text { font-family: 'Inter', sans-serif; font-size: 11.5px; line-height: 1.75; color: var(--ink); display: block; }
+.ptddt-yl-hdr { font-weight: 700; color: #111; margin-top: 6px; }
+.ptddt-yl-hdr:first-child { margin-top: 0; }
+.ptddt-yl-item { padding-left: 8px; }
+
+/* Signature row inside cell */
+.ptddt-sign-area { border-top: 1px dashed #bbb; padding: 6px 10px 8px; display: flex; flex-direction: column; align-items: flex-end; }
+.ptddt-sign-title { font-size: 10px; color: #777; font-style: italic; font-family: 'Inter', sans-serif; }
+.ptddt-sign-name { font-family: 'Kalam', cursive; font-size: 15px; font-weight: 700; color: #1a365d; margin-top: 1px; }
+
+/* ===== CHAT CARDS — source chips, timeline, med list ===== */
+.mv-sources { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.mv-src-chip { font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+.mv-src-lab   { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+.mv-src-nurse { background: #FFF7ED; color: #C2410C; border-color: #FED7AA; }
+.mv-src-med   { background: #F0FDF4; color: #166534; border-color: #BBF7D0; }
+.mv-src-note  { background: #FAF5FF; color: #6B21A8; border-color: #E9D5FF; }
+
+.mv-src-badge { display: inline-block; font-size: 10px; font-weight: 700; color: var(--ink3); background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 7px; margin-bottom: 7px; }
+
+.mv-timeline { display: flex; flex-direction: column; gap: 4px; }
+.mv-tl-row { display: flex; gap: 8px; font-size: 11.5px; line-height: 1.5; align-items: baseline; }
+.mv-tl-time { font-weight: 700; color: var(--ink3); font-size: 10.5px; min-width: 38px; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.mv-tl-flag .mv-tl-time { color: #C2410C; }
+.mv-tl-flag > span:last-child { color: #9A3412; font-weight: 500; }
+.mv-conclusion { margin-top: 7px; font-size: 11px; color: #166534; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 4px; padding: 5px 8px; }
+
+.mv-med-list { display: flex; flex-direction: column; gap: 5px; margin-top: 2px; }
+.mv-med-row { display: flex; align-items: baseline; gap: 6px; font-size: 11.5px; flex-wrap: wrap; }
+.mv-med-name { font-weight: 600; color: var(--ink); min-width: 130px; }
+.mv-med-status { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
+.mv-med-status.ok   { background: #F0FDF4; color: #166534; }
+.mv-med-status.warn { background: #FEF3C7; color: #92400E; }
+.mv-med-note { font-size: 11px; color: var(--ink3); }
+
+.chat-day-div { text-align: center; font-size: 10.5px; font-weight: 700; color: var(--ink4); padding: 5px 10px; background: var(--surface2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); letter-spacing: .3px; margin: 2px 0; }
 </style>
 </head>
 <body>
@@ -178,7 +184,7 @@
     <div class="hdr-logo">MedVita</div><div class="hdr-sep"></div>
     <div><div class="hdr-title" id="hdrTitle">Đi buồng · Nguyễn Thị Hoa</div><div class="hdr-sub" id="hdrSub">Bác sĩ ra lệnh · MedVita điền Tờ điều trị · Ngày 2</div></div>
     <div class="rec-badge" id="recBadge" style="background:#F0FDF4;border-color:#BBF7D0;color:#166534;"><span style="font-size:13px;">📊</span> Chart đã sẵn sàng</div>
-    <div class="hdr-ctrls"><button class="ctrl-btn" id="btnMode" title="Dev mode">⚡</button><button class="ctrl-btn" id="btnPause" title="Tạm dừng (Space)">⏸</button></div>
+    <div class="hdr-ctrls"><a class="ctrl-btn" href="index.html" title="Hub">☰</a><button class="ctrl-btn" id="btnMode" title="Dev mode">⚡</button><button class="ctrl-btn" id="btnPause" title="Tạm dừng (Space)">⏸</button></div>
   </div>
 
   <!-- LEFT: side-col (35%) -->
@@ -206,100 +212,151 @@
     </div>
   </div>
 
-  <!-- RIGHT: Tờ Điều Trị (65%) -->
+  <!-- RIGHT: Phiếu Theo Dõi Điều Trị (65%) -->
   <div class="tdt-panel">
     <div class="tdt-toolbar">
-      <span class="tdt-file">📄 to_dieu_tri_26063163_ngay2.pdf</span>
-      <span id="tdtProgress" style="font-size:11px;color:var(--ink4);">0 / 3 mục</span>
-      <button class="tdt-save-btn" id="tdtSaveBtn" disabled>Lưu Tờ điều trị</button>
+      <span class="tdt-file">📄 phieu_theo_doi_dieu_tri_26063163.pdf</span>
+      <span id="tdtProgress" style="font-size:11px;color:var(--ink4);">0 / 2 ngày</span>
+      <button class="tdt-save-btn" id="tdtSaveBtn" disabled>Lưu &amp; Ký tên</button>
     </div>
     <div class="tdt-prog"><div class="tdt-prog-fill" id="tdtProgFill"></div></div>
     <div class="tdt-scroll">
-      <div class="tdt-doc" id="tdtDoc">
+      <div class="ptddt-doc" id="tdtDoc">
 
-        <!-- Document header -->
-        <div class="tdt-doc-hdr">
-          <div class="tdt-doc-hdr-title">TỜ ĐIỀU TRỊ</div>
-          <div class="tdt-doc-hdr-sub">Bệnh viện Đa Khoa TMH · Khoa Tai Mũi Họng · Ngày điều trị thứ <strong>2</strong> · 04/05/2026 · Sáng</div>
+        <!-- Header -->
+        <div class="ptddt-hdr">
+          <div class="ptddt-hdr-left">BỘ Y TẾ<br>BỆNH VIỆN TW THÁI NGUYÊN<br><small>Khoa: Tai Mũi Họng</small></div>
+          <div class="ptddt-hdr-center">
+            <div class="ptddt-form-title">Phiếu theo dõi điều trị</div>
+            <div class="ptddt-form-num">Số: 16/BV-2 &nbsp;·&nbsp; Trang 4/4</div>
+          </div>
+          <div class="ptddt-hdr-right">Mã BN: 26063163<br>Số vào viện: TMH2600555<br>Lần in: 1</div>
         </div>
 
-        <!-- Patient strip -->
-        <div class="tdt-patient-strip">
-          <div>
-            <div class="tdt-pt-main">Nguyễn Thị Hoa &nbsp;·&nbsp; Nữ &nbsp;·&nbsp; 19 tuổi</div>
-            <div class="tdt-pt-meta">Mã BN: 26063163 &nbsp;·&nbsp; Buồng 204 - Giường 03 &nbsp;·&nbsp; Vào: 03/05/2026</div>
-          </div>
-          <div class="tdt-pt-badge">J01 Viêm xoang cấp</div>
+        <!-- Patient info -->
+        <div class="ptddt-patient">
+          <span>Họ tên: <strong>NGUYỄN THỊ HOA</strong></span>
+          <span>Tuổi: 19</span>
+          <span>Giới tính: Nữ</span>
+          <span>Buồng: P.02</span>
+          <span>Giường: KH021</span>
+        </div>
+        <div class="ptddt-patient">
+          <span>Chẩn đoán: <strong>Viêm xoang cấp</strong></span>
+          <span>Vào viện: 03/05/2026 09:00</span>
+          <span>Ra viện: ....................</span>
         </div>
 
-        <!-- Section 1: Diễn biến -->
-        <div class="tdt-section" id="sec-dienbian">
-          <div class="tdt-sec-hdr">
-            <div class="tdt-sec-num">1</div>
-            <div class="tdt-sec-label">Diễn biến bệnh & Sinh hiệu</div>
-            <div class="tdt-sec-status" id="sec-dienbian-status">Chờ điền</div>
-          </div>
-          <div class="tdt-sec-body" id="sec-dienbian-body">
-            <div class="tdt-vital-row" id="vitals-row" style="display:none">
-              <div class="tdt-vital">
-                <span class="tdt-vital-label">Nhiệt độ</span>
-                <span class="tdt-vital-val normal" id="v-nhietdo">—</span>
-              </div>
-              <div class="tdt-vital">
-                <span class="tdt-vital-label">Mạch</span>
-                <span class="tdt-vital-val normal" id="v-mach">—</span>
-              </div>
-              <div class="tdt-vital">
-                <span class="tdt-vital-label">HA</span>
-                <span class="tdt-vital-val normal" id="v-ha">—</span>
-              </div>
-              <div class="tdt-vital">
-                <span class="tdt-vital-label">NT</span>
-                <span class="tdt-vital-val normal" id="v-nt">—</span>
-              </div>
-            </div>
-            <span class="tdt-slot empty" id="slot-dienbian">— Chưa điền —</span>
-          </div>
-        </div>
+        <!-- Main 3-column table -->
+        <table class="ptddt-table">
+          <thead>
+            <tr>
+              <th class="ptddt-col-date">Ngày giờ</th>
+              <th class="ptddt-col-db">Diễn biến lâm sàng</th>
+              <th class="ptddt-col-yl">Y lệnh</th>
+            </tr>
+          </thead>
+          <tbody>
 
-        <!-- Section 2: Kết quả XN -->
-        <div class="tdt-section" id="sec-xn">
-          <div class="tdt-sec-hdr">
-            <div class="tdt-sec-num">2</div>
-            <div class="tdt-sec-label">Kết quả xét nghiệm</div>
-            <div class="tdt-sec-status" id="sec-xn-status">Chờ điền</div>
-          </div>
-          <div class="tdt-sec-body" id="sec-xn-body">
-            <span class="tdt-slot empty" id="slot-xn">— Chờ bác sĩ yêu cầu —</span>
-          </div>
-        </div>
+            <!-- Ngày 1: pre-filled reference -->
+            <tr>
+              <td class="ptddt-td-date">
+                <div class="ptddt-date">03/05</div>
+                <div class="ptddt-time">09:30</div>
+              </td>
+              <td class="ptddt-td-db" style="background:#fafafa">
+                <div class="ptddt-db-content">
+                  <div class="ptddt-db-text">BN vào viện tỉnh táo, tiếp xúc tốt. Sốt 38.8°C, đau đầu, nghẹt mũi 2 bên, chảy mũi vàng đặc.
+Mạch: 92 l/ph. HA: 110/60. NT: 20 l/ph. CN: 41 kg.
+Họng xung huyết nhẹ, amidan T1. Nội soi mũi: niêm mạc phù nề, dịch mủ nhầy cả 2 bên. X-quang: mờ đều 2 xoang hàm.</div>
+                </div>
+                <div class="ptddt-sign-area">
+                  <div class="ptddt-sign-title">Bác sĩ điều trị</div>
+                  <div class="ptddt-sign-name">BS. Bùi Bằng Giang</div>
+                </div>
+              </td>
+              <td class="ptddt-td-yl" style="background:#fafafa">
+                <div class="ptddt-yl-content">
+                  <div class="ptddt-yl-text">
+                    <div class="ptddt-yl-hdr">* THUỐC - VTY:</div>
+                    <div class="ptddt-yl-item">1. Cefuroxim 500mg × 2v/ng (uống sáng, chiều)</div>
+                    <div class="ptddt-yl-item">2. Paracetamol 500mg × 3v/ng khi sốt &gt;38.5°C</div>
+                    <div class="ptddt-yl-item">3. NaCl 9‰ nhỏ mũi × 3 lần/ng</div>
+                    <div class="ptddt-yl-item">4. Loratadin 10mg × 1v/ng (tối)</div>
+                    <div class="ptddt-yl-hdr">* DINH DƯỠNG VÀ CHĂM SÓC:</div>
+                    <div class="ptddt-yl-item">- NKĐ: cơm — nước uống thường</div>
+                    <div class="ptddt-yl-item">- Theo dõi nhiệt độ 8 giờ/lần</div>
+                    <div class="ptddt-yl-item">- Mức độ C</div>
+                  </div>
+                </div>
+                <div class="ptddt-sign-area">
+                  <div class="ptddt-sign-title">Bác sĩ điều trị</div>
+                  <div class="ptddt-sign-name">BS. Bùi Bằng Giang</div>
+                </div>
+              </td>
+            </tr>
 
-        <!-- Section 3: Y lệnh -->
-        <div class="tdt-section" id="sec-ylenh">
-          <div class="tdt-sec-hdr">
-            <div class="tdt-sec-num">3</div>
-            <div class="tdt-sec-label">Y lệnh ngày 2</div>
-            <div class="tdt-sec-status" id="sec-ylenh-status">Chờ bác sĩ</div>
-          </div>
-          <div class="tdt-sec-body" id="sec-ylenh-body">
-            <span class="tdt-slot empty" id="slot-ylenh">— Chờ y lệnh —</span>
-          </div>
-        </div>
+            <!-- Ngày 2: to be filled by MedVita -->
+            <tr id="row-ngay2">
+              <td class="ptddt-td-date">
+                <div class="ptddt-date">04/05</div>
+                <div class="ptddt-time">08:15</div>
+              </td>
+              <td class="ptddt-td-db" id="cell-db">
+                <div class="ptddt-db-content">
+                  <div class="ptddt-db-text" id="slot-db"><span class="ptddt-empty">— Chưa điền —</span></div>
+                </div>
+                <div class="ptddt-sign-area" id="sign-db" style="visibility:hidden">
+                  <div class="ptddt-sign-title">Bác sĩ điều trị</div>
+                  <div class="ptddt-sign-name" id="signName">BS. Nguyễn Văn Minh</div>
+                </div>
+              </td>
+              <td class="ptddt-td-yl" id="cell-yl">
+                <div class="ptddt-yl-content">
+                  <div class="ptddt-yl-text" id="slot-yl"><span class="ptddt-empty">— Chờ y lệnh —</span></div>
+                </div>
+                <div class="ptddt-sign-area" id="sign-yl" style="visibility:hidden">
+                  <div class="ptddt-sign-title">Bác sĩ điều trị</div>
+                  <div class="ptddt-sign-name">BS. Nguyễn Văn Minh</div>
+                </div>
+              </td>
+            </tr>
 
-        <!-- Doctor signature -->
-        <div class="tdt-sign">
-          <div class="tdt-sign-box">
-            <div class="tdt-sign-label">Bác sĩ điều trị ký tên</div>
-            <div class="tdt-sign-name" id="signName">BS. Nguyễn Văn Minh</div>
-          </div>
-        </div>
+            <!-- Ngày 3: to be filled -->
+            <tr id="row-ngay3">
+              <td class="ptddt-td-date">
+                <div class="ptddt-date">05/05</div>
+                <div class="ptddt-time">08:30</div>
+              </td>
+              <td class="ptddt-td-db" id="cell-db3">
+                <div class="ptddt-db-content">
+                  <div class="ptddt-db-text" id="slot-db3"><span class="ptddt-empty">— Chưa điền —</span></div>
+                </div>
+                <div class="ptddt-sign-area" id="sign-db3" style="visibility:hidden">
+                  <div class="ptddt-sign-title">Bác sĩ điều trị</div>
+                  <div class="ptddt-sign-name">BS. Nguyễn Văn Minh</div>
+                </div>
+              </td>
+              <td class="ptddt-td-yl" id="cell-yl3">
+                <div class="ptddt-yl-content">
+                  <div class="ptddt-yl-text" id="slot-yl3"><span class="ptddt-empty">— Chờ y lệnh —</span></div>
+                </div>
+                <div class="ptddt-sign-area" id="sign-yl3" style="visibility:hidden">
+                  <div class="ptddt-sign-title">Bác sĩ điều trị</div>
+                  <div class="ptddt-sign-name">BS. Nguyễn Văn Minh</div>
+                </div>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
 
       </div>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast">✓ Đã lưu Tờ điều trị ngày 2 &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
+<div class="toast" id="toast">✓ Đã lưu Phiếu Theo Dõi Điều Trị ngày 2 &nbsp;<span style="color:#9CA3AF;font-size:11px;cursor:pointer" onclick="this.closest('.toast').classList.remove('show')">✕</span></div>
 <div id="typingTag" class="typing-tag"></div>
 
 <script src="js/config.js"></script>
@@ -308,10 +365,7 @@
 <script>
 // ===== VIDEO 2: ĐI BUỒNG DEMO =====
 
-var paused = false, resumeResolve = null, devMode = false;
-var completedSections = 0;
-
-function checkPause() { return paused ? new Promise(function(r){ resumeResolve = r; }) : Promise.resolve(); }
+var completedDays = 0;
 
 document.getElementById('btnPause').onclick = function () {
   paused = !paused;
@@ -330,8 +384,6 @@ document.getElementById('sumDuyet').onclick = function () { this.textContent = '
 document.getElementById('sumSua').onclick   = function () { this.textContent = 'Đang sửa...'; this.disabled = true; };
 
 // ===== FEED HELPERS =====
-var fpFeed = document.getElementById('fpFeed');
-function feedScroll() { fpFeed.scrollTo({ top: fpFeed.scrollHeight, behavior: 'smooth' }); }
 function addFeedMsg(cls, html) {
   var el = document.createElement('div'); el.className = 'fp-item';
   el.innerHTML = html; fpFeed.appendChild(el); feedScroll(); return el;
@@ -348,20 +400,11 @@ function addTypingIndicator() {
   fpFeed.appendChild(el); feedScroll(); return el;
 }
 
-// ===== SECTION HELPERS =====
-function sectionPending(id) { document.getElementById('sec-' + id).classList.add('pending'); }
-function sectionApprove(id, statusText) {
-  var sec = document.getElementById('sec-' + id);
-  sec.classList.remove('pending'); sec.classList.add('approved');
-  var st = document.getElementById('sec-' + id + '-status');
-  if (st) { st.textContent = statusText || '✓ Đã điền'; st.classList.add('done'); }
-  completedSections++;
-  updateTdtProgress();
-}
+// ===== PROGRESS =====
 function updateTdtProgress() {
-  document.getElementById('tdtProgress').textContent = completedSections + ' / 3 mục';
-  document.getElementById('tdtProgFill').style.width = (completedSections / 3 * 100) + '%';
-  if (completedSections === 3) {
+  document.getElementById('tdtProgress').textContent = completedDays + ' / 2 ngày';
+  document.getElementById('tdtProgFill').style.width = (completedDays / 2 * 100) + '%';
+  if (completedDays === 2) {
     var btn = document.getElementById('tdtSaveBtn');
     btn.disabled = false; btn.classList.add('ready');
   }
@@ -371,7 +414,7 @@ function updateTdtProgress() {
 async function typeInChat(text) {
   var input = document.getElementById('chatInput');
   var sendBtn = document.getElementById('chatSendBtn');
-  input.disabled = false; input.placeholder = ''; input.value = '';
+  input.removeAttribute('readonly'); input.placeholder = ''; input.value = '';
   var charDelay = devMode ? 10 : 40;
   for (var i = 0; i < text.length; i++) {
     await checkPause();
@@ -382,15 +425,15 @@ async function typeInChat(text) {
   await new Promise(function(r){ setTimeout(r, speed(220)); });
   simClick(sendBtn, 'sim-send');
   await new Promise(function(r){ setTimeout(r, speed(280)); });
-  input.value = ''; input.placeholder = 'Nhập yêu cầu cho MedVita...'; input.disabled = true; sendBtn.disabled = true;
+  input.value = ''; input.placeholder = 'Nhập yêu cầu cho MedVita...'; input.setAttribute('readonly', ''); sendBtn.disabled = true;
 }
 
-// ===== SLOT TYPEWRITER =====
-async function typeSlot(slotId, text) {
+// ===== TYPEWRITER FOR DIỄN BIẾN =====
+async function typeDbSlot(slotId, text) {
   var slot = document.getElementById(slotId);
-  slot.classList.remove('empty'); slot.classList.add('filling');
-  slot.textContent = '';
-  var charDelay = devMode ? 4 : 18;
+  slot.innerHTML = '';
+  slot.classList.add('filling');
+  var charDelay = devMode ? 4 : 16;
   for (var i = 0; i < text.length; i++) {
     await checkPause();
     slot.textContent = text.slice(0, i + 1);
@@ -399,127 +442,264 @@ async function typeSlot(slotId, text) {
   slot.classList.remove('filling');
 }
 
+// ===== LINE-BY-LINE REVEAL FOR Y LỆNH =====
+async function fillYlenhLines(slotId, lines) {
+  var slot = document.getElementById(slotId);
+  slot.innerHTML = '';
+  for (var i = 0; i < lines.length; i++) {
+    await checkPause();
+    await new Promise(function(r){ setTimeout(r, speed(200)); });
+    var div = document.createElement('div');
+    div.className = lines[i].hdr ? 'ptddt-yl-hdr' : 'ptddt-yl-item';
+    div.textContent = lines[i].text;
+    div.style.opacity = '0';
+    slot.appendChild(div);
+    (function(d){ setTimeout(function(){ d.style.transition = 'opacity .28s'; d.style.opacity = '1'; }, 20); })(div);
+  }
+}
+
+// ===== DAY DIVIDER IN FEED =====
+function addDayDiv(label) {
+  var el = document.createElement('div'); el.className = 'fp-item';
+  el.innerHTML = '<div class="chat-day-div">' + label + '</div>';
+  fpFeed.appendChild(el); feedScroll();
+}
+
+// ===== XN TABLE HELPER =====
+function xnTable(rows) {
+  var s = '<table style="width:100%;margin-top:7px;border-collapse:collapse;font-size:11px;">' +
+    '<tr style="background:#f5f5f5">' +
+      '<th style="padding:4px 7px;text-align:left;border:1px solid #ddd">Xét nghiệm</th>' + rows.headers +
+    '</tr>' + rows.body + '</table>';
+  return s;
+}
+
 // ===== MAIN DEMO SEQUENCE =====
 async function runDemo() {
   await checkPause();
-  await new Promise(function(r){ setTimeout(r, speed(800)); });
+  await delay(800);
 
   // Auto-approve summary
   simClick(document.getElementById('sumDuyet'), 'sim-click-green');
-  await new Promise(function(r){ setTimeout(r, speed(400)); });
-  document.getElementById('sumDuyet').textContent = '✓ Đã duyệt'; document.getElementById('sumDuyet').disabled = true;
-  await new Promise(function(r){ setTimeout(r, speed(1000)); });
+  await delay(400);
+  document.getElementById('sumDuyet').textContent = '✓ Đã duyệt';
+  document.getElementById('sumDuyet').disabled = true;
+  await delay(700);
 
-  // ─── BLOCK 1: MedVita tự động điền Diễn biến ───────────────────────────
-  addMVMsg('Tôi đã đọc chart sáng nay. BN ổn định — sốt giảm còn 37.5°C, không đau đầu, chảy mũi ít hơn. Để tôi điền <strong>Diễn biến</strong> và sinh hiệu nhé.');
-  await new Promise(function(r){ setTimeout(r, speed(1800)); });
-
-  sectionPending('dienbian');
-  var tdoc = document.getElementById('tdtDoc');
-  tdoc.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Fill vitals instantly
-  await new Promise(function(r){ setTimeout(r, speed(500)); });
-  document.getElementById('vitals-row').style.display = 'flex';
-  var vitals = [['v-nhietdo','37.5°C'],['v-mach','84 l/ph'],['v-ha','110/70'],['v-nt','18 l/ph']];
-  for (var vi = 0; vi < vitals.length; vi++) {
-    document.getElementById(vitals[vi][0]).textContent = vitals[vi][1];
-    await new Promise(function(r){ setTimeout(r, speed(180)); });
-  }
-
-  // Type diễn biến text
-  await typeSlot('slot-dienbian',
-    'BN tỉnh, tiếp xúc tốt. Sốt giảm còn 37.5°C (hôm qua 38.8°C). Không còn đau đầu, không nôn. Chảy mũi giảm nhiều, còn ít dịch nhày. Ăn uống được, ngủ tốt hơn. Họng bớt xung huyết. Mũi còn tắc nhẹ một bên.'
-  );
-  sectionApprove('dienbian', '✓ Đã điền');
-  addMVMsg('✓ Đã điền Diễn biến — BN đáp ứng tốt với điều trị ngày đầu.');
-  await new Promise(function(r){ setTimeout(r, speed(2000)); });
-
-  // ─── BLOCK 2: Doctor yêu cầu xem XN ───────────────────────────────────
-  await typeInChat('xem kết quả xét nghiệm sáng nay');
-  addDoctorMsg('xem kết quả xét nghiệm sáng nay');
-  await new Promise(function(r){ setTimeout(r, speed(400)); });
-
-  var tind = addTypingIndicator();
-  await new Promise(function(r){ setTimeout(r, speed(1400)); });
-  tind.remove();
-
-  sectionPending('xn');
-  document.getElementById('slot-xn').classList.remove('empty');
-
-  // Inject XN comparison table
-  var xnBody = document.getElementById('sec-xn-body');
-  xnBody.innerHTML =
-    '<table class="tdt-xn-tbl">' +
-      '<thead><tr><th>Xét nghiệm</th><th>Hôm qua</th><th>Hôm nay</th><th>Tham chiếu</th><th>Xu hướng</th></tr></thead>' +
-      '<tbody>' +
-        '<tr><td><strong>Bạch cầu (BC)</strong></td><td>11.2 G/L</td><td style="font-weight:700;color:#16A34A">8.5 G/L</td><td style="color:var(--ink3)">4–10</td><td class="tdt-xn-trend-down">↓ Cải thiện</td></tr>' +
-        '<tr><td><strong>CRP</strong></td><td>48 mg/L</td><td style="font-weight:700;color:#16A34A">22 mg/L</td><td style="color:var(--ink3)">&lt;5</td><td class="tdt-xn-trend-down">↓ Cải thiện</td></tr>' +
-        '<tr><td><strong>Glucose</strong></td><td>4.35 mmol/L</td><td style="font-weight:700;color:var(--ink)">4.2 mmol/L</td><td style="color:var(--ink3)">3.9–6.4</td><td class="tdt-xn-trend-ok">✓ Bình thường</td></tr>' +
-        '<tr><td><strong>Creatinin</strong></td><td>61 µmol/L</td><td style="font-weight:700;color:var(--ink)">59 µmol/L</td><td style="color:var(--ink3)">44–97</td><td class="tdt-xn-trend-ok">✓ Bình thường</td></tr>' +
-      '</tbody>' +
-    '</table>' +
-    '<div class="tdt-xn-note">✓ <strong>Nhận xét:</strong> BC và CRP giảm rõ — viêm đang được kiểm soát tốt với Cefuroxime. Chức năng thận, gan ổn định.</div>';
-
-  sectionApprove('xn', '✓ Đã cập nhật');
+  // ══════════════════════════════════════════════════════════════════════
+  // NGÀY 2 — 04/05/2026
+  // ══════════════════════════════════════════════════════════════════════
+  addDayDiv('📅 Ngày điều trị 2 · 04/05/2026 · Sáng 08:15');
+  await delay(600);
 
   addMVMsg(
-    'BC giảm 11.2 → 8.5 · CRP giảm 48 → 22 — viêm giảm tốt, đáp ứng kháng sinh. Chức năng thận bình thường, không cần điều chỉnh liều.',
-    '<div class="chat-mv-card" style="margin-top:6px;">' +
-      '<span style="font-size:10px;color:#16A34A;font-weight:700;">📉 BC −24% &nbsp;·&nbsp; CRP −54%</span>' +
+    'Đã đọc xong chart trước khi bác sĩ vào — tổng hợp từ <strong>4 nguồn HIS</strong>:' +
+    '<div class="mv-sources">' +
+      '<span class="mv-src-chip mv-src-lab">📊 HIS · Lab</span>' +
+      '<span class="mv-src-chip mv-src-nurse">🌡️ Điều dưỡng đêm</span>' +
+      '<span class="mv-src-chip mv-src-med">💊 Danh sách thuốc</span>' +
+      '<span class="mv-src-chip mv-src-note">📋 Bệnh án ngày 1</span>' +
     '</div>'
   );
-  await new Promise(function(r){ setTimeout(r, speed(2200)); });
+  await delay(2200);
 
-  // ─── BLOCK 3: Doctor ra y lệnh ─────────────────────────────────────────
-  await typeInChat('tiếp tục phác đồ, giảm liều paracetamol vì BN hết sốt');
-  addDoctorMsg('tiếp tục phác đồ, giảm liều paracetamol vì BN hết sốt');
-  await new Promise(function(r){ setTimeout(r, speed(400)); });
+  // B1 — Đêm qua
+  await typeInChat('đêm qua BN có gì không?');
+  addDoctorMsg('đêm qua BN có gì không?');
+  await delay(300); var t1 = addTypingIndicator(); await delay(1000); t1.remove();
 
-  var tind2 = addTypingIndicator();
-  await new Promise(function(r){ setTimeout(r, speed(1200)); });
-  tind2.remove();
+  addMVMsg(
+    '<span class="mv-src-badge">🌡️ Phiếu ĐD đêm 03→04/05</span>' +
+    '<div class="mv-timeline">' +
+      '<div class="mv-tl-row"><span class="mv-tl-time">21:00</span><span>37.3°C — ổn định, ngủ được</span></div>' +
+      '<div class="mv-tl-row mv-tl-flag"><span class="mv-tl-time">23:00</span><span>Sốt 37.8°C — cho uống Paracetamol 500mg</span></div>' +
+      '<div class="mv-tl-row"><span class="mv-tl-time">01:00</span><span>37.2°C — hết sốt, ngủ lại được</span></div>' +
+      '<div class="mv-tl-row"><span class="mv-tl-time">06:00</span><span>Tỉnh táo, không đau đầu, ăn sáng nhẹ</span></div>' +
+    '</div>' +
+    '<div class="mv-conclusion">→ Sốt thoáng qua 23h, đáp ứng Paracetamol. Đêm không có biến cố.</div>'
+  );
+  await delay(2400);
 
-  sectionPending('ylenh');
-  var ylenBody = document.getElementById('sec-ylenh-body');
-  ylenBody.innerHTML =
-    '<ul class="tdt-orders" id="orders-list">' +
-      '<li class="tdt-order-item"><span>Cefuroxime 500 mg × 2 lần/ngày (uống sau ăn) — ngày 2/7</span><span class="tag tag-cont">Tiếp tục</span></li>' +
-      '<li class="tdt-order-item"><span>Paracetamol 500 mg: giảm xuống <em>khi sốt &gt; 38.5°C</em> (BN đã ổn nhiệt)</span><span class="tag tag-adj">Điều chỉnh</span></li>' +
-      '<li class="tdt-order-item"><span>Nước muối sinh lý nhỏ mũi 3–4 lần/ngày</span><span class="tag tag-cont">Tiếp tục</span></li>' +
-      '<li class="tdt-order-item"><span>Theo dõi thân nhiệt mỗi 6 giờ</span><span class="tag tag-cont">Tiếp tục</span></li>' +
-      '<li class="tdt-order-item"><span>Xét nghiệm lại BC + CRP sau 3 ngày (07/05/2026)</span><span class="tag tag-new">Mới</span></li>' +
-    '</ul>';
+  // B2 — Thuốc
+  await typeInChat('thuốc đang dùng tình trạng thế nào?');
+  addDoctorMsg('thuốc đang dùng tình trạng thế nào?');
+  await delay(300); var t2 = addTypingIndicator(); await delay(900); t2.remove();
 
-  // Animate items appearing
-  var items = ylenBody.querySelectorAll('.tdt-order-item');
-  items.forEach(function(item) { item.style.opacity = '0'; });
-  for (var oi = 0; oi < items.length; oi++) {
-    await new Promise(function(r){ setTimeout(r, speed(220)); });
-    items[oi].style.transition = 'opacity .3s'; items[oi].style.opacity = '1';
-  }
+  addMVMsg(
+    '<span class="mv-src-badge">💊 HIS · Medication Record</span>' +
+    '<div class="mv-med-list">' +
+      '<div class="mv-med-row"><span class="mv-med-name">Cefuroxim 500mg</span><span class="mv-med-status ok">✓ đủ liều</span><span class="mv-med-note">Ngày <strong>2/7</strong></span></div>' +
+      '<div class="mv-med-row"><span class="mv-med-name">Paracetamol 500mg</span><span class="mv-med-status warn">⚡ 2 lần đêm</span><span class="mv-med-note">21:00 và 23:00 — đúng chỉ định</span></div>' +
+      '<div class="mv-med-row"><span class="mv-med-name">NaCl 9‰</span><span class="mv-med-status ok">✓ đều</span><span class="mv-med-note">3 lần/ng</span></div>' +
+      '<div class="mv-med-row"><span class="mv-med-name">Loratadin 10mg</span><span class="mv-med-status ok">✓ đủ</span><span class="mv-med-note">tối 21:30</span></div>' +
+    '</div>'
+  );
+  await delay(2200);
 
-  sectionApprove('ylenh', '✓ Đã cập nhật');
+  // B3 — XN ngày 2
+  await typeInChat('XN sáng nay thế nào?');
+  addDoctorMsg('XN sáng nay thế nào?');
+  await delay(300); var t3 = addTypingIndicator(); await delay(1100); t3.remove();
 
-  addMVMsg('✓ Đã cập nhật Y lệnh ngày 2 — tiếp tục kháng sinh, giảm paracetamol. Đặt lịch XN lại ngày 07/05. Bác sĩ ký tên để lưu.');
-  await new Promise(function(r){ setTimeout(r, speed(1800)); });
+  addMVMsg(
+    '<span class="mv-src-badge">📊 HIS · Lab — 06:15</span>' +
+    '<table style="width:100%;margin-top:7px;border-collapse:collapse;font-size:11px;">' +
+      '<tr style="background:#f5f5f5"><th style="padding:4px 7px;text-align:left;border:1px solid #ddd">Xét nghiệm</th><th style="padding:4px 7px;border:1px solid #ddd">Nhập viện (D1)</th><th style="padding:4px 7px;border:1px solid #ddd">D2 hôm nay</th><th style="padding:4px 7px;border:1px solid #ddd">Xu hướng</th></tr>' +
+      '<tr><td style="padding:4px 7px;border:1px solid #ddd">Bạch cầu</td><td style="padding:4px 7px;border:1px solid #ddd;color:#888">11.2 G/L ↑</td><td style="padding:4px 7px;border:1px solid #ddd;color:#16A34A;font-weight:700">8.5 G/L</td><td style="padding:4px 7px;border:1px solid #ddd;color:#16A34A">↓ Cải thiện</td></tr>' +
+      '<tr><td style="padding:4px 7px;border:1px solid #ddd">CRP</td><td style="padding:4px 7px;border:1px solid #ddd;color:#888">48 mg/L ↑↑</td><td style="padding:4px 7px;border:1px solid #ddd;color:#16A34A;font-weight:700">22 mg/L</td><td style="padding:4px 7px;border:1px solid #ddd;color:#16A34A">↓ Cải thiện</td></tr>' +
+      '<tr><td style="padding:4px 7px;border:1px solid #ddd">Glucose</td><td style="padding:4px 7px;border:1px solid #ddd;color:#888">4.35 mmol/L</td><td style="padding:4px 7px;border:1px solid #ddd">4.2 mmol/L</td><td style="padding:4px 7px;border:1px solid #ddd;color:#16A34A">✓ BT</td></tr>' +
+    '</table>' +
+    '<div class="mv-conclusion">✓ BC, CRP giảm rõ — viêm được kiểm soát tốt. Không cần đổi phác đồ.</div>'
+  );
+  await delay(2400);
 
-  // ─── DONE: activate save ───────────────────────────────────────────────
-  document.getElementById('signName').classList.add('show');
-  document.getElementById('hdrTitle').textContent = 'Tờ điều trị ngày 2 — hoàn tất';
-  document.getElementById('hdrSub').textContent = 'MedVita đã điền đủ 3 mục · Bác sĩ ký và lưu';
+  // B4 — Ra lệnh, điền ngày 2
+  await typeInChat('ok điền đi, giảm paracetamol vì hết sốt rồi');
+  addDoctorMsg('ok điền đi, giảm paracetamol vì hết sốt rồi');
+  await delay(300); var t4 = addTypingIndicator(); await delay(700); t4.remove();
 
-  // Auto-save simulation
-  await new Promise(function(r){ setTimeout(r, speed(2000)); });
-  var saveBtn = document.getElementById('tdtSaveBtn');
-  simClick(saveBtn, 'sim-click-green');
-  await new Promise(function(r){ setTimeout(r, speed(400)); });
+  addMVMsg('Hiểu — tổng hợp XN + ĐD đêm + thuốc, điền vào phiếu ngày 2.');
+  await delay(800);
+
+  document.getElementById('cell-db').classList.add('filling');
+  document.getElementById('row-ngay2').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  await delay(400);
+
+  await typeDbSlot('slot-db',
+    'BN tỉnh, tiếp xúc tốt. Sốt giảm còn 37.5°C (đêm sốt 37.8°C lúc 23h, tự hết sau Paracetamol). Không đau đầu, không nôn. Chảy mũi giảm, còn ít dịch nhầy. Ăn được, ngủ tốt.\n' +
+    'Mạch: 84 l/ph. HA: 110/70. NT: 18 l/ph. SpO₂: 98%.\n' +
+    'XN sáng D2: BC 8.5 G/L ↓, CRP 22 mg/L ↓. Đáp ứng tốt Cefuroxim.'
+  );
+  document.getElementById('cell-db').classList.remove('filling');
+  document.getElementById('cell-db').classList.add('done');
+  await delay(300);
+
+  document.getElementById('cell-yl').classList.add('filling');
+  await fillYlenhLines('slot-yl', [
+    { hdr: true,  text: '* THUỐC - VTY:' },
+    { hdr: false, text: '1. Cefuroxim 500mg × 2v/ng (sáng, chiều)  [tt]' },
+    { hdr: false, text: '2. Paracetamol 500mg khi sốt >38.5°C  [đc — giảm]' },
+    { hdr: false, text: '3. NaCl 9‰ nhỏ mũi × 3 lần/ng  [tt]' },
+    { hdr: false, text: '4. Loratadin 10mg × 1v/ng tối  [tt]' },
+    { hdr: true,  text: '* DINH DƯỠNG & CHĂM SÓC:' },
+    { hdr: false, text: '- NKĐ: cơm, nước uống thường' },
+    { hdr: false, text: '- Theo dõi nhiệt độ 8 giờ/lần · Mức độ C' },
+  ]);
+  document.getElementById('cell-yl').classList.remove('filling');
+  document.getElementById('cell-yl').classList.add('done');
+  document.getElementById('sign-db').style.visibility = 'visible';
+  document.getElementById('sign-yl').style.visibility = 'visible';
+  completedDays++; updateTdtProgress();
+
+  addMVMsg('✓ Ngày 2 xong.');
+  await delay(1400);
+
+  // ══════════════════════════════════════════════════════════════════════
+  // NGÀY 3 — 05/05/2026
+  // ══════════════════════════════════════════════════════════════════════
+  addDayDiv('📅 Ngày điều trị 3 · 05/05/2026 · Sáng 08:30');
+  await delay(600);
+
+  addMVMsg(
+    'Chart ngày 3 đã sẵn sàng — tổng hợp từ <strong>4 nguồn HIS</strong>:' +
+    '<div class="mv-sources">' +
+      '<span class="mv-src-chip mv-src-lab">📊 HIS · Lab D3</span>' +
+      '<span class="mv-src-chip mv-src-nurse">🌡️ ĐD đêm D2→D3</span>' +
+      '<span class="mv-src-chip mv-src-med">💊 Thuốc D3</span>' +
+      '<span class="mv-src-chip mv-src-note">📋 Bệnh án D1–D2</span>' +
+    '</div>'
+  );
+  await delay(2000);
+
+  // B5 — Đêm D2→D3
+  await typeInChat('đêm D2 qua D3 thế nào?');
+  addDoctorMsg('đêm D2 qua D3 thế nào?');
+  await delay(300); var t5 = addTypingIndicator(); await delay(900); t5.remove();
+
+  addMVMsg(
+    '<span class="mv-src-badge">🌡️ Phiếu ĐD đêm 04→05/05</span>' +
+    '<div class="mv-timeline">' +
+      '<div class="mv-tl-row"><span class="mv-tl-time">21:00</span><span>37.1°C — ổn, ngủ sớm</span></div>' +
+      '<div class="mv-tl-row"><span class="mv-tl-time">01:00</span><span>36.8°C — không sốt, ngủ ngon</span></div>' +
+      '<div class="mv-tl-row"><span class="mv-tl-time">06:00</span><span>Tỉnh táo, ăn sáng tốt, không than phiền</span></div>' +
+    '</div>' +
+    '<div class="mv-conclusion">→ Đêm hoàn toàn ổn định. Không sốt, không cần Paracetamol. Tiến triển tốt.</div>'
+  );
+  await delay(2200);
+
+  // B6 — XN ngày 3 (3-day comparison)
+  await typeInChat('XN D3 so với D1, D2 thế nào?');
+  addDoctorMsg('XN D3 so với D1, D2 thế nào?');
+  await delay(300); var t6 = addTypingIndicator(); await delay(1200); t6.remove();
+
+  addMVMsg(
+    '<span class="mv-src-badge">📊 HIS · Lab — so sánh 3 ngày</span>' +
+    '<table style="width:100%;margin-top:7px;border-collapse:collapse;font-size:11px;">' +
+      '<tr style="background:#f5f5f5"><th style="padding:4px 7px;text-align:left;border:1px solid #ddd">Xét nghiệm</th><th style="padding:4px 7px;border:1px solid #ddd">D1 (nhập viện)</th><th style="padding:4px 7px;border:1px solid #ddd">D2</th><th style="padding:4px 7px;border:1px solid #ddd">D3 hôm nay</th></tr>' +
+      '<tr><td style="padding:4px 7px;border:1px solid #ddd">Bạch cầu</td><td style="padding:4px 7px;border:1px solid #ddd;color:#dc2626">11.2 G/L ↑</td><td style="padding:4px 7px;border:1px solid #ddd;color:#CA8A04">8.5 G/L</td><td style="padding:4px 7px;border:1px solid #ddd;color:#16A34A;font-weight:700">6.8 G/L ✓</td></tr>' +
+      '<tr><td style="padding:4px 7px;border:1px solid #ddd">CRP</td><td style="padding:4px 7px;border:1px solid #ddd;color:#dc2626">48 mg/L ↑↑</td><td style="padding:4px 7px;border:1px solid #ddd;color:#CA8A04">22 mg/L</td><td style="padding:4px 7px;border:1px solid #ddd;color:#16A34A;font-weight:700">7 mg/L ↓↓</td></tr>' +
+      '<tr><td style="padding:4px 7px;border:1px solid #ddd">Glucose</td><td style="padding:4px 7px;border:1px solid #ddd;color:#888">4.35</td><td style="padding:4px 7px;border:1px solid #ddd;color:#888">4.20</td><td style="padding:4px 7px;border:1px solid #ddd">4.1 mmol/L ✓</td></tr>' +
+    '</table>' +
+    '<div class="mv-conclusion">✓ BC về bình thường · CRP 7 mg/L (gần ngưỡng) — xu hướng giảm mạnh liên tục 3 ngày. Đủ điều kiện xuất viện nếu lâm sàng ổn.</div>'
+  );
+  await delay(2600);
+
+  // B7 — Ra lệnh, điền ngày 3 + kế hoạch xuất viện
+  await typeInChat('tiến triển tốt, dự kiến xuất viện 07/05, điền ngày 3 đi');
+  addDoctorMsg('tiến triển tốt, dự kiến xuất viện 07/05, điền ngày 3 đi');
+  await delay(300); var t7 = addTypingIndicator(); await delay(700); t7.remove();
+
+  addMVMsg('Rõ — ghi nhận kế hoạch xuất viện 07/05. Điền phiếu ngày 3.');
+  await delay(700);
+
+  document.getElementById('cell-db3').classList.add('filling');
+  document.getElementById('row-ngay3').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  await delay(400);
+
+  await typeDbSlot('slot-db3',
+    'BN tỉnh táo, tiếp xúc tốt. Không sốt (36.8°C sáng), không đau đầu, không nôn. Chảy mũi giảm hẳn, mũi thông thoáng hơn. Họng không còn xung huyết. Ăn uống tốt, ngủ đủ giấc.\n' +
+    'Mạch: 80 l/ph. HA: 110/70. NT: 17 l/ph. SpO₂: 99%.\n' +
+    'XN D3: BC 6.8 G/L ✓ BT, CRP 7 mg/L ↓↓ (3 ngày liên tục giảm). Lâm sàng ổn định, dự kiến xuất viện 07/05/2026.'
+  );
+  document.getElementById('cell-db3').classList.remove('filling');
+  document.getElementById('cell-db3').classList.add('done');
+  await delay(300);
+
+  document.getElementById('cell-yl3').classList.add('filling');
+  await fillYlenhLines('slot-yl3', [
+    { hdr: true,  text: '* THUỐC - VTY:' },
+    { hdr: false, text: '1. Cefuroxim 500mg × 2v/ng (sáng, chiều)  [tt — D3/7]' },
+    { hdr: false, text: '2. NaCl 9‰ nhỏ mũi × 3 lần/ng  [tt]' },
+    { hdr: false, text: '3. Loratadin 10mg × 1v/ng tối  [tt]' },
+    { hdr: false, text: '(Ngừng Paracetamol — không sốt 48h)' },
+    { hdr: true,  text: '* DINH DƯỠNG & CHĂM SÓC:' },
+    { hdr: false, text: '- NKĐ: cơm, ăn uống bình thường' },
+    { hdr: false, text: '- Theo dõi nhiệt độ 8 giờ/lần · Mức độ C' },
+    { hdr: false, text: '- Dự kiến xuất viện: 07/05/2026' },
+    { hdr: false, text: '- Hẹn tái khám TMH sau 2 tuần' },
+  ]);
+  document.getElementById('cell-yl3').classList.remove('filling');
+  document.getElementById('cell-yl3').classList.add('done');
+  document.getElementById('sign-db3').style.visibility = 'visible';
+  document.getElementById('sign-yl3').style.visibility = 'visible';
+  completedDays++; updateTdtProgress();
+
+  addMVMsg('✓ Ngày 3 xong — Paracetamol ngừng, ghi kế hoạch xuất viện 07/05. Bác sĩ ký để lưu cả 2 ngày.');
+  await delay(1600);
+
+  // ─── DONE ─────────────────────────────────────────────────────────────
+  document.getElementById('hdrTitle').textContent = 'Phiếu Theo Dõi Điều Trị — Hoàn tất';
+  document.getElementById('hdrSub').textContent = 'Ngày 2 + Ngày 3 đã điền · Dự kiến xuất viện 07/05';
+
+  await delay(1800);
+  simClick(document.getElementById('tdtSaveBtn'), 'sim-click-green');
+  await delay(400);
   var toast = document.getElementById('toast');
   toast.classList.add('show');
   setTimeout(function(){ toast.classList.remove('show'); }, 3000);
 
   var feedDone = document.createElement('div'); feedDone.className = 'fp-item';
-  feedDone.innerHTML = '<div class="chat-done-msg">✓ Tờ điều trị ngày 2 đã được lưu</div>';
+  feedDone.innerHTML = '<div class="chat-done-msg">✓ Phiếu Theo Dõi Điều Trị D2 + D3 đã lưu · Xuất viện 07/05</div>';
   fpFeed.appendChild(feedDone); feedScroll();
 }
 

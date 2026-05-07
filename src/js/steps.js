@@ -131,6 +131,34 @@ async function runStep(step) {
       break;
     }
     case 'feedHISResult':       addFeedHISResult(); break;
+    case 'feedDoctorType': {
+      // Doctor types a short note in the chat input (no audio — realistic during consultation)
+      var inp = document.getElementById('chatInput');
+      var snd = document.getElementById('chatSendBtn');
+      if (inp) {
+        inp.disabled = false; inp.readOnly = false;
+        inp.placeholder = ''; inp.value = '';
+        var cd = devMode ? 10 : 42;
+        for (var ci = 0; ci < step.text.length; ci++) {
+          await new Promise(function(r) { setTimeout(r, cd); });
+          await checkPause();
+          inp.value += step.text[ci];
+        }
+        if (snd) snd.disabled = false;
+        await delay(260);
+        if (snd) simClick(snd, 'sim-send');
+        var hist = document.getElementById('fpFeed');
+        var dm = document.createElement('div');
+        dm.className = 'chat-doctor fp-item';
+        dm.innerHTML = '<div class="chat-doctor-bub">✎ ' + step.text + '</div>';
+        hist.appendChild(dm); feedScroll();
+        inp.value = ''; inp.readOnly = true; inp.disabled = true;
+        inp.placeholder = 'Nhập yêu cầu cho MedVita...';
+        if (snd) snd.disabled = true;
+        await delay(300);
+      }
+      break;
+    }
     case 'feedQuestion':        addFeedQuestion(step.text); break;
     case 'feedSuggestion':      addFeedSuggestion(step.title, step.text); break;
     case 'feedUpdate':          addFeedUpdate(step.summary, step.detail); break;
